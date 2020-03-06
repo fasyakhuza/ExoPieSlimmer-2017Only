@@ -1,57 +1,57 @@
 ##------------- triggers 2016  ------------
-METtrigger2016=["HLT_PFMET170_BeamHaloCleaned_v",
-                "HLT_PFMET170_HBHE_BeamHaloCleaned_v",
-                "HLT_PFMET170_NotCleaned_v",
-                "HLT_PFMET170_NoiseCleaned_v",
-                "HLT_PFMET170_JetIdCleaned_v",
-                "HLT_PFMET170_HBHECleaned_v",
-                "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",
-                "HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v",
-                "HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v",
-                "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
-                "HLT_PFMET110_PFMHT110_IDTight_v"]
+METtrigger2016=["HLT_PFMET170_BeamHaloCleaned",
+                "HLT_PFMET170_HBHE_BeamHaloCleaned",
+                "HLT_PFMET170_NotCleaned",
+                "HLT_PFMET170_NoiseCleaned",
+                "HLT_PFMET170_JetIdCleaned",
+                "HLT_PFMET170_HBHECleaned",
+                "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight",
+                "HLT_PFMETNoMu100_PFMHTNoMu100_IDTight",
+                "HLT_PFMETNoMu110_PFMHTNoMu110_IDTight",
+                "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight",
+                "HLT_PFMET110_PFMHT110_IDTight"]
 
-Photontrigger2016=["HLT_Photon165_HE10_v","HLT_Photon175_v"]
+Photontrigger2016=["HLT_Photon165_HE10","HLT_Photon175"]
 
-Electrontrigger2016=["HLT_Ele27_WPTight_Gsf_v",
-                     "HLT_Ele105_CaloIdVT_GsfTrkIdT_v",
-                     "HLT_Ele115_CaloIdVT_GsfTrkIdT_v",
-                     "HLT_Ele32_WPTight_Gsf_v",
-                     "HLT_IsoMu20_v",
-                     "HLT_Ele27_eta2p1_WPTight_Gsf_v", 
-                     "HLT_Ele27_WPLoose_Gsf_v",
-                     "HLT_Ele32_eta2p1_WPTight_Gsf_v"]
+Electrontrigger2016=["HLT_Ele27_WPTight_Gsf",
+                     "HLT_Ele105_CaloIdVT_GsfTrkIdT",
+                     "HLT_Ele115_CaloIdVT_GsfTrkIdT",
+                     "HLT_Ele32_WPTight_Gsf",
+                     "HLT_IsoMu20",
+                     "HLT_Ele27_eta2p1_WPTight_Gsf",
+                     "HLT_Ele27_WPLoose_Gsf",
+                     "HLT_Ele32_eta2p1_WPTight_Gsf"]
 
-Muontrigger2016=["HLT_IsoMu24_v",
-                 "HLT_IsoTkMu24_v",
-                 "HLT_IsoMu27_v",
-                 "HLT_IsoTkMu27_v"]
+Muontrigger2016=["HLT_IsoMu24",
+                 "HLT_IsoTkMu24",
+                 "HLT_IsoMu27",
+                 "HLT_IsoTkMu27"]
 
-trigger2016 =   ["HLT_PFMET170_BeamHaloCleaned_v",
-                 "HLT_PFMET170_HBHE_BeamHaloCleaned_v",
-                 "HLT_PFMET170_NotCleaned_v",
-                 "HLT_PFMET170_NoiseCleaned_v",
-                 "HLT_PFMET170_JetIdCleaned_v",
-                 "HLT_PFMET170_HBHECleaned_v",
-                 "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v",
-                 "HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v",
-                 "HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v",
-                 "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v",
-                 "HLT_PFMET110_PFMHT110_IDTight_v",
-                 "HLT_IsoMu24_v",
-                 "HLT_IsoTkMu24_v",
-                 "HLT_IsoMu27_v",
-                 "HLT_IsoTkMu27_v",
-                 "HLT_Ele27_WPTight_Gsf_v",
-                 "HLT_Ele105_CaloIdVT_GsfTrkIdT_v",
-                 "HLT_Ele115_CaloIdVT_GsfTrkIdT_v",
-                 "HLT_Ele32_WPTight_Gsf_v",
-                 "HLT_IsoMu20_v",
-                 "HLT_Ele27_eta2p1_WPTight_Gsf_v",
-                 "HLT_Ele27_WPLoose_Gsf_v",
-                 "HLT_Ele32_eta2p1_WPTight_Gsf_v",
-                 "HLT_Photon165_HE10_v",
-                 "HLT_Photon175_v"]
+trigger2016 =   ["HLT_PFMET170_BeamHaloCleaned",
+                 "HLT_PFMET170_HBHE_BeamHaloCleaned",
+                 "HLT_PFMET170_NotCleaned",
+                 "HLT_PFMET170_NoiseCleaned",
+                 "HLT_PFMET170_JetIdCleaned",
+                 "HLT_PFMET170_HBHECleaned",
+                 "HLT_PFMETNoMu90_PFMHTNoMu90_IDTight",
+                 "HLT_PFMETNoMu100_PFMHTNoMu100_IDTight",
+                 "HLT_PFMETNoMu110_PFMHTNoMu110_IDTight",
+                 "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight",
+                 "HLT_PFMET110_PFMHT110_IDTight",
+                 "HLT_IsoMu24",
+                 "HLT_IsoTkMu24",
+                 "HLT_IsoMu27",
+                 "HLT_IsoTkMu27",
+                 "HLT_Ele27_WPTight_Gsf",
+                 "HLT_Ele105_CaloIdVT_GsfTrkIdT",
+                 "HLT_Ele115_CaloIdVT_GsfTrkIdT",
+                 "HLT_Ele32_WPTight_Gsf",
+                 "HLT_IsoMu20",
+                 "HLT_Ele27_eta2p1_WPTight_Gsf",
+                 "HLT_Ele27_WPLoose_Gsf",
+                 "HLT_Ele32_eta2p1_WPTight_Gsf",
+                 "HLT_Photon165_HE10",
+                 "HLT_Photon175"]
 
 
 ##------------- triggers 2017  ------------
@@ -62,10 +62,10 @@ METtrigger2017=["HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60",
 
 Photontrigger2017=["HLT_Photon200"]
 
-Electrontrigger2017=["HLT_Ele35_WPTight_Gsf"]
-                     #"HLT_Ele27_WPTight_Gsf",
-                     #"HLT_Ele32_WPTight_Gsf_L1DoubleEG",
-                     #"HLT_Ele35_WPTight_Gsf"]
+Electrontrigger2017=["HLT_Ele27_WPTight_Gsf",
+                     "HLT_Ele32_WPTight_Gsf_L1DoubleEG",
+                     "HLT_Ele32_WPTight_Gsf",
+                     "HLT_Ele35_WPTight_Gsf"]
 
 Muontrigger2017=["HLT_IsoMu24",
                  "HLT_IsoMu27",
@@ -87,12 +87,23 @@ trigger2017 = ["HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60",
 
 ##------------- triggers 2018  ------------
 
-METtrigger2018=[]
+METtrigger2018=["HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60",
+                "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight",
+                "HLT_PFMETNoMu140_PFMHTNoMu140_IDTight"]
 
-Photontrigger2018=[]
+Photontrigger2018=["HLT_Photon200"]
 
-Electrontrigger2018=[]
+Electrontrigger2018=["HLT_Ele115_CaloIdVT_GsfTrkIdT",
+                     "HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165",
+                     "HLT_Ele32_WPTight_Gsf"]
 
-Muontrigger2018=[]
+Muontrigger2018=["HLT_IsoMu24"]
 
-trigger2018 = []
+trigger2018 = ["HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60",
+               "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight",
+               "HLT_PFMETNoMu140_PFMHTNoMu140_IDTight",
+               "HLT_IsoMu24",
+               "HLT_Ele115_CaloIdVT_GsfTrkIdT",
+               "HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165",
+               "HLT_Ele32_WPTight_Gsf",
+               "HLT_Photon200" ]
