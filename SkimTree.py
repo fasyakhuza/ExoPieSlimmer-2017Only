@@ -18,7 +18,7 @@ from multiprocessing import Process
 import multiprocessing as mp
 
 
-isCondor =True
+isCondor =False
 
 ## user packages
 ## in local dir
@@ -495,7 +495,7 @@ def runbbdm(txtfile):
 
             if filterdecision == False: continue
 
-            if isData:print 'isData',isData
+            
 
             # ------------------------------------------------------
             ## PFMET Selection
