@@ -18,7 +18,7 @@ from multiprocessing import Process
 import multiprocessing as mp
 
 
-isCondor =True
+isCondor =False
 
 ## user packages
 ## in local dir
@@ -31,6 +31,7 @@ import genPtProducer as GenPtProd
 ## from commonutils
 if isCondor:sys.path.append('ExoPieUtils/commonutils/')
 else:sys.path.append('../ExoPieUtils/commonutils/')
+
 import MathUtils as mathutil
 from MathUtils import *
 import BooleanUtils as boolutil
