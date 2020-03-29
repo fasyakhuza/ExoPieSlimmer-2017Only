@@ -496,7 +496,7 @@ def runbbdm(txtfile):
 
             if filterdecision == False: continue
 
-            if isData:print 'isData',isData
+            
 
             # ------------------------------------------------------
             ## PFMET Selection
