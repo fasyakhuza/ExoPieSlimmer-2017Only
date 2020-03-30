@@ -138,7 +138,7 @@ allvars2017=['runId',
              'hlt_filterName',
              'hlt_filterResult',
 
-             'pfMetCorrPt',
+             #'pfMetCorrPt',
              'pfmodifiedMetCorrPt',
              'pfMetCorrPhi',
              'pfMetCorrUnc',
