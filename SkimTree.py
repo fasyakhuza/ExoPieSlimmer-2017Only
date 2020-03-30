@@ -47,7 +47,7 @@ import analysis_utils as anautil
 ######################################################################################################
 
 
-runInteractive = False
+runInteractive = True
 runOn2016 = False
 runOn2017 = False
 runOn2018 = False
@@ -165,15 +165,16 @@ def runbbdm(txtfile):
 	#print "ikey_", ikey_
         #outfilename=prefix+ikey_+".root"
 	infile_=TextToList(txtfile)
+        print "infile_ = ", infile_
         #print "running code for ",infile_
         prefix_ = '' #'/eos/cms/store/group/phys_exotica/bbMET/2017_skimmedFiles/locallygenerated/'
         if outputdir!='.': prefix_ = outputdir+'/'
         #print "prefix_", prefix_
         outfilename = prefix_+txtfile.split('/')[-1].replace('.txt','.root')#"SkimmedTree.root"
         print 'outfilename',  outfilename
-
+        
     samplename = whichsample(outfilename)
-
+    print "samplename = ", samplename
 
     #outputfilename = args.outputfile
     h_total = TH1F('h_total','h_total',2,0,2)
@@ -368,7 +369,8 @@ def runbbdm(txtfile):
         jetvariables = branches.allvars2018
 
     filename = infile_
-
+    
+    print "now ready to read rootfile as dataframe"
     ieve = 0;icount = 0
     #print "running on", filename
     for df in read_root(filename, 'tree/treeMaker', columns=jetvariables, chunksize=125000):
@@ -444,6 +446,8 @@ def runbbdm(txtfile):
                 in var_zip:
             if debug_: print len(trigName_),len(trigResult_),len(filterName),len(filterResult),len(metUnc_), len(elepx_), len(elepy_), len(elepz_), len(elee_), len(elevetoid_), len(elelooseid_), len(eletightid_), len(eleCharge_), npho_,len(phopx_), len(phopy_), len(phopz_), len(phoe_), len(pholooseid_), len(photightID_), nmu_, len(mupx_), len(mupy_), len(mupz_), len(mue_), len(mulooseid_), len(mutightid_), len(muisoloose), len(muisomedium), len(muisotight), len(muisovtight), len(muCharge_), nTau_, len(tau_px_), len(tau_py_), len(tau_pz_), len(tau_e_), len(tau_dm_), len(tau_isLoose_), len(genParId_), len(genMomParId_), len(genParSt_), len(genpx_), len(genpy_), len(genpz_), len(gene_), len(ak4px_), len(ak4py_), len(ak4pz_), len(ak4e_), len(ak4PassID_), len(ak4deepcsv_), len(ak4flavor_),len(ak4CEmEF_),len(ak4CHadEF_),len(ak4NEmEF_),len(ak4NHadEF_),len(ak4CMulti_),len(ak4NMultiplicity_), len(ak4JEC_), len(fatjetPx), len(fatjetPy), len(fatjetPz), len(fatjetEnergy), len(fatjetPassID), len(fatjet_DoubleSV), len(fatjet_probQCDb), len(fatjet_probHbb), len(fatjet_probQCDc), len(fatjet_probHcc), len(fatjet_probHbbc), len(fatjet_prob_bbvsLight), len(fatjet_prob_ccvsLight), len(fatjet_prob_TvsQCD), len(fatjet_prob_WvsQCD), len(fatjet_prob_ZHbbvsQCD), len(fatjetSDmass), len(fatN2_Beta1_), len(fatN2_Beta2_), len(fatjetCHSPRmassL2L3Corr), len(fatjetCHSSDmassL2L3Corr)
 
+            
+            print "inside event loop"
             if ieve%1000==0: print "Processed",ieve,"Events"
             ieve = ieve + 1
             # -------------------------------------------------
@@ -1023,14 +1027,14 @@ if __name__ == '__main__':
     if runInteractive and runOnTxt:
 	filesPath = dirName+'/*txt'
 	files     = glob.glob(filesPath)
-        n = 8 #submit n txt files at a time, make equal to cores
+        n = 1 #submit n txt files at a time, make equal to cores
         final = [files[i * n:(i + 1) * n] for i in range((len(files) + n - 1) // n )]
         print 'final', final
         for i in range(len(final)):
             print 'first set', final[i]
 
             try:
-                pool = mp.Pool(8)
+                pool = mp.Pool(1)
                 pool.map(runbbdm,final[i])
                 pool.close()
                 pool.join()
