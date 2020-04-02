@@ -1,6 +1,6 @@
 from ROOT import TF1
 
-def TheaCorrection(puppipt=200.0,  puppieta=0.0):
+def TheaCorrection(puppipt,  puppieta):
     puppisd_corrGEN      = TF1("puppisd_corrGEN","[0]+[1]*pow(x*[2],-[3])");
     puppisd_corrGEN.SetParameters(
         1.0062610283313527,
