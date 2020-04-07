@@ -50,6 +50,9 @@ st_phoTrig                = array( 'b', [0] )
 st_filterStatus      = ROOT.std.vector('bool')()
 st_filters           = ROOT.std.vector(ROOT.std.string)()
 
+st_TopMatching       = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
+
+
 st_THINnJet                     = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
 st_THINjetPx                    = ROOT.std.vector('float')()
 st_THINjetPy                    = ROOT.std.vector('float')()

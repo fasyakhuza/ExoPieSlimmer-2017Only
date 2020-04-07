@@ -31,7 +31,6 @@ from TheaCorrection import TheaCorrection
 ## from commonutils
 if isCondor:sys.path.append('ExoPieUtils/commonutils/')
 else:sys.path.append('../ExoPieUtils/commonutils/')
-
 import MathUtils as mathutil
 from MathUtils import *
 import BooleanUtils as boolutil
@@ -110,6 +109,7 @@ infilename = "ExoPieElementTuples.root"
 debug_ = False
 
 def whichsample(filename):
+    print "SkimTree:whichsample:-- file name is ",filename
     sample = -999
     if "TTT" in filename:
         sample = 6
@@ -244,7 +244,10 @@ def runbbdm(txtfile):
     outTree.Branch('st_THINbRegNNResolution', st_THINbRegNNResolution)
     outTree.Branch('st_THINbRegNNCorr',  st_THINbRegNNCorr)
 
+    
+    outTree.Branch( 'st_TopMatching',st_TopMatching,'st_TopMatching/L')
 
+    
     outTree.Branch( 'st_nfjet',st_nfjet,'st_nfjet/L')
     outTree.Branch( 'st_fjetPx',st_fjetPx)
     outTree.Branch( 'st_fjetPy',st_fjetPy)
@@ -712,7 +715,8 @@ def runbbdm(txtfile):
 
             st_pfMetCorrPt[0]       = met_
             st_pfMetCorrPhi[0]      = metphi_
-
+            
+            
             st_pfMetUncJetResUp.clear()
             st_pfMetUncJetResDown.clear()
 
@@ -834,7 +838,7 @@ def runbbdm(txtfile):
             #print 'st_THINjetDeepCSV',len(st_THINjetDeepCSV)
             #print 'st_THINnJet',st_THINnJet
             if debug_:print 'njets: ',len(pass_jet_index_cleaned)
-
+            
             st_nfjet[0] = len(pass_fatjet_index_cleaned)
             for ifjet in pass_fatjet_index_cleaned:
                 st_fjetPx.push_back(fatjetPx[ifjet])
@@ -917,6 +921,21 @@ def runbbdm(txtfile):
 
             #st_nGenPar[0] =  nGenPar_
             genpar_pt = GenPtProd.GenPtProducer(samplename, nGenPar_, genParId_, genMomParId_, genParSt_,genpx_,genpy_)
+            
+            ## ----------------------- TOP MATCHING ------------------------------------------------------------------
+            ## need this new branch only for the top samples, for remaining it will always contain a string "notTop"
+            ## -------------------------------------------------------------------------------------------------------
+
+            #topmatchStr = [0:"notTopOrNotAK8",1:"notTop", 2:"TopMatched", 3:"Wmatched", 4:"Wunmatched" ]
+            topmatchStr = 0
+            if samplename == 6: 
+                if len(pass_fatjet_index_cleaned)>0:
+                    fjidx = pass_fatjet_index_cleaned[0]
+                    topmatchStr = GenPtProd.GenMatchTop(samplename, nGenPar_, genParId_, genMomParId_, genParSt_,genpx_,genpy_, genpz_,fatjetPx[fjidx], fatjetPy[fjidx], fatjetPz[fjidx] )
+            print " topmatchStr for this event is ", topmatchStr
+            
+            st_TopMatching[0] = topmatchStr
+
             for i in range(len(genpar_pt)):
                 st_genParPt.push_back(genpar_pt[i])
             st_genParSample.push_back(samplename)
