@@ -1,5 +1,0 @@
-syntax: vX.YZ: 
-X: version of the ExoPieTuples. This will change iff when you make major changes in Tuples and hence skimmer need to be changed significantly. 
-YZ: version of the skimmer. With each time you run the skimmer on the condor you need to send the each detail of change you make in the skimmer  in bullets and we can add a tag for it, 
-
-v0.00: keeping this as the base tag, electron trigger for 2017 has been changed, using the correct definition as per POG 
