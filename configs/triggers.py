@@ -62,10 +62,7 @@ METtrigger2017=["HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60",
 
 Photontrigger2017=["HLT_Photon200"]
 
-Electrontrigger2017=["HLT_Ele27_WPTight_Gsf",
-                     "HLT_Ele32_WPTight_Gsf_L1DoubleEG",
-                     "HLT_Ele32_WPTight_Gsf",
-                     "HLT_Ele35_WPTight_Gsf"]
+Electrontrigger2017=["HLT_Ele32_WPTight_Gsf_L1DoubleEG"]
 
 Muontrigger2017=["HLT_IsoMu24",
                  "HLT_IsoMu27",
