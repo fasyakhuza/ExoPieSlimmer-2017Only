@@ -118,7 +118,7 @@ def GenMatchTop(sample,nGenPar, genParId, genMomParId, genParSt,st_genParPx,st_g
             PID    = genParId[ig]
             momPID = genMomParId[ig]
             status = genParSt[ig]
-            print " PID, momPID, status", genParId[ig], genMomParId[ig], genParSt[ig]
+            #print " PID, momPID, status", genParId[ig], genMomParId[ig], genParSt[ig]
             ## save the W index from the vector
             
             if (abs(PID) == 6): Topindex.append(ig)

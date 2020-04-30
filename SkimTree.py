@@ -18,7 +18,7 @@ from multiprocessing import Process
 import multiprocessing as mp
 
 
-isCondor =False
+isCondor = False
 
 ## user packages
 ## in local dir
@@ -26,8 +26,8 @@ sys.path.append('configs')
 import  triggers as trig
 import variables as branches
 import filters as filters
-import genPtProducer as GenPtProd
-from TheaCorrection import TheaCorrection
+#import genPtProducer as GenPtProd
+
 ## from commonutils
 if isCondor:sys.path.append('ExoPieUtils/commonutils/')
 else:sys.path.append('../ExoPieUtils/commonutils/')
@@ -40,13 +40,13 @@ import BooleanUtils as boolutil
 if isCondor:sys.path.append('ExoPieUtils/analysisutils/')
 else:sys.path.append('../ExoPieUtils/analysisutils/')
 import analysis_utils as anautil
-
+import genPtProducer as GenPtProd
 ######################################################################################################
 ## All import are done before this
 ######################################################################################################
 
 
-runInteractive = True
+runInteractive = False
 runOn2016 = False
 runOn2017 = False
 runOn2018 = False
@@ -107,6 +107,14 @@ if args.outputdir:
 infilename = "ExoPieElementTuples.root"
 
 debug_ = False
+
+if runOn2016:
+    from TheaCorrection import TheaCorrection_2016 as TheaCorrection
+elif runOn2017:
+    from TheaCorrection import TheaCorrection_2017 as TheaCorrection
+elif runOn2018:
+    from TheaCorrection import TheaCorrection_2018 as TheaCorrection
+
 
 def whichsample(filename):
     print "SkimTree:whichsample:-- file name is ",filename
@@ -172,7 +180,7 @@ def runbbdm(txtfile):
         #print "prefix_", prefix_
         outfilename = prefix_+txtfile.split('/')[-1].replace('.txt','.root')#"SkimmedTree.root"
         print 'outfilename',  outfilename
-        
+
     samplename = whichsample(outfilename)
     print "samplename = ", samplename
 
@@ -244,10 +252,10 @@ def runbbdm(txtfile):
     outTree.Branch('st_THINbRegNNResolution', st_THINbRegNNResolution)
     outTree.Branch('st_THINbRegNNCorr',  st_THINbRegNNCorr)
 
-    
+
     outTree.Branch( 'st_TopMatching',st_TopMatching,'st_TopMatching/L')
 
-    
+
     outTree.Branch( 'st_nfjet',st_nfjet,'st_nfjet/L')
     outTree.Branch( 'st_fjetPx',st_fjetPx)
     outTree.Branch( 'st_fjetPy',st_fjetPy)
@@ -372,7 +380,7 @@ def runbbdm(txtfile):
         jetvariables = branches.allvars2018
 
     filename = infile_
-    
+
     print "now ready to read rootfile as dataframe"
     ieve = 0;icount = 0
     #print "running on", filename
@@ -407,7 +415,7 @@ def runbbdm(txtfile):
                        df.nGenPar,df.genParId,df.genMomParId,df.genParSt,df.genParPx,df.genParPy,df.genParPz,df.genParE,\
                        df.THINnJet,df.THINjetPx,df.THINjetPy,df.THINjetPz,df.THINjetEnergy,df.THINbRegNNResolution,df.THINbRegNNCorr,\
                        df.THINjetPassIDTight,df.THINjetDeepCSV_b,df.THINjetHadronFlavor,df.THINjetCEmEF,df.THINjetCHadEF,df.THINjetNEmEF,df.THINjetNHadEF,df.THINjetCMulti,df.THINjetNMultiplicity,df.THINjetCorrUncUp,df.THINjetNPV, \
-                       df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy, df.FATjetPassIDTight,\
+                       df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz,df.FATjetEnergy,df.FATgenjetpx,df.FATgenjetpy,df.FATgenjetpz,df.FATgenjetE, df.FATjetPassIDTight,\
                        df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,\
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
                        df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
@@ -424,7 +432,7 @@ def runbbdm(txtfile):
                        df.nGenPar,df.genParId,df.genMomParId,df.genParSt,df.genParPx,df.genParPy,df.genParPz,df.genParE,\
                        df.THINnJet,df.THINjetPx,df.THINjetPy,df.THINjetPz,df.THINjetEnergy,df.THINbRegNNResolution,df.THINbRegNNCorr,\
                        df.THINjetPassIDTight,df.THINjetDeepCSV_b,df.THINjetHadronFlavor,df.THINjetCEmEF,df.THINjetCHadEF,df.THINjetNEmEF,df.THINjetNHadEF,df.THINjetCMulti,df.THINjetNMultiplicity,df.THINjetCorrUncUp,df.THINjetNPV, \
-                       df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy,df.FATjetPassIDTight,\
+                       df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy,df.FATgenjetpx,df.FATgenjetpy,df.FATgenjetpz,df.FATgenjetE,df.FATjetPassIDTight,\
                        df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,\
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
                        df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
@@ -440,14 +448,14 @@ def runbbdm(txtfile):
                 nGenPar_,genParId_,genMomParId_,genParSt_,genpx_,genpy_,genpz_,gene_,\
                 nak4jet_,ak4px_,ak4py_,ak4pz_,ak4e_,ak4bRegNNResolution,ak4bRegNNCorr,\
                 ak4PassID_,ak4deepcsv_,ak4flavor_,ak4CEmEF_,ak4CHadEF_,ak4NEmEF_,ak4NHadEF_,ak4CMulti_,ak4NMultiplicity_, ak4JEC_, ak4NPV_,\
-                fatnJet, fatjetPx, fatjetPy, fatjetPz, fatjetEnergy,fatjetPassID,\
+                fatnJet, fatjetPx, fatjetPy, fatjetPz, fatjetEnergy,fatgenjetPx, fatgenjetPy, fatgenjetPz, fatgenjetEnergy,fatjetPassID,\
                 fatjet_DoubleSV, fatjet_probQCDb, fatjet_probHbb, fatjet_probQCDc, fatjet_probHcc, fatjet_probHbbc,\
                 fatjet_prob_bbvsLight, fatjet_prob_ccvsLight, fatjet_prob_TvsQCD, fatjet_prob_WvsQCD, fatjet_prob_ZHbbvsQCD,\
                 fatjetSDmass, fatN2_Beta1_, fatN2_Beta2_, fatjetCHSPRmassL2L3Corr, fatjetCHSSDmassL2L3Corr\
                 in var_zip:
             if debug_: print len(trigName_),len(trigResult_),len(filterName),len(filterResult),len(metUnc_), len(elepx_), len(elepy_), len(elepz_), len(elee_), len(elevetoid_), len(elelooseid_), len(eletightid_), len(eleCharge_), npho_,len(phopx_), len(phopy_), len(phopz_), len(phoe_), len(pholooseid_), len(photightID_), nmu_, len(mupx_), len(mupy_), len(mupz_), len(mue_), len(mulooseid_), len(mutightid_), len(muisoloose), len(muisomedium), len(muisotight), len(muisovtight), len(muCharge_), nTau_, len(tau_px_), len(tau_py_), len(tau_pz_), len(tau_e_), len(tau_dm_), len(tau_isLoose_), len(genParId_), len(genMomParId_), len(genParSt_), len(genpx_), len(genpy_), len(genpz_), len(gene_), len(ak4px_), len(ak4py_), len(ak4pz_), len(ak4e_), len(ak4PassID_), len(ak4deepcsv_), len(ak4flavor_),len(ak4CEmEF_),len(ak4CHadEF_),len(ak4NEmEF_),len(ak4NHadEF_),len(ak4CMulti_),len(ak4NMultiplicity_), len(ak4JEC_), len(fatjetPx), len(fatjetPy), len(fatjetPz), len(fatjetEnergy), len(fatjetPassID), len(fatjet_DoubleSV), len(fatjet_probQCDb), len(fatjet_probHbb), len(fatjet_probQCDc), len(fatjet_probHcc), len(fatjet_probHbbc), len(fatjet_prob_bbvsLight), len(fatjet_prob_ccvsLight), len(fatjet_prob_TvsQCD), len(fatjet_prob_WvsQCD), len(fatjet_prob_ZHbbvsQCD), len(fatjetSDmass), len(fatN2_Beta1_), len(fatN2_Beta2_), len(fatjetCHSPRmassL2L3Corr), len(fatjetCHSSDmassL2L3Corr)
 
-            
+
             if ieve%1000==0: print "Processed",ieve,"Events"
             ieve = ieve + 1
             # -------------------------------------------------
@@ -479,13 +487,13 @@ def runbbdm(txtfile):
             mutrigdecision  = boolutil.logical_OR(mutrigstatus)
             mettrigdecision = boolutil.logical_OR(mettrigstatus)
             photrigdecision = boolutil.logical_OR(photrigstatus)
-
+            '''
             if not isData:
                 eletrigdecision = True
                 mutrigdecision = True
                 mettrigdecision = True
                 photrigdecision = True
-
+            '''
 
             # ------------------------------------------------------
             ## Filter selection
@@ -494,10 +502,11 @@ def runbbdm(txtfile):
             filterstatus = [False for ifilter in range(len(filters.filters2017)) ]
             filterstatus = [anautil.CheckFilter(filterName, filterResult, filters.filters2017[ifilter]) for ifilter in range(len(filters.filters2017)) ]
 
-
+            '''
             if not isData:     filterdecision = True
             if isData:         filterdecision  = boolutil.logical_AND(filterstatus)
-
+            '''
+            filterdecision  = boolutil.logical_AND(filterstatus)
             if filterdecision == False: continue
 
 
@@ -519,13 +528,13 @@ def runbbdm(txtfile):
             #phoeta = [getEta(phopx_[ip], phopy_[ip], phopz_[ip]) for ip in range(npho_)]
             #pho_pt15_eta2p5_looseID = [ (phopt[ip] > 15.0) and (abs(phoeta[ip]) < 2.5) and (pholooseid_[ip])               for ip in range(npho_)]
             #pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
-            
+
             phopt = getPt(phopx_, phopy_)
             phoeta = getEta(phopx_, phopy_, phopz_)
-            
+
             pho_pt15_eta2p5_looseID =  boolutil.logical_and3 ( (phopt > 15.0),   (numpy.abs(phoeta) < 2.5),  (pholooseid_) )
             pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
-            
+
             '''
             ****   *      ****
             *      *      *
@@ -533,7 +542,7 @@ def runbbdm(txtfile):
             *      *      *
             ****   ****   ****
             '''
-            
+
             ''' removing for loop
             elept = [getPt(elepx_[ie], elepy_[ie]) for ie in range(nele_)]
             eleeta = [getEta(elepx_[ie], elepy_[ie], elepz_[ie]) for ie in range(nele_)]
@@ -542,16 +551,16 @@ def runbbdm(txtfile):
             ele_pt10_eta2p5_looseID  = [(elept[ie] > 10.0) and (elelooseid_[ie]) and (((abs(eleeta[ie]) > 1.566 or abs(eleeta[ie]) < 1.4442) and (abs(eleeta[ie]) < 2.5))) for ie in range(nele_)]
             ele_pt30_eta2p5_tightID  = [(elept[ie] > 30.0) and (eletightid_[ie]) and (((abs(eleeta[ie]) > 1.566 or abs(eleeta[ie]) < 1.4442) and (abs(eleeta[ie]) < 2.5))) for ie in range(nele_)]
             '''
-            
+
             elept = getPt(elepx_, elepy_)
             eleeta = getEta(elepx_, elepy_, elepz_)
             elephi = getPhi(elepx_, elepy_)
-            
+
             ele_pt10_eta2p5_vetoID   = boolutil.logical_and3( ( elept > 10.0) , (elevetoid_) ,  numpy.logical_and( numpy.logical_or(numpy.abs(eleeta) > 1.566 , numpy.abs(eleeta) < 1.4442) , (numpy.abs(eleeta) < 2.5) ) )
             ele_pt10_eta2p5_looseID  = boolutil.logical_and3( ( elept > 10.0) , (elelooseid_) ,  numpy.logical_and( numpy.logical_or(numpy.abs(eleeta) > 1.566 , numpy.abs(eleeta) < 1.4442) , (numpy.abs(eleeta) < 2.5) ) )
             ele_pt10_eta2p5_tightID   = boolutil.logical_and3( ( elept > 30.0) , (eletightid_) ,  numpy.logical_and( numpy.logical_or(numpy.abs(eleeta) > 1.566 , numpy.abs(eleeta) < 1.4442) , (numpy.abs(eleeta) < 2.5) ) )
             pass_ele_veto_index      = boolutil.WhereIsTrue(ele_pt10_eta2p5_vetoID)
-            
+
             '''
             **     *  *     *
             * *  * *  *     *
@@ -559,14 +568,14 @@ def runbbdm(txtfile):
             *      *  *     *
             *      *   *****
             '''
-            mupt = getPt(mupx_, mupy_) 
-            mueta = getEta(mupx_, mupy_, mupz_) 
+            mupt = getPt(mupx_, mupy_)
+            mueta = getEta(mupx_, mupy_, mupz_)
             muphi = getPhi(mupx_, mupy_)
             mu_pt10_eta2p4_looseID_looseISO  = boolutil.logical_and4(mupt > 10.0 , numpy.abs(mueta) < 2.4,  mulooseid_, muisoloose)
             mu_pt30_eta2p4_tightID_tightISO  = boolutil.logical_and4 ( (mupt > 30.0) , (numpy.abs(mueta) < 2.4 ) , (mutightid_)  , (muisotight) )
 
             pass_mu_index = boolutil.WhereIsTrue(mu_pt10_eta2p4_looseID_looseISO)
-            
+
             '''
             *******   *****   *******
                *      *          *
@@ -574,13 +583,13 @@ def runbbdm(txtfile):
                *      *          *
             ***       *****      *
             '''
-            
+
             '''
             ak4pt = [getPt(ak4px_[ij], ak4py_[ij]) for ij in range(nak4jet_)]
             ak4eta = [getEta(ak4px_[ij], ak4py_[ij], ak4pz_[ij]) for ij in range(nak4jet_)]
             ak4phi = [getPhi(ak4px_[ij], ak4py_[ij]) for ij in range(nak4jet_)]
             '''
-            ak4pt =  getPt(ak4px_, ak4py_) 
+            ak4pt =  getPt(ak4px_, ak4py_)
             ak4eta = getEta(ak4px_, ak4py_, ak4pz_)
             ak4phi = getPhi(ak4px_, ak4py_)
             if runOn2016:
@@ -624,17 +633,24 @@ def runbbdm(txtfile):
             fatjetpt = [getPt(fatjetPx[ij], fatjetPy[ij]) for ij in range(fatnJet)]
             fatjeteta = [getEta(fatjetPx[ij], fatjetPy[ij], fatjetPz[ij]) for ij in range(fatnJet)]
             fatjetphi = [getPhi(fatjetPx[ij], fatjetPy[ij]) for ij in range(fatnJet)]
-            
+
             fatjet_pt200_eta2p5_IDT  = [ ( (fatjetpt[ij] > 200.0) and (abs(fatjeteta[ij]) < 2.5) and (fatjetPassID[ij] ) ) for ij in range(fatnJet)]
             '''
 
             fatjetpt       = getPt(fatjetPx, fatjetPy)
             fatjeteta      = getEta(fatjetPx, fatjetPy, fatjetPz)
-            fatjetphi      = getPhi(fatjetPx, fatjetPy) 
-            
-            
+            fatjetphi      = getPhi(fatjetPx, fatjetPy)
+
+            fatgenjetpt       = getPt(fatgenjetPx, fatgenjetPy)
+            fatgenjeteta      = getEta(fatgenjetPx, fatgenjetPy, fatgenjetPz)
+            fatgenjetphi      = getPhi(fatgenjetPx, fatgenjetPy)
+
             ## to convert following one need to convert the TheaCorrection function into numpy form
-            SDMassCorrFact = [TheaCorrection(fatjetpt[ij],fatjeteta[ij]) for ij in range(fatnJet)]
+            if fatnJet==len(fatgenjetpt) and not isData:
+                SDMassCorrFact = [TheaCorrection(fatgenjetpt[ij],fatgenjeteta[ij]) for ij in range(fatnJet)]
+            else:
+                SDMassCorrFact = [1.0 for ij in range(fatnJet)]
+	    #print 'fatnJet',fatnJet,'SDMassCorrFact',SDMassCorrFact
             fatjet_pt200_eta2p5_IDT  =  boolutil.logical_and3( (fatjetpt > 200.0), (numpy.abs(fatjeteta) < 2.5), (fatjetPassID ) )
 
             ##--- fat jet cleaning
@@ -658,16 +674,16 @@ def runbbdm(txtfile):
                *     *      *    *       *
                *     *      *     *******
             '''
-            taupt = getPt(tau_px_, tau_py_) 
-            taueta = getEta(tau_px_, tau_py_, tau_pz_) 
-            tauphi = getPhi(tau_px_, tau_py_) 
+            taupt = getPt(tau_px_, tau_py_)
+            taueta = getEta(tau_px_, tau_py_, tau_pz_)
+            tauphi = getPhi(tau_px_, tau_py_)
 
 
             tau_eta2p3_iDLdm_pt18 = boolutil.logical_AND_List4( (taupt > 18.0) , (numpy.abs(taueta) < 2.3) , (tau_isLoose_) , (tau_dm_) )
-            
+
 
             if debug_:print "tau_eta2p3_iDLdm_pt18 = ", tau_eta2p3_iDLdm_pt18
-            
+
             '''
             tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto  = [ ( (taupt[itau] > 18.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstLooseElectron[itau]) and (Taudisc_againstLooseMuon[itau]) ) for itau in range(nTau_)]
             tau_eta2p3_iDLdm_pt18_looseEleVeto_tightMuVeto  = [ ( (taupt[itau] > 18.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstLooseElectron[itau]) and (Taudisc_againstTightMuon[itau]) ) for itau in range(nTau_)]
@@ -675,12 +691,12 @@ def runbbdm(txtfile):
             tau_eta2p3_iDLdm_pt18_tightEleVeto_looseMuVeto  = [ ( (taupt[itau] > 18.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstTightElectron[itau]) and (Taudisc_againstLooseMuon[itau])) for itau in range(nTau_)]
             tau_eta2p3_iDLdm_pt18_tightEleVeto_tightMuVeto  = [ ( (taupt[itau] > 18.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstTightElectron[itau]) and (Taudisc_againstTightMuon[itau])) for itau in range(nTau_)]
             '''
-            tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstLooseElectron), (Taudisc_againstLooseMuon)) 
-            tau_eta2p3_iDLdm_pt18_looseEleVeto_tightMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstLooseElectron), (Taudisc_againstTightMuon)) 
-            tau_eta2p3_iDLdm_pt18_mediumEleVeto_looseMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_),(Taudisc_againstMediumElectron), (Taudisc_againstLooseMuon)) 
-            tau_eta2p3_iDLdm_pt18_tightEleVeto_looseMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstTightElectron), (Taudisc_againstLooseMuon)) 
-            tau_eta2p3_iDLdm_pt18_tightEleVeto_tightMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstTightElectron), (Taudisc_againstTightMuon)) 
-            
+            tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstLooseElectron), (Taudisc_againstLooseMuon))
+            tau_eta2p3_iDLdm_pt18_looseEleVeto_tightMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstLooseElectron), (Taudisc_againstTightMuon))
+            tau_eta2p3_iDLdm_pt18_mediumEleVeto_looseMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_),(Taudisc_againstMediumElectron), (Taudisc_againstLooseMuon))
+            tau_eta2p3_iDLdm_pt18_tightEleVeto_looseMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstTightElectron), (Taudisc_againstLooseMuon))
+            tau_eta2p3_iDLdm_pt18_tightEleVeto_tightMuVeto=boolutil.logical_and6( (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstTightElectron), (Taudisc_againstTightMuon))
+
             tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto_index  = boolutil.WhereIsTrue(tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto)
             tau_eta2p3_iDLdm_pt18_looseEleVeto_tightMuVeto_index  = boolutil.WhereIsTrue(tau_eta2p3_iDLdm_pt18_looseEleVeto_tightMuVeto)
             tau_eta2p3_iDLdm_pt18_mediumEleVeto_looseMuVeto_index = boolutil.WhereIsTrue(tau_eta2p3_iDLdm_pt18_mediumEleVeto_looseMuVeto)
@@ -715,8 +731,8 @@ def runbbdm(txtfile):
 
             st_pfMetCorrPt[0]       = met_
             st_pfMetCorrPhi[0]      = metphi_
-            
-            
+
+
             st_pfMetUncJetResUp.clear()
             st_pfMetUncJetResDown.clear()
 
@@ -838,7 +854,7 @@ def runbbdm(txtfile):
             #print 'st_THINjetDeepCSV',len(st_THINjetDeepCSV)
             #print 'st_THINnJet',st_THINnJet
             if debug_:print 'njets: ',len(pass_jet_index_cleaned)
-            
+
             st_nfjet[0] = len(pass_fatjet_index_cleaned)
             for ifjet in pass_fatjet_index_cleaned:
                 st_fjetPx.push_back(fatjetPx[ifjet])
@@ -921,19 +937,19 @@ def runbbdm(txtfile):
 
             #st_nGenPar[0] =  nGenPar_
             genpar_pt = GenPtProd.GenPtProducer(samplename, nGenPar_, genParId_, genMomParId_, genParSt_,genpx_,genpy_)
-            
+
             ## ----------------------- TOP MATCHING ------------------------------------------------------------------
             ## need this new branch only for the top samples, for remaining it will always contain a string "notTop"
             ## -------------------------------------------------------------------------------------------------------
 
             #topmatchStr = [0:"notTopOrNotAK8",1:"notTop", 2:"TopMatched", 3:"Wmatched", 4:"Wunmatched" ]
             topmatchStr = 0
-            if samplename == 6: 
+            if samplename == 6:
                 if len(pass_fatjet_index_cleaned)>0:
                     fjidx = pass_fatjet_index_cleaned[0]
                     topmatchStr = GenPtProd.GenMatchTop(samplename, nGenPar_, genParId_, genMomParId_, genParSt_,genpx_,genpy_, genpz_,fatjetPx[fjidx], fatjetPy[fjidx], fatjetPz[fjidx] )
-            print " topmatchStr for this event is ", topmatchStr
-            
+            #print " topmatchStr for this event is ", topmatchStr
+
             st_TopMatching[0] = topmatchStr
 
             for i in range(len(genpar_pt)):
