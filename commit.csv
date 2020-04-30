@@ -11,3 +11,11 @@ push the new tag using:
 git push origin v0.00 
 
 v0.00; keeping this as the base tag, electron trigger for 2017 has been changed, using the correct definition as per POG 
+
+v01.00: * added ak8gen jet, 
+	* updated b jet regression 
+	*  added trigger and filter for mc, 
+	* updated Thea correction for 2017 and 18. 
+	* This is compatible with v01 of tuples for MC (2017)
+	* This is compatible with v02 of tuples for Data  (2017)
+	
