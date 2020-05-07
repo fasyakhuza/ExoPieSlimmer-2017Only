@@ -14,8 +14,12 @@ v0.00; keeping this as the base tag, electron trigger for 2017 has been changed,
 
 v01.00: * added ak8gen jet, 
 	* updated b jet regression 
-	*  added trigger and filter for mc, 
+	* added trigger and filter for mc, 
 	* updated Thea correction for 2017 and 18. 
 	* This is compatible with v01 of tuples for MC (2017)
 	* This is compatible with v02 of tuples for Data  (2017)
-	
+
+
+v01.01: * fix sample name condition for the TTT hadronic and dilepton string, earlier it was by passing these two samples 
+        * we can save rootfiles in same version as v01.00 as change is minor 
+
