@@ -944,7 +944,7 @@ def runbbdm(txtfile):
 
             #topmatchStr = [0:"notTopOrNotAK8",1:"notTop", 2:"TopMatched", 3:"Wmatched", 4:"Wunmatched" ]
             topmatchStr = 0
-            if samplename == 6:
+            if samplename == 6 and "TTToSemiLeptonic" in filename:
                 if len(pass_fatjet_index_cleaned)>0:
                     fjidx = pass_fatjet_index_cleaned[0]
                     topmatchStr = GenPtProd.GenMatchTop(samplename, nGenPar_, genParId_, genMomParId_, genParSt_,genpx_,genpy_, genpz_,fatjetPx[fjidx], fatjetPy[fjidx], fatjetPz[fjidx] )
