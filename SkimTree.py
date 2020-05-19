@@ -390,7 +390,7 @@ def runbbdm(txtfile):
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
                        df.pfMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
-                       df.nEle,df.elePx,df.elePy,df.elePz,df.eleEnergy,df.eleIsPassVeto, df.eleIsPassLoose,df.eleIsPassTight,\
+                       df.nEle,df.elePx,df.elePy,df.elePz,df.eleEnergy,df.eleIsPassVeto, df.eleIsPassLoose,df.eleIsPassTight,df.eleD0,df.eleDz,\
                        df.eleCharge,df.nPho,df.phoPx,df.phoPy,df.phoPz,df.phoEnergy,df.phoIsPassLoose,df.phoIsPassTight,\
                        df.nMu,df.muPx,df.muPy,df.muPz,df.muEnergy,df.isLooseMuon,df.isTightMuon,df.PFIsoLoose, df.PFIsoMedium, df.PFIsoTight, df.PFIsoVeryTight, df.muCharge,\
                        df.HPSTau_n,df.HPSTau_Px,df.HPSTau_Py,df.HPSTau_Pz,df.HPSTau_Energy,df.disc_decayModeFinding,df.disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017,df.disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017,df.disc_byTightIsolationMVArun2017v2DBoldDMwLT2017,\
@@ -407,7 +407,7 @@ def runbbdm(txtfile):
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
                        df.pfmodifiedMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
-                       df.nEle,df.elePx,df.elePy,df.elePz,df.eleEnergy,df.eleIsPassVeto, df.eleIsPassLoose,df.eleIsPassTight,\
+                       df.nEle,df.elePx,df.elePy,df.elePz,df.eleEnergy,df.eleIsPassVeto, df.eleIsPassLoose,df.eleIsPassTight,df.eleD0,df.eleDz,\
                        df.eleCharge,df.nPho,df.phoPx,df.phoPy,df.phoPz,df.phoEnergy,df.phoIsPassLoose,df.phoIsPassTight,\
                        df.nMu,df.muPx,df.muPy,df.muPz,df.muEnergy,df.isLooseMuon,df.isTightMuon,df.PFIsoLoose, df.PFIsoMedium, df.PFIsoTight, df.PFIsoVeryTight, df.muCharge,\
                        df.HPSTau_n,df.HPSTau_Px,df.HPSTau_Py,df.HPSTau_Pz,df.HPSTau_Energy,df.disc_decayModeFinding,df.disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017,df.disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017,df.disc_byTightIsolationMVArun2017v2DBoldDMwLT2017,\
@@ -424,7 +424,7 @@ def runbbdm(txtfile):
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
                        df.pfMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
-                       df.nEle,df.elePx,df.elePy,df.elePz,df.eleEnergy,df.eleIsPassVeto, df.eleIsPassLoose,df.eleIsPassTight,\
+                       df.nEle,df.elePx,df.elePy,df.elePz,df.eleEnergy,df.eleIsPassVeto, df.eleIsPassLoose,df.eleIsPassTight,df.eleD0,df.eleDz,\
                        df.eleCharge,df.nPho,df.phoPx,df.phoPy,df.phoPz,df.phoEnergy,df.phoIsPassLoose,df.phoIsPassTight,\
                        df.nMu,df.muPx,df.muPy,df.muPz,df.muEnergy,df.isLooseMuon,df.isTightMuon,df.PFIsoLoose, df.PFIsoMedium, df.PFIsoTight, df.PFIsoVeryTight, df.muCharge,\
                        df.HPSTau_n,df.HPSTau_Px,df.HPSTau_Py,df.HPSTau_Pz,df.HPSTau_Energy,df.disc_decayModeFinding,df.disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017,df.disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017,df.disc_byTightIsolationMVArun2017v2DBoldDMwLT2017,\
@@ -440,7 +440,7 @@ def runbbdm(txtfile):
                 pu_nTrueInt_,pu_nPUVert_,\
                 trigName_,trigResult_,filterName,filterResult,\
                 met_,metphi_,metUnc_,\
-                nele_,elepx_,elepy_,elepz_,elee_,elevetoid_, elelooseid_,eletightid_,\
+                nele_,elepx_,elepy_,elepz_,elee_,elevetoid_, elelooseid_,eletightid_,eleD0_,eleDz_,\
                 eleCharge_, npho_,phopx_,phopy_,phopz_,phoe_,pholooseid_,photightID_,\
                 nmu_,mupx_,mupy_,mupz_,mue_,mulooseid_,mutightid_,muisoloose, muisomedium, muisotight, muisovtight, muCharge_,\
                 nTau_,tau_px_,tau_py_,tau_pz_,tau_e_,tau_dm_,tau_isLoose_,tau_isoMedium_,tau_isoTight_,\
@@ -556,9 +556,18 @@ def runbbdm(txtfile):
             eleeta = getEta(elepx_, elepy_, elepz_)
             elephi = getPhi(elepx_, elepy_)
 
-            ele_pt10_eta2p5_vetoID   = boolutil.logical_and3( ( elept > 10.0) , (elevetoid_) ,  numpy.logical_and( numpy.logical_or(numpy.abs(eleeta) > 1.566 , numpy.abs(eleeta) < 1.4442) , (numpy.abs(eleeta) < 2.5) ) )
-            ele_pt10_eta2p5_looseID  = boolutil.logical_and3( ( elept > 10.0) , (elelooseid_) ,  numpy.logical_and( numpy.logical_or(numpy.abs(eleeta) > 1.566 , numpy.abs(eleeta) < 1.4442) , (numpy.abs(eleeta) < 2.5) ) )
-            ele_pt10_eta2p5_tightID   = boolutil.logical_and3( ( elept > 30.0) , (eletightid_) ,  numpy.logical_and( numpy.logical_or(numpy.abs(eleeta) > 1.566 , numpy.abs(eleeta) < 1.4442) , (numpy.abs(eleeta) < 2.5) ) )
+            # ele_pt10_eta2p5_vetoID   = boolutil.logical_and3( ( elept > 10.0) , (elevetoid_) ,  numpy.logical_and( numpy.logical_or(numpy.abs(eleeta) > 1.566 , numpy.abs(eleeta) < 1.4442) , (numpy.abs(eleeta) < 2.5) ) )
+            #
+            # ele_pt10_eta2p5_looseID  = boolutil.logical_and3( ( elept > 10.0) , (elelooseid_) ,  numpy.logical_and( numpy.logical_or(numpy.abs(eleeta) > 1.566 , numpy.abs(eleeta) < 1.4442) , (numpy.abs(eleeta) < 2.5) ) )
+            #
+            # ele_pt10_eta2p5_tightID   = boolutil.logical_and3( ( elept > 30.0) , (eletightid_) ,  numpy.logical_and( numpy.logical_or(numpy.abs(eleeta) > 1.566 , numpy.abs(eleeta) < 1.4442) , (numpy.abs(eleeta) < 2.5) ) )
+
+            ele_pt10_eta2p5_vetoID   = boolutil.logical_and3( ( elept > 10.0) , (elevetoid_) ,  numpy.logical_and( numpy.logical_or(boolutil.logical_and3(numpy.abs(eleeta) > 1.566, numpy.abs(eleD0_) < 0.10 , numpy.abs(eleDz_) < 0.20) , boolutil.logical_and3(numpy.abs(eleeta) < 1.4442, numpy.abs(eleD0_) < 0.05 , numpy.abs(eleDz_) < 0.10)) , (numpy.abs(eleeta) < 2.5) ) )
+
+            ele_pt10_eta2p5_looseID  = boolutil.logical_and3( ( elept > 10.0) , (elelooseid_) ,  numpy.logical_and( numpy.logical_or(boolutil.logical_and3(numpy.abs(eleeta) > 1.566, numpy.abs(eleD0_) < 0.10 , numpy.abs(eleDz_) < 0.20) , boolutil.logical_and3(numpy.abs(eleeta) < 1.4442, numpy.abs(eleD0_) < 0.05 , numpy.abs(eleDz_) < 0.10)) , (numpy.abs(eleeta) < 2.5) ) )
+
+            ele_pt10_eta2p5_tightID   = boolutil.logical_and3( ( elept > 30.0) , (eletightid_) ,  numpy.logical_and( numpy.logical_or(boolutil.logical_and3(numpy.abs(eleeta) > 1.566, numpy.abs(eleD0_) < 0.10 , numpy.abs(eleDz_) < 0.20) , boolutil.logical_and3(numpy.abs(eleeta) < 1.4442, numpy.abs(eleD0_) < 0.05 , numpy.abs(eleDz_) < 0.10)) , (numpy.abs(eleeta) < 2.5) ) )
+
             pass_ele_veto_index      = boolutil.WhereIsTrue(ele_pt10_eta2p5_vetoID)
 
             '''

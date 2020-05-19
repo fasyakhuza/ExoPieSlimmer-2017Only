@@ -22,4 +22,6 @@ v01.00: * added ak8gen jet,
 
 v01.01: * fix sample name condition for the TTT hadronic and dilepton string, earlier it was by passing these two samples 
         * we can save rootfiles in same version as v01.00 as change is minor 
+	
+v01.02: * applied electron IP cuts
 
