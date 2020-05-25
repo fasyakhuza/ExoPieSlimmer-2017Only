@@ -222,6 +222,9 @@ def runbbdm(txtfile):
     outTree.Branch( 'st_runId', st_runId , 'st_runId/L')
     outTree.Branch( 'st_lumiSection', st_lumiSection , 'st_lumiSection/L')
     outTree.Branch( 'st_eventId',  st_eventId, 'st_eventId/L')
+    outTree.Branch( 'st_prefiringweight', st_prefiringweight , 'st_prefiringweight/F')
+    outTree.Branch( 'st_prefiringweightup', st_prefiringweightup , 'st_prefiringweightup/F')
+    outTree.Branch( 'st_prefiringweightdown', st_prefiringweightdowm , 'st_prefiringweightdowm/F')
     outTree.Branch( 'st_pfMetCorrPt', st_pfMetCorrPt , 'st_pfMetCorrPt/F')
     outTree.Branch( 'st_pfMetCorrPhi', st_pfMetCorrPhi , 'st_pfMetCorrPhi/F')
     outTree.Branch( 'st_pfMetUncJetResUp', st_pfMetUncJetResUp)
@@ -387,6 +390,7 @@ def runbbdm(txtfile):
     for df in read_root(filename, 'tree/treeMaker', columns=jetvariables, chunksize=125000):
         if runOn2016:
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
+                       df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
                        df.pfMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
@@ -439,6 +443,7 @@ def runbbdm(txtfile):
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
                        df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
         for run,lumi,event,isData,mcWeight_,\
+                prefiringweight_,prefiringweightup_,prefiringweightdown_,\
                 pu_nTrueInt_,pu_nPUVert_,\
                 trigName_,trigResult_,filterName,filterResult,\
                 met_,metphi_,metUnc_,\
@@ -735,6 +740,11 @@ def runbbdm(txtfile):
             st_lumiSection[0]       = lumi
             st_eventId[0]           = event
             st_isData[0]            = isData
+
+            st_prefiringweight[0]     = prefiringweight_
+            st_prefiringweightup[0]   = prefiringweightup_
+            st_prefiringweightdown[0] = prefiringweightdown_
+
             st_eletrigdecision[0]   = eletrigdecision
             st_mutrigdecision[0]    = mutrigdecision
             st_mettrigdecision[0]   = mettrigdecision

@@ -1,28 +1,29 @@
 syntax; vX.YZ
-X; version of the ExoPieTuples. This will change iff when you make major changes in Tuples and hence skimmer need to be changed significantly. 
-YZ; version of the skimmer. With each time you run the skimmer on the condor you need to send the each detail of change you make in the skimmer  in bullets and we can add a tag for it, 
+X; version of the ExoPieTuples. This will change iff when you make major changes in Tuples and hence skimmer need to be changed significantly.
+YZ; version of the skimmer. With each time you run the skimmer on the condor you need to send the each detail of change you make in the skimmer  in bullets and we can add a tag for it,
 
-Once you have pushed the code to repository 
+Once you have pushed the code to repository
 
-create a new tag using: 
+create a new tag using:
 git tag v0.00
 
-push the new tag using: 
-git push origin v0.00 
+push the new tag using:
+git push origin v0.00
 
-v0.00; keeping this as the base tag, electron trigger for 2017 has been changed, using the correct definition as per POG 
+v0.00; keeping this as the base tag, electron trigger for 2017 has been changed, using the correct definition as per POG
 
-v01.00: * added ak8gen jet, 
-	* updated b jet regression 
-	* added trigger and filter for mc, 
-	* updated Thea correction for 2017 and 18. 
+v01.00: * added ak8gen jet,
+	* updated b jet regression
+	* added trigger and filter for mc,
+	* updated Thea correction for 2017 and 18.
 	* This is compatible with v01 of tuples for MC (2017)
 	* This is compatible with v02 of tuples for Data  (2017)
 
 
-v01.01: * fix sample name condition for the TTT hadronic and dilepton string, earlier it was by passing these two samples 
-        * we can save rootfiles in same version as v01.00 as change is minor 
-	
-v03.02: * applied electron IP cuts
-	* this will use the setup_2017_2016_v03 tag of ExoPieElement Tuples 
+v01.01: * fix sample name condition for the TTT hadronic and dilepton string, earlier it was by passing these two samples
+        * we can save rootfiles in same version as v01.00 as change is minor
 
+v03.02: * applied electron IP cuts
+	* this will use the setup_2017_2016_v03 tag of ExoPieElement Tuples
+
+v04.00: * added prefiring weights for 2016 and 2017
