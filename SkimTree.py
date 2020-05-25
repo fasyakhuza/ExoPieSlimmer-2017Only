@@ -404,6 +404,7 @@ def runbbdm(txtfile):
                        df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
         elif runOn2017:
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
+                       df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
                        df.pfmodifiedMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
@@ -421,6 +422,7 @@ def runbbdm(txtfile):
                        df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
         elif runOn2018:
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
+                       df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
                        df.pfMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
