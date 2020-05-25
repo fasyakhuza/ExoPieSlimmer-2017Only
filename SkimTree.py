@@ -224,7 +224,7 @@ def runbbdm(txtfile):
     outTree.Branch( 'st_eventId',  st_eventId, 'st_eventId/L')
     outTree.Branch( 'st_prefiringweight', st_prefiringweight , 'st_prefiringweight/F')
     outTree.Branch( 'st_prefiringweightup', st_prefiringweightup , 'st_prefiringweightup/F')
-    outTree.Branch( 'st_prefiringweightdown', st_prefiringweightdowm , 'st_prefiringweightdown/F')
+    outTree.Branch( 'st_prefiringweightdown', st_prefiringweightdown , 'st_prefiringweightdown/F')
     outTree.Branch( 'st_pfMetCorrPt', st_pfMetCorrPt , 'st_pfMetCorrPt/F')
     outTree.Branch( 'st_pfMetCorrPhi', st_pfMetCorrPhi , 'st_pfMetCorrPhi/F')
     outTree.Branch( 'st_pfMetUncJetResUp', st_pfMetUncJetResUp)
