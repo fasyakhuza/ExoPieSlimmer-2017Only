@@ -27,3 +27,6 @@ v03.02: * applied electron IP cuts
 	* this will use the setup_2017_2016_v03 tag of ExoPieElement Tuples
 
 v04.00: * added prefiring weights for 2016 and 2017
+
+v06.00: * added event counter histogram
+        * added all the missing variables for 2016
