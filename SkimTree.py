@@ -430,6 +430,7 @@ def runbbdm(txtfile):
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
                        df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
         elif runOn2018:
+            df['prefiringweight'] = 1.0; df['prefiringweightup']=1.0; df['prefiringweightdown'] = 1.0
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
                        df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
