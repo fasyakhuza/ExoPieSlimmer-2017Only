@@ -218,10 +218,12 @@ def runbbdm(txtfile):
     outfilenameis = outfilename
     outfile = TFile(outfilenameis,'RECREATE')
     outTree = TTree( 'outTree', 'tree branches' )
-
     outTree.Branch( 'st_runId', st_runId , 'st_runId/L')
     outTree.Branch( 'st_lumiSection', st_lumiSection , 'st_lumiSection/L')
     outTree.Branch( 'st_eventId',  st_eventId, 'st_eventId/L')
+    outTree.Branch( 'st_prefiringweight', st_prefiringweight , 'st_prefiringweight/F')
+    outTree.Branch( 'st_prefiringweightup', st_prefiringweightup , 'st_prefiringweightup/F')
+    outTree.Branch( 'st_prefiringweightdown', st_prefiringweightdown , 'st_prefiringweightdown/F')
     outTree.Branch( 'st_pfMetCorrPt', st_pfMetCorrPt , 'st_pfMetCorrPt/F')
     outTree.Branch( 'st_pfMetCorrPhi', st_pfMetCorrPhi , 'st_pfMetCorrPhi/F')
     outTree.Branch( 'st_pfMetUncJetResUp', st_pfMetUncJetResUp)
@@ -381,12 +383,19 @@ def runbbdm(txtfile):
 
     filename = infile_
 
+    h_eventCounter = TH1F('h_eventCounter','h_eventCounter',2,0.5,2.5)
+    for infl in infile_:
+        f_tmp = TFile.Open(infl,'READ')
+        h_tmp = f_tmp.Get('trigFilter/event_counter_')
+        h_eventCounter.Add(h_tmp)
+
     print "now ready to read rootfile as dataframe"
     ieve = 0;icount = 0
     #print "running on", filename
     for df in read_root(filename, 'tree/treeMaker', columns=jetvariables, chunksize=125000):
         if runOn2016:
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
+                       df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
                        df.pfMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
@@ -398,12 +407,13 @@ def runbbdm(txtfile):
                        df.nGenPar,df.genParId,df.genMomParId,df.genParSt,df.genParPx,df.genParPy,df.genParPz,df.genParE,\
                        df.THINnJet,df.THINjetPx,df.THINjetPy,df.THINjetPz,df.THINjetEnergy,df.THINbRegNNResolution,df.THINbRegNNCorr,\
                        df.THINjetPassIDLoose,df.THINjetDeepCSV_b,df.THINjetHadronFlavor,df.THINjetCEmEF,df.THINjetCHadEF,df.THINjetNEmEF,df.THINjetNHadEF,df.THINjetCMulti,df.THINjetNMultiplicity,df.THINjetCorrUncUp,df.THINjetNPV, \
-                       df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy, df.FATjetPassIDLoose,\
+                       df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz,df.FATjetEnergy,df.FATgenjetpx,df.FATgenjetpy,df.FATgenjetpz,df.FATgenjetE, df.FATjetPassIDLoose,\
                        df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,\
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
                        df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
         elif runOn2017:
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
+                       df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
                        df.pfmodifiedMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
@@ -420,7 +430,9 @@ def runbbdm(txtfile):
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
                        df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
         elif runOn2018:
+            df['prefiringweight'] = 1.0; df['prefiringweightup']=1.0; df['prefiringweightdown'] = 1.0
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
+                       df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
                        df.pfMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
@@ -437,6 +449,7 @@ def runbbdm(txtfile):
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
                        df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
         for run,lumi,event,isData,mcWeight_,\
+                prefiringweight_,prefiringweightup_,prefiringweightdown_,\
                 pu_nTrueInt_,pu_nPUVert_,\
                 trigName_,trigResult_,filterName,filterResult,\
                 met_,metphi_,metUnc_,\
@@ -733,6 +746,11 @@ def runbbdm(txtfile):
             st_lumiSection[0]       = lumi
             st_eventId[0]           = event
             st_isData[0]            = isData
+
+            st_prefiringweight[0]     = prefiringweight_
+            st_prefiringweightup[0]   = prefiringweightup_
+            st_prefiringweightdown[0] = prefiringweightdown_
+
             st_eletrigdecision[0]   = eletrigdecision
             st_mutrigdecision[0]    = mutrigdecision
             st_mettrigdecision[0]   = mettrigdecision
@@ -1092,6 +1110,7 @@ def runbbdm(txtfile):
     outfile.cd()
     h_total_mcweight.Write()
     h_total.Write()
+    h_eventCounter.Write()
     outfile.Write()
     print "output written to ", outfilename
     end = time.clock()
