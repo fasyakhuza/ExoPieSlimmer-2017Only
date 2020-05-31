@@ -218,7 +218,7 @@ def runbbdm(txtfile):
     outfilenameis = outfilename
     outfile = TFile(outfilenameis,'RECREATE')
     outTree = TTree( 'outTree', 'tree branches' )
-
+    outTree.Branch( 'st_event_count', st_event_count , 'st_event_count/L')
     outTree.Branch( 'st_runId', st_runId , 'st_runId/L')
     outTree.Branch( 'st_lumiSection', st_lumiSection , 'st_lumiSection/L')
     outTree.Branch( 'st_eventId',  st_eventId, 'st_eventId/L')
@@ -387,6 +387,11 @@ def runbbdm(txtfile):
     print "now ready to read rootfile as dataframe"
     ieve = 0;icount = 0
     #print "running on", filename
+    for df in read_root(filename, 'trigFilter', columns=['event_counter_'], chunksize=125000):
+        for event_count in df.event_counter_:
+            st_event_count[0]             = long(icevent_countount)
+            outTree.Fill()
+
     for df in read_root(filename, 'tree/treeMaker', columns=jetvariables, chunksize=125000):
         if runOn2016:
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
