@@ -383,8 +383,10 @@ def runbbdm(txtfile):
 
     filename = infile_
 
-    h_eventCounter = TH1F()
-    h_eventCounter = filename.Get('trigFilter/event_counter_')
+    h_eventCounter = TH1F('h_eventCounter','h_eventCounter',2,0,2)
+    for ifile in filename:
+        histo = ifile.Get('trigFilter/event_counter_')
+        h_eventCounter = Fill(histo)
 
     print "now ready to read rootfile as dataframe"
     ieve = 0;icount = 0
