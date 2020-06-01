@@ -1,4 +1,3 @@
-######################################
 syntax, vX.YZ
 X, version of the ExoPieTuples. This will change iff when you make major changes in Tuples and hence skimmer need to be changed significantly.
 YZ, version of the skimmer. With each time you run the skimmer on the condor you need to send the each detail of change you make in the skimmer  in bullets and we can add a tag for it;
@@ -6,8 +5,6 @@ Once you have pushed the code to repository, create a new tag using
 , git tag v0.00
 , push the new tag using:
 , git push origin v0.00
-
-#####################################
 
 version, description 
 v0.00, keeping this as the base tag; electron trigger for 2017 has been changed; using the correct definition as per POG
@@ -31,4 +28,4 @@ v04.00  , added prefiring weights for 2016 and 2017
 v06.00  , added event counter histogram
         , added all the missing variables for 2016
 	, this will use most correct variables for the 2017; 2018 [for 2016 there will be another version]
-	, this can be used for 2017 data and mc, 
+	, this can be used for 2017 data and mc
