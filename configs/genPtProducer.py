@@ -169,9 +169,9 @@ def GenMatchTop(sample,nGenPar, genParId, genMomParId, genParSt,st_genParPx,st_g
         dr_b_AK8  = Delta_R(bjeteta, fjeta, bjetphi, fjphi)
 
         
-        if dr_daughters < 1.0 and dr_ak8_dau0 < 1.0 and dr_ak8_dau1 < 1.0  and dr_b_AK8 < 1.0:
+        if dr_daughters < 0.8 and dr_ak8_dau0 < 0.8 and dr_ak8_dau1 < 0.8  and dr_b_AK8 < 0.8:
             topmatchStr = 2
-        elif dr_daughters < 1.0 and dr_ak8_dau0 < 1.0 and dr_ak8_dau1 < 1.0 :
+        elif dr_daughters < 0.8 and dr_ak8_dau0 < 0.8 and dr_ak8_dau1 < 0.8 :
             topmatchStr = 3
         else: topmatchStr = 4
 
