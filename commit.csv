@@ -9,7 +9,7 @@ Once you have pushed the code to repository, create a new tag using
 ,
 ,
 ,
-version, description 
+version, description
 v0.00, keeping this as the base tag; electron trigger for 2017 has been changed; using the correct definition as per POG
 
 v01.00 , added ak8gen jet;
@@ -31,3 +31,5 @@ v06.00  , added event counter histogram
         , added all the missing variables for 2016
 	, this will use most correct variables for the 2017; 2018 [for 2016 there will be another version]
 	, this can be used for 2017 data and mc
+	,
+v06.01 , removed the hightPt trigger for 2016 and 2018
