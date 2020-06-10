@@ -12,7 +12,7 @@ allvars2018=['runId',
              'hlt_filterName',
              'hlt_filterResult',
 
-             'pfMetCorrPt',
+             'pfpatMet_smear',
              'pfMetCorrPhi',
              'pfMetCorrUnc',
 
@@ -148,7 +148,7 @@ allvars2017=['runId',
              'hlt_filterResult',
 
              #'pfMetCorrPt',
-             'pfmodifiedMetCorrPt',
+             'pfpatmodifiedMet_smear',
              'pfMetCorrPhi',
              'pfMetCorrUnc',
 
@@ -284,7 +284,7 @@ allvars2016=['runId',
              'hlt_filterName',
              'hlt_filterResult',
 
-             'pfMetCorrPt',
+             'pfpatMet_smear',
              'pfMetCorrPhi',
              'pfMetCorrUnc',
 

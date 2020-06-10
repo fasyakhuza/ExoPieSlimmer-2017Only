@@ -398,7 +398,7 @@ def runbbdm(txtfile):
                        df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
-                       df.pfMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
+                       df.pfpatMet_smear,df.pfMetCorrPhi,df.pfMetCorrUnc,\
                        df.nEle,df.elePx,df.elePy,df.elePz,df.eleEnergy,df.eleIsPassVeto, df.eleIsPassLoose,df.eleIsPassTight,df.eleD0,df.eleDz,\
                        df.eleCharge,df.nPho,df.phoPx,df.phoPy,df.phoPz,df.phoEnergy,df.phoIsPassLoose,df.phoIsPassTight,\
                        df.nMu,df.muPx,df.muPy,df.muPz,df.muEnergy,df.isLooseMuon,df.isTightMuon,df.PFIsoLoose, df.PFIsoMedium, df.PFIsoTight, df.PFIsoVeryTight, df.muCharge,\
@@ -416,7 +416,7 @@ def runbbdm(txtfile):
                        df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
-                       df.pfmodifiedMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
+                       df.pfpatmodifiedMet_smear,df.pfmodifiedMetCorrPhi,df.pfmodifiedMetCorrUnc,\
                        df.nEle,df.elePx,df.elePy,df.elePz,df.eleEnergy,df.eleIsPassVeto, df.eleIsPassLoose,df.eleIsPassTight,df.eleD0,df.eleDz,\
                        df.eleCharge,df.nPho,df.phoPx,df.phoPy,df.phoPz,df.phoEnergy,df.phoIsPassLoose,df.phoIsPassTight,\
                        df.nMu,df.muPx,df.muPy,df.muPz,df.muEnergy,df.isLooseMuon,df.isTightMuon,df.PFIsoLoose, df.PFIsoMedium, df.PFIsoTight, df.PFIsoVeryTight, df.muCharge,\
@@ -435,7 +435,7 @@ def runbbdm(txtfile):
                        df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
                        df.pu_nTrueInt,df.pu_nPUVert,\
                        df.hlt_trigName,df.hlt_trigResult,df.hlt_filterName,df.hlt_filterResult,\
-                       df.pfMetCorrPt,df.pfMetCorrPhi,df.pfMetCorrUnc,\
+                       df.pfpatMet_smear,df.pfMetCorrPhi,df.pfMetCorrUnc,\
                        df.nEle,df.elePx,df.elePy,df.elePz,df.eleEnergy,df.eleIsPassVeto, df.eleIsPassLoose,df.eleIsPassTight,df.eleD0,df.eleDz,\
                        df.eleCharge,df.nPho,df.phoPx,df.phoPy,df.phoPz,df.phoEnergy,df.phoIsPassLoose,df.phoIsPassTight,\
                        df.nMu,df.muPx,df.muPy,df.muPz,df.muEnergy,df.isLooseMuon,df.isTightMuon,df.PFIsoLoose, df.PFIsoMedium, df.PFIsoTight, df.PFIsoVeryTight, df.muCharge,\
