@@ -149,6 +149,7 @@ allvars2017=['runId',
 
              #'pfMetCorrPt',
              'pfpatmodifiedMet_smear',
+             'pfmodifiedMetCorrPt',
              'pfMetCorrPhi',
              'pfMetCorrUnc',
 
