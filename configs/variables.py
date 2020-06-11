@@ -147,11 +147,10 @@ allvars2017=['runId',
              'hlt_filterName',
              'hlt_filterResult',
 
-             #'pfMetCorrPt',
              'pfpatmodifiedMet_smear',
              'pfmodifiedMetCorrPt',
-             'pfMetCorrPhi',
-             'pfMetCorrUnc',
+             'pfmodifiedMetCorrPhi',
+             'pfmodifiedMetCorrUnc',
 
              'nEle',
              'elePx',
