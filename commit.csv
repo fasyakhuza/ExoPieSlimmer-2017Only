@@ -33,7 +33,8 @@ v06.00  , added event counter histogram
 	, this can be used for 2017 data and mc
 	,
 v06.01 , removed the hightPt trigger for 2016 and 2018
-       , for 2017 nothing changes 
+       , for 2017 nothing changes
 	,
 v06.02 , added Type1Smear MET as the default MET
        , metPhi and MetCorrUnc will be taken from pfmodifiedMetCorrPhi and pfmodifiedMetCorrUnc for 2017
+       , kept Type1Smear and Type1Corrected MET in the Skimmed ouput
