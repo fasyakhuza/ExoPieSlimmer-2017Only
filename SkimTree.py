@@ -602,7 +602,7 @@ def runbbdm(txtfile):
             WmunuRecoil[0] = -1 ; WmunuRecoilSmearPt = -1
             Wmunumass[0] = -1 ; WmunuPhi[0] = -10 ;
 
-            ZeeRecoil[0] = -1 ; ZeeRecoilSmear[0] = -1
+            ZeeRecoil[0] = -1 ; ZeeRecoilSmear = -1
             ZeeMass[0] = -1 ; ZeePhi[0] = -10 ;
 
             ZmumuRecoil[0] = -1 ; ZmumuRecoilSmear = -1
