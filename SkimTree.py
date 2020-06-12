@@ -596,19 +596,19 @@ def runbbdm(txtfile):
             pass_mu_index = boolutil.WhereIsTrue(mu_pt10_eta2p4_looseID_looseISO)
 
             ## Fill variables for the CRs which require lepton.
-            WenuRecoil[0] = -1 ; WenuRecoilSmear[0] = -1
+            WenuRecoil[0] = -1 ; WenuRecoilSmearPt = -1
             Wenumass[0] = -1 ; WenuPhi[0] = -10 ;
 
-            WmunuRecoil[0] = -1 ; WmunuRecoilSmear[0] = -1
+            WmunuRecoil[0] = -1 ; WmunuRecoilSmearPt = -1
             Wmunumass[0] = -1 ; WmunuPhi[0] = -10 ;
 
             ZeeRecoil[0] = -1 ; ZeeRecoilSmear[0] = -1
             ZeeMass[0] = -1 ; ZeePhi[0] = -10 ;
 
-            ZmumuRecoil[0] = -1 ; ZmumuRecoilSmear[0] = -1
+            ZmumuRecoil[0] = -1 ; ZmumuRecoilSmear = -1
             ZmumuMass[0] = -1 ; ZmumuPhi[0] = -10 ;
 
-            GammaRecoil[0] = -1 ; GammaRecoilSmear[0] = -1
+            GammaRecoil[0] = -1 ; GammaRecoilSmearPt = -1
             GammaPhi[0] = -10 ;
             if debug_: print 'Reached Fill variables'
 
@@ -632,7 +632,7 @@ def runbbdm(txtfile):
                     zeeRecoilSmearPy = -( met_smear*math.sin(metphi_) + elepy_[iele1] + elepy_[iele2])
                     ZeeRecoilSmearPt =  math.sqrt(zeeRecoilSmearPx**2  +  zeeRecoilSmearPy**2)
                     if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilSmearPt > 170.:
-                        ZeeRecoilSmear[0] = ZeeRecoilSmearPt
+                        ZeeRecoilSmear = ZeeRecoilSmearPt
             ## for dimu
             if len(pass_mu_index) ==2:
                 imu1=pass_mu_index[0]
@@ -650,11 +650,11 @@ def runbbdm(txtfile):
                     zmumuRecoilSmearPy = -( met_smear*math.sin(metphi_) + mupy_[imu1] + mupy_[imu2])
                     ZmumuRecoilSmearPt =  math.sqrt(zmumuRecoilSmearPx**2  +  zmumuRecoilSmearPy**2)
                     if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilSmearPt > 170.:
-                        ZmumuRecoilSmear[0] = ZmumuRecoilSmearPt
+                        ZmumuRecoilSmear = ZmumuRecoilSmearPt
             if len(pass_ele_loose_index) == 2:
-                ZRecoilstatus =(ZeeRecoil[0] > 170) or (ZeeRecoilSmear[0] > 170)
+                ZRecoilstatus =(ZeeRecoil[0] > 170) or (ZeeRecoilSmear > 170)
             elif len(pass_mu_index) == 2:
-                ZRecoilstatus =(ZmumuRecoil[0] > 170) or (ZmumuRecoilSmear[0] > 170)
+                ZRecoilstatus =(ZmumuRecoil[0] > 170) or (ZmumuRecoilSmear > 170)
             else:
                 ZRecoilstatus=False
             if debug_: print 'Reached Z CR'
@@ -676,8 +676,7 @@ def runbbdm(txtfile):
                 WenuRecoilSmearPx = -( met_smear*math.cos(metphi_) + elepx_[ele1])
                 WenuRecoilSmearPy = -( met_smear*math.sin(metphi_) + elepy_[ele1])
                 WenuRecoilSmearPt = math.sqrt(WenuRecoilSmearPx**2  +  WenuRecoilSmearPy**2)
-                if WenuRecoilPt > 170.:
-                    WenuRecoilSmear[0] = WenuRecoilSmearPt
+
             ## for Single muon
             if len(pass_mu_index) == 1:
                 mu1 = pass_mu_index[0]
@@ -692,12 +691,11 @@ def runbbdm(txtfile):
                 WmunuRecoilSmearPx = -( met_smear*math.cos(metphi_) + mupx_[mu1])
                 WmunuRecoilSmearPy = -( met_smear*math.sin(metphi_) + mupy_[mu1])
                 WmunuRecoilSmearPt = math.sqrt(WmunuRecoilSmearPx**2  +  WmunuRecoilSmearPy**2)
-                if WmunuRecoilPt > 170.:
-                    WmunuRecoilSmear[0] = WmunuRecoilSmearPt
+
             if len(pass_ele_loose_index) == 1:
-                WRecoilstatus =(WenuRecoil[0] > 170) or (WenuRecoilSmear[0] > 170)
+                WRecoilstatus =(WenuRecoil[0] > 170) or (WenuRecoilSmearPt > 170)
             elif len(pass_mu_index) == 1:
-                WRecoilstatus =(WmunuRecoil[0] > 170) or (WmunuRecoilSmear[0] > 170)
+                WRecoilstatus =(WmunuRecoil[0] > 170) or (WmunuRecoilSmearPt > 170)
             else:
                 WRecoilstatus=False
             if debug_: print 'Reached W CR'
@@ -717,8 +715,6 @@ def runbbdm(txtfile):
                 GammaRecoilSmearPx = -( met_smear*math.cos(metphi_) + phopx_[pho1])
                 GammaRecoilSmearPy = -( met_smear*math.sin(metphi_) + phopy_[pho1])
                 GammaRecoilSmearPt = math.sqrt(GammaRecoilSmearPx**2  +  GammaRecoilSmearPy**2)
-                if GammaRecoilSmearPt > 170.:
-                    GammaRecoilSmear[0] = GammaRecoilSmearPt
 
             GammaRecoilStatus = (GammaRecoil[0] > 170) or (GammaRecoilSmearPt > 170)
             if debug_: print 'Reached Gamma CR'
