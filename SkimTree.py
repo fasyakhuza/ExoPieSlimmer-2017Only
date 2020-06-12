@@ -529,7 +529,7 @@ def runbbdm(txtfile):
             # ------------------------------------------------------
             ## PFMET Selection
             # --------------------------------------------------------
-            pfmetstatus = ( met_ > 170.0 ) or (met_smear > 170.0)
+            pfmetstatus = ( met_ > 180.0 ) or (met_smear > 180.0)
 
             '''
             *******   *      *   ******
@@ -624,14 +624,14 @@ def runbbdm(txtfile):
                     zeeRecoilPx = -( met_*math.cos(metphi_) + elepx_[iele1] + elepx_[iele2])
                     zeeRecoilPy = -( met_*math.sin(metphi_) + elepy_[iele1] + elepy_[iele2])
                     ZeeRecoilPt =  math.sqrt(zeeRecoilPx**2  +  zeeRecoilPy**2)
-                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilPt > 170.:
+                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilPt > 180.0:
                         ZeeRecoil[0] = ZeeRecoilPt
                         ZeeMass[0] = ee_mass
                         ZeePhi[0] = mathutil.ep_arctan(zeeRecoilPx,zeeRecoilPy)
                     zeeRecoilSmearPx = -( met_smear*math.cos(metphi_) + elepx_[iele1] + elepx_[iele2])
                     zeeRecoilSmearPy = -( met_smear*math.sin(metphi_) + elepy_[iele1] + elepy_[iele2])
                     ZeeRecoilSmearPt =  math.sqrt(zeeRecoilSmearPx**2  +  zeeRecoilSmearPy**2)
-                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilSmearPt > 170.:
+                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilSmearPt > 180.0:
                         ZeeRecoilSmear = ZeeRecoilSmearPt
             ## for dimu
             if len(pass_mu_index) ==2:
@@ -642,19 +642,19 @@ def runbbdm(txtfile):
                     zmumuRecoilPx = -( met_*math.cos(metphi_) + mupx_[imu1] + mupx_[imu2])
                     zmumuRecoilPy = -( met_*math.sin(metphi_) + mupy_[imu1] + mupy_[imu2])
                     ZmumuRecoilPt =  math.sqrt(zmumuRecoilPx**2  +  zmumuRecoilPy**2)
-                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilPt > 170.:
+                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilPt > 180.0:
                         ZmumuRecoil[0] = ZmumuRecoilPt
                         ZmumuMass[0] = mumu_mass
                         ZmumuPhi[0] = mathutil.ep_arctan(zmumuRecoilPx,zmumuRecoilPy)
                     zmumuRecoilSmearPx = -( met_smear*math.cos(metphi_) + mupx_[imu1] + mupx_[imu2])
                     zmumuRecoilSmearPy = -( met_smear*math.sin(metphi_) + mupy_[imu1] + mupy_[imu2])
                     ZmumuRecoilSmearPt =  math.sqrt(zmumuRecoilSmearPx**2  +  zmumuRecoilSmearPy**2)
-                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilSmearPt > 170.:
+                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilSmearPt > 180.0:
                         ZmumuRecoilSmear = ZmumuRecoilSmearPt
             if len(pass_ele_loose_index) == 2:
-                ZRecoilstatus =(ZeeRecoil[0] > 170) or (ZeeRecoilSmear > 170)
+                ZRecoilstatus =(ZeeRecoil[0] > 180.0) or (ZeeRecoilSmear > 180.0)
             elif len(pass_mu_index) == 2:
-                ZRecoilstatus =(ZmumuRecoil[0] > 170) or (ZmumuRecoilSmear > 170)
+                ZRecoilstatus =(ZmumuRecoil[0] > 180.0) or (ZmumuRecoilSmear > 180.0)
             else:
                 ZRecoilstatus=False
             if debug_: print 'Reached Z CR'
@@ -669,7 +669,7 @@ def runbbdm(txtfile):
                 WenuRecoilPx = -( met_*math.cos(metphi_) + elepx_[ele1])
                 WenuRecoilPy = -( met_*math.sin(metphi_) + elepy_[ele1])
                 WenuRecoilPt = math.sqrt(WenuRecoilPx**2  +  WenuRecoilPy**2)
-                if WenuRecoilPt > 170.:
+                if WenuRecoilPt > 180.0:
                    WenuRecoil[0] = WenuRecoilPt
                    Wenumass[0] = e_mass
                    WenuPhi[0] = mathutil.ep_arctan(WenuRecoilPx,WenuRecoilPy)
@@ -684,7 +684,7 @@ def runbbdm(txtfile):
                 WmunuRecoilPx = -( met_*math.cos(metphi_) + mupx_[mu1])
                 WmunuRecoilPy = -( met_*math.sin(metphi_) + mupy_[mu1])
                 WmunuRecoilPt = math.sqrt(WmunuRecoilPx**2  +  WmunuRecoilPy**2)
-                if WmunuRecoilPt > 170.:
+                if WmunuRecoilPt > 180.0:
                    WmunuRecoil[0] = WmunuRecoilPt
                    Wmunumass[0] = mu_mass
                    WmunuPhi[0] = mathutil.ep_arctan(WmunuRecoilPx,WmunuRecoilPy)
@@ -693,9 +693,9 @@ def runbbdm(txtfile):
                 WmunuRecoilSmearPt = math.sqrt(WmunuRecoilSmearPx**2  +  WmunuRecoilSmearPy**2)
 
             if len(pass_ele_loose_index) == 1:
-                WRecoilstatus =(WenuRecoil[0] > 170) or (WenuRecoilSmearPt > 170)
+                WRecoilstatus =(WenuRecoil[0] > 180.0) or (WenuRecoilSmearPt > 180.0)
             elif len(pass_mu_index) == 1:
-                WRecoilstatus =(WmunuRecoil[0] > 170) or (WmunuRecoilSmearPt > 170)
+                WRecoilstatus =(WmunuRecoil[0] > 180.0) or (WmunuRecoilSmearPt > 180.0)
             else:
                 WRecoilstatus=False
             if debug_: print 'Reached W CR'
@@ -709,14 +709,14 @@ def runbbdm(txtfile):
                 GammaRecoilPx = -( met_*math.cos(metphi_) + phopx_[pho1])
                 GammaRecoilPy = -( met_*math.sin(metphi_) + phopy_[pho1])
                 GammaRecoilPt = math.sqrt(GammaRecoilPx**2  +  GammaRecoilPy**2)
-                if GammaRecoilPt > 170.:
+                if GammaRecoilPt > 180.0:
                     GammaRecoil[0] = GammaRecoilPt
                     GammaPhi[0] = mathutil.ep_arctan(GammaRecoilPx,GammaRecoilPy)
                 GammaRecoilSmearPx = -( met_smear*math.cos(metphi_) + phopx_[pho1])
                 GammaRecoilSmearPy = -( met_smear*math.sin(metphi_) + phopy_[pho1])
                 GammaRecoilSmearPt = math.sqrt(GammaRecoilSmearPx**2  +  GammaRecoilSmearPy**2)
 
-            GammaRecoilStatus = (GammaRecoil[0] > 170) or (GammaRecoilSmearPt > 170)
+            GammaRecoilStatus = (GammaRecoil[0] > 180.0) or (GammaRecoilSmearPt > 180.0)
             if debug_: print 'Reached Gamma CR'
 
             if pfmetstatus==False and ZRecoilstatus==False and WRecoilstatus==False and GammaRecoilStatus==False: continue

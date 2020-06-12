@@ -37,4 +37,6 @@ v06.01 , removed the hightPt trigger for 2016 and 2018
 	,
 v06.02 , added Type1Smear MET as the default MET
        , metPhi and MetCorrUnc will be taken from pfmodifiedMetCorrPhi and pfmodifiedMetCorrUnc for 2017
-       , kept Type1Smear and Type1Corrected MET in the Skimmed ouput
+       , kept Type1Smear and Type1Corrected MET in the Skimmed output
+       , applied met filter in DATA
+       , recoil or met > 180 and shifting recoil block up after the lepton selection
