@@ -372,6 +372,7 @@ def runbbdm(txtfile):
     outTree.Branch( 'st_mutrigdecision', st_mutrigdecision , 'st_mutrigdecision/O')
     outTree.Branch( 'st_mettrigdecision', st_mettrigdecision , 'st_mettrigdecision/O')
     outTree.Branch( 'st_photrigdecision', st_photrigdecision , 'st_photrigdecision/O')
+    outTree.Branch( 'st_filterstatus', st_filterstatus , 'st_filterstatus/O')
 
     ## following can be moved to outputtree.py if we manage to change the name of output root file.
 
@@ -521,14 +522,14 @@ def runbbdm(txtfile):
             if isData:         filterdecision  = boolutil.logical_AND(filterstatus)
             '''
             filterdecision  = boolutil.logical_AND(filterstatus)
-            if filterdecision == False: continue
+            if filterdecision == False and isData: continue
 
 
 
             # ------------------------------------------------------
             ## PFMET Selection
             # --------------------------------------------------------
-            pfmetstatus = ( met_ > 170.0 ) or (met_smear > 170.0)
+            pfmetstatus = ( met_ > 180.0 ) or (met_smear > 180.0)
 
             '''
             *******   *      *   ******
@@ -577,6 +578,7 @@ def runbbdm(txtfile):
             ele_pt10_eta2p5_tightID   = boolutil.logical_and3( ( elept > 30.0) , (eletightid_) ,  numpy.logical_and( numpy.logical_or(boolutil.logical_and3(numpy.abs(eleeta) > 1.566, numpy.abs(eleD0_) < 0.10 , numpy.abs(eleDz_) < 0.20) , boolutil.logical_and3(numpy.abs(eleeta) < 1.4442, numpy.abs(eleD0_) < 0.05 , numpy.abs(eleDz_) < 0.10)) , (numpy.abs(eleeta) < 2.5) ) )
 
             pass_ele_veto_index      = boolutil.WhereIsTrue(ele_pt10_eta2p5_vetoID)
+            pass_ele_loose_index      = boolutil.WhereIsTrue(ele_pt10_eta2p5_looseID)
 
             '''
             **     *  *     *
@@ -592,6 +594,132 @@ def runbbdm(txtfile):
             mu_pt30_eta2p4_tightID_tightISO  = boolutil.logical_and4 ( (mupt > 30.0) , (numpy.abs(mueta) < 2.4 ) , (mutightid_)  , (muisotight) )
 
             pass_mu_index = boolutil.WhereIsTrue(mu_pt10_eta2p4_looseID_looseISO)
+
+            ## Fill variables for the CRs which require lepton.
+            WenuRecoil[0] = -1 ; WenuRecoilSmearPt = -1
+            Wenumass[0] = -1 ; WenuPhi[0] = -10 ;
+
+            WmunuRecoil[0] = -1 ; WmunuRecoilSmearPt = -1
+            Wmunumass[0] = -1 ; WmunuPhi[0] = -10 ;
+
+            ZeeRecoil[0] = -1 ; ZeeRecoilSmear = -1
+            ZeeMass[0] = -1 ; ZeePhi[0] = -10 ;
+
+            ZmumuRecoil[0] = -1 ; ZmumuRecoilSmear = -1
+            ZmumuMass[0] = -1 ; ZmumuPhi[0] = -10 ;
+
+            GammaRecoil[0] = -1 ; GammaRecoilSmearPt = -1
+            GammaPhi[0] = -10 ;
+            if debug_: print 'Reached Fill variables'
+
+            # ------------------
+            # Z CR
+            # ------------------
+            ## for dielectron
+            if len(pass_ele_loose_index) == 2:
+                iele1=pass_ele_loose_index[0]
+                iele2=pass_ele_loose_index[1]
+                if eleCharge_[iele1]*eleCharge_[iele2]<0:
+                    ee_mass = InvMass(elepx_[iele1],elepy_[iele1],elepz_[iele1],elee_[iele1],elepx_[iele2],elepy_[iele2],elepz_[iele2],elee_[iele2])
+                    zeeRecoilPx = -( met_*math.cos(metphi_) + elepx_[iele1] + elepx_[iele2])
+                    zeeRecoilPy = -( met_*math.sin(metphi_) + elepy_[iele1] + elepy_[iele2])
+                    ZeeRecoilPt =  math.sqrt(zeeRecoilPx**2  +  zeeRecoilPy**2)
+                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilPt > 180.0:
+                        ZeeRecoil[0] = ZeeRecoilPt
+                        ZeeMass[0] = ee_mass
+                        ZeePhi[0] = mathutil.ep_arctan(zeeRecoilPx,zeeRecoilPy)
+                    zeeRecoilSmearPx = -( met_smear*math.cos(metphi_) + elepx_[iele1] + elepx_[iele2])
+                    zeeRecoilSmearPy = -( met_smear*math.sin(metphi_) + elepy_[iele1] + elepy_[iele2])
+                    ZeeRecoilSmearPt =  math.sqrt(zeeRecoilSmearPx**2  +  zeeRecoilSmearPy**2)
+                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilSmearPt > 180.0:
+                        ZeeRecoilSmear = ZeeRecoilSmearPt
+            ## for dimu
+            if len(pass_mu_index) ==2:
+                imu1=pass_mu_index[0]
+                imu2=pass_mu_index[1]
+                if muCharge_[imu1]*muCharge_[imu2]<0:
+                    mumu_mass = InvMass(mupx_[imu1],mupy_[imu1],mupz_[imu1],mue_[imu1],mupx_[imu2],mupy_[imu2],mupz_[imu2],mue_[imu2] )
+                    zmumuRecoilPx = -( met_*math.cos(metphi_) + mupx_[imu1] + mupx_[imu2])
+                    zmumuRecoilPy = -( met_*math.sin(metphi_) + mupy_[imu1] + mupy_[imu2])
+                    ZmumuRecoilPt =  math.sqrt(zmumuRecoilPx**2  +  zmumuRecoilPy**2)
+                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilPt > 180.0:
+                        ZmumuRecoil[0] = ZmumuRecoilPt
+                        ZmumuMass[0] = mumu_mass
+                        ZmumuPhi[0] = mathutil.ep_arctan(zmumuRecoilPx,zmumuRecoilPy)
+                    zmumuRecoilSmearPx = -( met_smear*math.cos(metphi_) + mupx_[imu1] + mupx_[imu2])
+                    zmumuRecoilSmearPy = -( met_smear*math.sin(metphi_) + mupy_[imu1] + mupy_[imu2])
+                    ZmumuRecoilSmearPt =  math.sqrt(zmumuRecoilSmearPx**2  +  zmumuRecoilSmearPy**2)
+                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilSmearPt > 180.0:
+                        ZmumuRecoilSmear = ZmumuRecoilSmearPt
+            if len(pass_ele_loose_index) == 2:
+                ZRecoilstatus =(ZeeRecoil[0] > 180.0) or (ZeeRecoilSmear > 180.0)
+            elif len(pass_mu_index) == 2:
+                ZRecoilstatus =(ZmumuRecoil[0] > 180.0) or (ZmumuRecoilSmear > 180.0)
+            else:
+                ZRecoilstatus=False
+            if debug_: print 'Reached Z CR'
+
+            # ------------------
+            # W CR
+            # ------------------
+            ## for Single electron
+            if len(pass_ele_loose_index) == 1:
+                ele1 = pass_ele_loose_index[0]
+                e_mass = MT(elept[ele1],met_, DeltaPhi(elephi[ele1],metphi_)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
+                WenuRecoilPx = -( met_*math.cos(metphi_) + elepx_[ele1])
+                WenuRecoilPy = -( met_*math.sin(metphi_) + elepy_[ele1])
+                WenuRecoilPt = math.sqrt(WenuRecoilPx**2  +  WenuRecoilPy**2)
+                if WenuRecoilPt > 180.0:
+                   WenuRecoil[0] = WenuRecoilPt
+                   Wenumass[0] = e_mass
+                   WenuPhi[0] = mathutil.ep_arctan(WenuRecoilPx,WenuRecoilPy)
+                WenuRecoilSmearPx = -( met_smear*math.cos(metphi_) + elepx_[ele1])
+                WenuRecoilSmearPy = -( met_smear*math.sin(metphi_) + elepy_[ele1])
+                WenuRecoilSmearPt = math.sqrt(WenuRecoilSmearPx**2  +  WenuRecoilSmearPy**2)
+
+            ## for Single muon
+            if len(pass_mu_index) == 1:
+                mu1 = pass_mu_index[0]
+                mu_mass = MT(mupt[mu1],met_, DeltaPhi(muphi[mu1],metphi_)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
+                WmunuRecoilPx = -( met_*math.cos(metphi_) + mupx_[mu1])
+                WmunuRecoilPy = -( met_*math.sin(metphi_) + mupy_[mu1])
+                WmunuRecoilPt = math.sqrt(WmunuRecoilPx**2  +  WmunuRecoilPy**2)
+                if WmunuRecoilPt > 180.0:
+                   WmunuRecoil[0] = WmunuRecoilPt
+                   Wmunumass[0] = mu_mass
+                   WmunuPhi[0] = mathutil.ep_arctan(WmunuRecoilPx,WmunuRecoilPy)
+                WmunuRecoilSmearPx = -( met_smear*math.cos(metphi_) + mupx_[mu1])
+                WmunuRecoilSmearPy = -( met_smear*math.sin(metphi_) + mupy_[mu1])
+                WmunuRecoilSmearPt = math.sqrt(WmunuRecoilSmearPx**2  +  WmunuRecoilSmearPy**2)
+
+            if len(pass_ele_loose_index) == 1:
+                WRecoilstatus =(WenuRecoil[0] > 180.0) or (WenuRecoilSmearPt > 180.0)
+            elif len(pass_mu_index) == 1:
+                WRecoilstatus =(WmunuRecoil[0] > 180.0) or (WmunuRecoilSmearPt > 180.0)
+            else:
+                WRecoilstatus=False
+            if debug_: print 'Reached W CR'
+
+            # ------------------
+            # Gamma CR
+            # ------------------
+            ## for Single photon
+            if len(pass_pho_index) >= 1:
+                pho1 = pass_pho_index[0]
+                GammaRecoilPx = -( met_*math.cos(metphi_) + phopx_[pho1])
+                GammaRecoilPy = -( met_*math.sin(metphi_) + phopy_[pho1])
+                GammaRecoilPt = math.sqrt(GammaRecoilPx**2  +  GammaRecoilPy**2)
+                if GammaRecoilPt > 180.0:
+                    GammaRecoil[0] = GammaRecoilPt
+                    GammaPhi[0] = mathutil.ep_arctan(GammaRecoilPx,GammaRecoilPy)
+                GammaRecoilSmearPx = -( met_smear*math.cos(metphi_) + phopx_[pho1])
+                GammaRecoilSmearPy = -( met_smear*math.sin(metphi_) + phopy_[pho1])
+                GammaRecoilSmearPt = math.sqrt(GammaRecoilSmearPx**2  +  GammaRecoilSmearPy**2)
+
+            GammaRecoilStatus = (GammaRecoil[0] > 180.0) or (GammaRecoilSmearPt > 180.0)
+            if debug_: print 'Reached Gamma CR'
+
+            if pfmetstatus==False and ZRecoilstatus==False and WRecoilstatus==False and GammaRecoilStatus==False: continue
 
             '''
             *******   *****   *******
@@ -750,6 +878,7 @@ def runbbdm(txtfile):
             st_mutrigdecision[0]    = mutrigdecision
             st_mettrigdecision[0]   = mettrigdecision
             st_photrigdecision[0]   = photrigdecision
+            st_filterstatus[0]      = filterdecision
 
             st_pfMetSmearPt[0]       = met_smear
             st_pfMetCorrPt[0]       = met_
@@ -903,8 +1032,8 @@ def runbbdm(txtfile):
                 st_fjetCHSSDMass.push_back(fatjetCHSSDmassL2L3Corr[ifjet])
                 #print ("fatN2_Beta1_",fatN2_Beta1_[ifjet],"fatN2_Beta2_",fatN2_Beta2_[ifjet])
 
-            st_nEle[0] = len(pass_ele_veto_index)
-            for iele in pass_ele_veto_index:
+            st_nEle[0] = len(pass_ele_loose_index)
+            for iele in pass_ele_loose_index:
                 st_elePx.push_back(elepx_[iele])
                 st_elePy.push_back(elepy_[iele])
                 st_elePz.push_back(elepz_[iele])
@@ -912,7 +1041,7 @@ def runbbdm(txtfile):
                 st_eleIsPassLoose.push_back(bool(elelooseid_[iele]))
                 st_eleIsPassTight.push_back(bool(eletightid_[iele]))
                 st_eleCharge.push_back(eleCharge_[iele])
-            if debug_:print 'nEle: ',len(pass_ele_veto_index)
+            if debug_:print 'nEle: ',len(pass_ele_loose_index)
 
             st_nMu[0] = len(pass_mu_index)
             for imu in pass_mu_index:
@@ -994,129 +1123,6 @@ def runbbdm(txtfile):
             st_pfMetUncJetEnUp.push_back(metUnc_[2])
             st_pfMetUncJetEnDown.push_back(metUnc_[3])
 
-            ## Fill variables for the CRs.
-            WenuRecoil[0] = -1.0
-            Wenumass[0] = -1.0
-            WenuPhi[0] = -10.
-
-            WmunuRecoil[0] = -1.0
-            Wmunumass[0] = -1.0
-            WmunuPhi[0] = -10.
-
-            ZeeMass[0] = -1.0
-            ZeeRecoil[0] = -1.0
-            ZeePhi[0] = -10.
-
-            ZmumuMass[0] = -1.0
-            ZmumuRecoil[0] = -1.0
-            ZmumuPhi[0] = -10.
-
-            GammaRecoil[0] = -1.0
-            GammaPhi[0]  = -10.
-            if debug_: print 'Reached Fill variables'
-
-            # ------------------
-            # Z CR
-            # ------------------
-            ## for dielectron
-            if len(pass_ele_veto_index) == 2:
-                iele1=pass_ele_veto_index[0]
-                iele2=pass_ele_veto_index[1]
-                if eleCharge_[iele1]*eleCharge_[iele2]<0:
-                    ee_mass = InvMass(elepx_[iele1],elepy_[iele1],elepz_[iele1],elee_[iele1],elepx_[iele2],elepy_[iele2],elepz_[iele2],elee_[iele2])
-                    zeeRecoilPx = -( met_*math.cos(metphi_) + elepx_[iele1] + elepx_[iele2])
-                    zeeRecoilPy = -( met_*math.sin(metphi_) + elepy_[iele1] + elepy_[iele2])
-                    ZeeRecoilPt =  math.sqrt(zeeRecoilPx**2  +  zeeRecoilPy**2)
-                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilPt > 170.:
-                        ZeeRecoil[0] = ZeeRecoilPt
-                        ZeeMass[0] = ee_mass
-                        ZeePhi[0] = mathutil.ep_arctan(zeeRecoilPx,zeeRecoilPy)
-                    zeeRecoilSmearPx = -( met_smear*math.cos(metphi_) + elepx_[iele1] + elepx_[iele2])
-                    zeeRecoilSmearPy = -( met_smear*math.sin(metphi_) + elepy_[iele1] + elepy_[iele2])
-                    ZeeRecoilSmearPt =  math.sqrt(zeeRecoilSmearPx**2  +  zeeRecoilSmearPy**2)
-            ## for dimu
-            if len(pass_mu_index) ==2:
-                imu1=pass_mu_index[0]
-                imu2=pass_mu_index[1]
-                if muCharge_[imu1]*muCharge_[imu2]<0:
-                    mumu_mass = InvMass(mupx_[imu1],mupy_[imu1],mupz_[imu1],mue_[imu1],mupx_[imu2],mupy_[imu2],mupz_[imu2],mue_[imu2] )
-                    zmumuRecoilPx = -( met_*math.cos(metphi_) + mupx_[imu1] + mupx_[imu2])
-                    zmumuRecoilPy = -( met_*math.sin(metphi_) + mupy_[imu1] + mupy_[imu2])
-                    ZmumuRecoilPt =  math.sqrt(zmumuRecoilPx**2  +  zmumuRecoilPy**2)
-                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilPt > 170.:
-                        ZmumuRecoil[0] = ZmumuRecoilPt
-                        ZmumuMass[0] = mumu_mass
-                        ZmumuPhi[0] = mathutil.ep_arctan(zmumuRecoilPx,zmumuRecoilPy)
-                    zmumuRecoilSmearPx = -( met_smear*math.cos(metphi_) + mupx_[imu1] + mupx_[imu2])
-                    zmumuRecoilSmearPy = -( met_smear*math.sin(metphi_) + mupy_[imu1] + mupy_[imu2])
-                    ZmumuRecoilSmearPt =  math.sqrt(zmumuRecoilSmearPx**2  +  zmumuRecoilSmearPy**2)
-            if len(pass_ele_veto_index) == 2:
-                ZRecoilstatus =(ZeeRecoil[0] > 170) or (ZeeRecoilSmearPt > 170)
-            elif len(pass_mu_index) == 2:
-                ZRecoilstatus =(ZmumuRecoil[0] > 170) or (ZmumuRecoilSmearPt > 170)
-            else:
-                ZRecoilstatus=False
-            if debug_: print 'Reached Z CR'
-
-            # ------------------
-            # W CR
-            # ------------------
-            ## for Single electron
-            if len(pass_ele_veto_index) == 1:
-                ele1 = pass_ele_veto_index[0]
-                e_mass = MT(elept[ele1],met_, DeltaPhi(elephi[ele1],metphi_)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
-                WenuRecoilPx = -( met_*math.cos(metphi_) + elepx_[ele1])
-                WenuRecoilPy = -( met_*math.sin(metphi_) + elepy_[ele1])
-                WenuRecoilPt = math.sqrt(WenuRecoilPx**2  +  WenuRecoilPy**2)
-                if WenuRecoilPt > 170.:
-                   WenuRecoil[0] = WenuRecoilPt
-                   Wenumass[0] = e_mass
-                   WenuPhi[0] = mathutil.ep_arctan(WenuRecoilPx,WenuRecoilPy)
-                WenuRecoilSmearPx = -( met_smear*math.cos(metphi_) + elepx_[ele1])
-                WenuRecoilSmearPy = -( met_smear*math.sin(metphi_) + elepy_[ele1])
-                WenuRecoilSmearPt = math.sqrt(WenuRecoilSmearPx**2  +  WenuRecoilSmearPy**2)
-            ## for Single muon
-            if len(pass_mu_index) == 1:
-                mu1 = pass_mu_index[0]
-                mu_mass = MT(mupt[mu1],met_, DeltaPhi(muphi[mu1],metphi_)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
-                WmunuRecoilPx = -( met_*math.cos(metphi_) + mupx_[mu1])
-                WmunuRecoilPy = -( met_*math.sin(metphi_) + mupy_[mu1])
-                WmunuRecoilPt = math.sqrt(WmunuRecoilPx**2  +  WmunuRecoilPy**2)
-                if WmunuRecoilPt > 170.:
-                   WmunuRecoil[0] = WmunuRecoilPt
-                   Wmunumass[0] = mu_mass
-                   WmunuPhi[0] = mathutil.ep_arctan(WmunuRecoilPx,WmunuRecoilPy)
-                WmunuRecoilSmearPx = -( met_smear*math.cos(metphi_) + mupx_[mu1])
-                WmunuRecoilSmearPy = -( met_smear*math.sin(metphi_) + mupy_[mu1])
-                WmunuRecoilSmearPt = math.sqrt(WmunuRecoilSmearPx**2  +  WmunuRecoilSmearPy**2)
-            if len(pass_ele_veto_index) == 1:
-                WRecoilstatus =(WenuRecoil[0] > 170) or (WenuRecoilSmearPt > 170)
-            elif len(pass_mu_index) == 1:
-                WRecoilstatus =(WmunuRecoil[0] > 170) or (WmunuRecoilSmearPt > 170)
-            else:
-                WRecoilstatus=False
-            if debug_: print 'Reached W CR'
-
-            # ------------------
-            # Gamma CR
-            # ------------------
-            ## for Single photon
-            if len(pass_pho_index) >= 1:
-                pho1 = pass_pho_index[0]
-                GammaRecoilPx = -( met_*math.cos(metphi_) + phopx_[pho1])
-                GammaRecoilPy = -( met_*math.sin(metphi_) + phopy_[pho1])
-                GammaRecoilPt = math.sqrt(GammaRecoilPx**2  +  GammaRecoilPy**2)
-                if GammaRecoilPt > 170.:
-                    GammaRecoil[0] = GammaRecoilPt
-                    GammaPhi[0] = mathutil.ep_arctan(GammaRecoilPx,GammaRecoilPy)
-                GammaRecoilSmearPx = -( met_smear*math.cos(metphi_) + phopx_[pho1])
-                GammaRecoilSmearPy = -( met_smear*math.sin(metphi_) + phopy_[pho1])
-                GammaRecoilSmearPt = math.sqrt(GammaRecoilSmearPx**2  +  GammaRecoilSmearPy**2)
-
-            GammaRecoilStatus = (GammaRecoil[0] > 170) or (GammaRecoilSmearPt > 170)
-            if debug_: print 'Reached Gamma CR'
-
-            if pfmetstatus==False and ZRecoilstatus==False and WRecoilstatus==False and GammaRecoilStatus==False: continue
             outTree.Fill()
 
     #outfile = TFile(outfilenameis,'RECREATE')

@@ -35,6 +35,7 @@ st_eletrigdecision        = array( 'b', [ 0 ] )
 st_mutrigdecision         = array( 'b', [ 0 ] )
 st_mettrigdecision        = array( 'b', [ 0 ] )
 st_photrigdecision        = array( 'b', [ 0 ] )
+st_filterstatus           = array( 'b', [ 0 ] )
 
 st_pfMetSmearPt           = array( 'f', [ 0. ] )
 st_pfMetCorrPt            = array( 'f', [ 0. ] )
