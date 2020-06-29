@@ -756,7 +756,6 @@ def runbbdm(txtfile):
             pass_jet_index_cleaned = []
 
 
-
             if len(ak4_pt30_eta4p5_IDT) > 0:
                 DRCut = 0.4
                 jetCleanAgainstEle = anautil.jetcleaning(ak4_pt30_eta4p5_IDT, ele_pt10_eta2p5_vetoID, ak4eta, eleeta, ak4phi, elephi, DRCut)
@@ -764,6 +763,10 @@ def runbbdm(txtfile):
                 jetCleaned = boolutil.logical_AND_List3(ak4_pt30_eta4p5_IDT,jetCleanAgainstEle, jetCleanAgainstMu)
                 pass_jet_index_cleaned = boolutil.WhereIsTrue(jetCleaned)
                 if debug_:print "pass_jet_index_cleaned = ", pass_jet_index_cleaned,"nJets= ",len(ak4px_)
+
+            if runOn2018:
+                hem_cut = numpy.logical_and(numpy.logical_and(ak4eta>(-3.0), ak4eta<(-1.3)), numpy.logical_and (ak4phi>(-1.57), ak4phi<(-0.87)))
+                if any(hem_cut): continue
 
 
             '''
