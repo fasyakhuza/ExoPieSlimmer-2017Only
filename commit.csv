@@ -40,3 +40,5 @@ v06.02 , added Type1Smear MET as the default MET
        , kept Type1Smear and Type1Corrected MET in the Skimmed output
        , applied met filter in DATA
        , recoil or met > 180 and shifting recoil block up after the lepton selection
+	,
+v06.03 , added hem_veto for 2018 
