@@ -98,6 +98,7 @@ st_fjetSDMass                   =   ROOT.std.vector('float')()
 st_fjetSDMassCorrFact           =   ROOT.std.vector('float')()
 st_fjetN2b1                     =   ROOT.std.vector('float')()
 st_fjetN2b2                     =   ROOT.std.vector('float')()
+st_fjetTau21                    =   ROOT.std.vector('float')()
 st_fjetCHSPRMass                =   ROOT.std.vector('float')()
 st_fjetCHSSDMass                =   ROOT.std.vector('float')()
 

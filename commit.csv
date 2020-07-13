@@ -41,4 +41,7 @@ v06.02 , added Type1Smear MET as the default MET
        , applied met filter in DATA, not in MC
        , recoil or met > 180 and shifting recoil block up after the lepton selection
 	,
-v06.03 , added hem_veto for 2018 
+v06.03 , added hem_veto for 2018
+       ,
+v06.04 , added Tau21 variable
+       , using 2016 function for SDMass correction 

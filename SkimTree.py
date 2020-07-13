@@ -89,6 +89,7 @@ elif args.year=='2018':
     runOn2018=True
 else:
     print('Please provide on which year you want to run?')
+    sys.exit()
 
 runOnTxt=False
 if args.runOnTXT:
@@ -108,13 +109,14 @@ infilename = "ExoPieElementTuples.root"
 
 debug_ = False
 
-if runOn2016:
+if runOn2016 or runOn2017 or runOn2018:
     from TheaCorrection import TheaCorrection_2016 as TheaCorrection
+'''    
 elif runOn2017:
     from TheaCorrection import TheaCorrection_2017 as TheaCorrection
 elif runOn2018:
     from TheaCorrection import TheaCorrection_2018 as TheaCorrection
-
+'''
 
 def whichsample(filename):
     print "SkimTree:whichsample:-- file name is ",filename
@@ -279,6 +281,7 @@ def runbbdm(txtfile):
     outTree.Branch( 'st_fjetSDMassCorrFact',st_fjetSDMassCorrFact)
     outTree.Branch( 'st_fjetN2b1',st_fjetN2b1)
     outTree.Branch( 'st_fjetN2b2',st_fjetN2b2)
+    outTree.Branch( 'st_fjetTau21',st_fjetTau21)
     outTree.Branch( 'st_fjetCHSPRMass',st_fjetCHSPRMass)
     outTree.Branch( 'st_fjetCHSSDMass',st_fjetCHSSDMass)
 
@@ -412,7 +415,7 @@ def runbbdm(txtfile):
                        df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz,df.FATjetEnergy,df.FATgenjetpx,df.FATgenjetpy,df.FATgenjetpz,df.FATgenjetE, df.FATjetPassIDLoose,\
                        df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,\
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
-                       df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
+                       df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr,df.FATjetTau1,df.FATjetTau2)
         elif runOn2017:
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
                        df.prefiringweight,df.prefiringweightup,df.prefiringweightdown,\
@@ -430,7 +433,7 @@ def runbbdm(txtfile):
                        df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz,df.FATjetEnergy,df.FATgenjetpx,df.FATgenjetpy,df.FATgenjetpz,df.FATgenjetE, df.FATjetPassIDTight,\
                        df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,\
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
-                       df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
+                       df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr,df.FATjetTau1,df.FATjetTau2)
         elif runOn2018:
             df['prefiringweight'] = 1.0; df['prefiringweightup']=1.0; df['prefiringweightdown'] = 1.0
             var_zip = zip(df.runId,df.lumiSection,df.eventId,df.isData,df.mcWeight,\
@@ -449,7 +452,7 @@ def runbbdm(txtfile):
                        df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy,df.FATgenjetpx,df.FATgenjetpy,df.FATgenjetpz,df.FATgenjetE,df.FATjetPassIDTight,\
                        df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,\
                        df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,\
-                       df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr)
+                       df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr,df.FATjetTau1,df.FATjetTau2)
         for run,lumi,event,isData,mcWeight_,\
                 prefiringweight_,prefiringweightup_,prefiringweightdown_,\
                 pu_nTrueInt_,pu_nPUVert_,\
@@ -466,7 +469,7 @@ def runbbdm(txtfile):
                 fatnJet, fatjetPx, fatjetPy, fatjetPz, fatjetEnergy,fatgenjetPx, fatgenjetPy, fatgenjetPz, fatgenjetEnergy,fatjetPassID,\
                 fatjet_DoubleSV, fatjet_probQCDb, fatjet_probHbb, fatjet_probQCDc, fatjet_probHcc, fatjet_probHbbc,\
                 fatjet_prob_bbvsLight, fatjet_prob_ccvsLight, fatjet_prob_TvsQCD, fatjet_prob_WvsQCD, fatjet_prob_ZHbbvsQCD,\
-                fatjetSDmass, fatN2_Beta1_, fatN2_Beta2_, fatjetCHSPRmassL2L3Corr, fatjetCHSSDmassL2L3Corr\
+                fatjetSDmass, fatN2_Beta1_, fatN2_Beta2_, fatjetCHSPRmassL2L3Corr, fatjetCHSSDmassL2L3Corr,fatjetTau1,fatjetTau2\
                 in var_zip:
             if debug_: print len(trigName_),len(trigResult_),len(filterName),len(filterResult),len(metUnc_), len(elepx_), len(elepy_), len(elepz_), len(elee_), len(elevetoid_), len(elelooseid_), len(eletightid_), len(eleCharge_), npho_,len(phopx_), len(phopy_), len(phopz_), len(phoe_), len(pholooseid_), len(photightID_), nmu_, len(mupx_), len(mupy_), len(mupz_), len(mue_), len(mulooseid_), len(mutightid_), len(muisoloose), len(muisomedium), len(muisotight), len(muisovtight), len(muCharge_), nTau_, len(tau_px_), len(tau_py_), len(tau_pz_), len(tau_e_), len(tau_dm_), len(tau_isLoose_), len(genParId_), len(genMomParId_), len(genParSt_), len(genpx_), len(genpy_), len(genpz_), len(gene_), len(ak4px_), len(ak4py_), len(ak4pz_), len(ak4e_), len(ak4PassID_), len(ak4deepcsv_), len(ak4flavor_),len(ak4CEmEF_),len(ak4CHadEF_),len(ak4NEmEF_),len(ak4NHadEF_),len(ak4CMulti_),len(ak4NMultiplicity_), len(ak4JEC_), len(fatjetPx), len(fatjetPy), len(fatjetPz), len(fatjetEnergy), len(fatjetPassID), len(fatjet_DoubleSV), len(fatjet_probQCDb), len(fatjet_probHbb), len(fatjet_probQCDc), len(fatjet_probHcc), len(fatjet_probHbbc), len(fatjet_prob_bbvsLight), len(fatjet_prob_ccvsLight), len(fatjet_prob_TvsQCD), len(fatjet_prob_WvsQCD), len(fatjet_prob_ZHbbvsQCD), len(fatjetSDmass), len(fatN2_Beta1_), len(fatN2_Beta2_), len(fatjetCHSPRmassL2L3Corr), len(fatjetCHSSDmassL2L3Corr)
 
@@ -934,6 +937,7 @@ def runbbdm(txtfile):
             st_fjetSDMassCorrFact.clear()
             st_fjetN2b1.clear()
             st_fjetN2b2.clear()
+            st_fjetTau21.clear()
             st_fjetCHSPRMass.clear()
             st_fjetCHSSDMass.clear()
 
@@ -1031,6 +1035,7 @@ def runbbdm(txtfile):
                 st_fjetSDMassCorrFact.push_back(SDMassCorrFact[ifjet])
                 st_fjetN2b1.push_back(fatN2_Beta1_[ifjet])
                 st_fjetN2b2.push_back(fatN2_Beta2_[ifjet])
+                st_fjetTau21.push_back(fatjetTau2[ifjet]/fatjetTau1[ifjet])
                 st_fjetCHSPRMass.push_back(fatjetCHSPRmassL2L3Corr[ifjet])
                 st_fjetCHSSDMass.push_back(fatjetCHSSDmassL2L3Corr[ifjet])
                 #print ("fatN2_Beta1_",fatN2_Beta1_[ifjet],"fatN2_Beta2_",fatN2_Beta2_[ifjet])
