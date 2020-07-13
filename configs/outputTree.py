@@ -26,11 +26,18 @@ st_runId                  = numpy.zeros(1, dtype=int)
 st_lumiSection            = array( 'L', [ 0 ] )
 st_eventId                = array( 'L', [ 0 ] )
 st_isData                 = array( 'b', [ 0 ] )
+
+st_prefiringweight        = array( 'f', [ 0. ] )
+st_prefiringweightup      = array( 'f', [ 0. ] )
+st_prefiringweightdown    = array( 'f', [ 0. ] )
+
 st_eletrigdecision        = array( 'b', [ 0 ] )
 st_mutrigdecision         = array( 'b', [ 0 ] )
 st_mettrigdecision        = array( 'b', [ 0 ] )
 st_photrigdecision        = array( 'b', [ 0 ] )
+st_filterstatus           = array( 'b', [ 0 ] )
 
+st_pfMetSmearPt           = array( 'f', [ 0. ] )
 st_pfMetCorrPt            = array( 'f', [ 0. ] )
 st_pfMetCorrPhi           = array( 'f', [ 0. ] )
 st_pfMetUncJetResUp       = ROOT.std.vector('float')()
