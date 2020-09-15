@@ -18,7 +18,7 @@ from multiprocessing import Process
 import multiprocessing as mp
 
 
-isCondor = False
+isCondor = True
 
 ## user packages
 ## in local dir
@@ -111,6 +111,14 @@ debug_ = False
 
 if runOn2016 or runOn2017 or runOn2018:
     from TheaCorrection import TheaCorrection_2016 as TheaCorrection
+
+if runOn2016:
+    filter_list = filters.filters2016
+elif runOn2017:
+    filter_list = filters.filters2017
+elif runOn2018:
+    filter_list = filters.filters2018
+
 '''    
 elif runOn2017:
     from TheaCorrection import TheaCorrection_2017 as TheaCorrection
@@ -517,8 +525,8 @@ def runbbdm(txtfile):
             ## Filter selection
             # ------------------------------------------------------
             filterdecision=False
-            filterstatus = [False for ifilter in range(len(filters.filters2017)) ]
-            filterstatus = [anautil.CheckFilter(filterName, filterResult, filters.filters2017[ifilter]) for ifilter in range(len(filters.filters2017)) ]
+            filterstatus = [False for ifilter in range(len(filter_list)) ]
+            filterstatus = [anautil.CheckFilter(filterName, filterResult, filter_list[ifilter]) for ifilter in range(len(filter_list))]
 
             '''
             if not isData:     filterdecision = True
