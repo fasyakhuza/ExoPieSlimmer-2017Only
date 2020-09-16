@@ -45,6 +45,11 @@ v06.03 , added hem_veto for 2018
        ,
 v06.04 , added Tau21 variable
        , using 2016 function for SDMass correction 
+       
+v06.05 , using RECO jets for SDMass correction from @Deepak
 
 v06.05 , updated the filter code
        , added calo met and track met variables 
+
+       , using 2016 function for SDMass correction
+       ,
