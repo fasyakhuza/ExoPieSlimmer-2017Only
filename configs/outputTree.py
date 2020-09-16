@@ -1,14 +1,17 @@
 #!/usr/bin/env python
-from ROOT import TFile, TTree, TH1F, TH1D, TH1, TCanvas, TChain,TGraphAsymmErrors, TMath, TH2D, TLorentzVector, AddressOf, gROOT, TNamed
+from ROOT import TFile, TTree, TH1F, TH1D, TH1, TCanvas, TChain, TGraphAsymmErrors, TMath, TH2D, TLorentzVector, AddressOf, gROOT, TNamed
 import ROOT as ROOT
-import os,traceback
-import sys, optparse,argparse
+import os
+import traceback
+import sys
+import optparse
+import argparse
 from array import array
 import math
 import numpy as numpy
 import pandas
 from root_pandas import read_root
-from pandas import  DataFrame, concat
+from pandas import DataFrame, concat
 from pandas import Series
 import time
 
@@ -22,112 +25,116 @@ outfile = TFile(outfilenameis,'RECREATE')
 outTree = TTree( 'outTree', 'tree branches' )
 '''
 
-st_runId                  = numpy.zeros(1, dtype=int)
-st_lumiSection            = array( 'L', [ 0 ] )
-st_eventId                = array( 'L', [ 0 ] )
-st_isData                 = array( 'b', [ 0 ] )
+st_runId = numpy.zeros(1, dtype=int)
+st_lumiSection = array('L', [0])
+st_eventId = array('L', [0])
+st_isData = array('b', [0])
 
-st_prefiringweight        = array( 'f', [ 0. ] )
-st_prefiringweightup      = array( 'f', [ 0. ] )
-st_prefiringweightdown    = array( 'f', [ 0. ] )
+st_prefiringweight = array('f', [0.])
+st_prefiringweightup = array('f', [0.])
+st_prefiringweightdown = array('f', [0.])
 
-st_eletrigdecision        = array( 'b', [ 0 ] )
-st_mutrigdecision         = array( 'b', [ 0 ] )
-st_mettrigdecision        = array( 'b', [ 0 ] )
-st_photrigdecision        = array( 'b', [ 0 ] )
-st_filterstatus           = array( 'b', [ 0 ] )
+st_eletrigdecision = array('b', [0])
+st_mutrigdecision = array('b', [0])
+st_mettrigdecision = array('b', [0])
+st_photrigdecision = array('b', [0])
+st_filterstatus = array('b', [0])
 
-st_pfMetSmearPt           = array( 'f', [ 0. ] )
-st_pfMetCorrPt            = array( 'f', [ 0. ] )
-st_pfMetCorrPhi           = array( 'f', [ 0. ] )
-st_pfMetUncJetResUp       = ROOT.std.vector('float')()
-st_pfMetUncJetResDown     = ROOT.std.vector('float')()
-st_pfMetUncJetEnUp        = ROOT.std.vector('float')()
-st_pfMetUncJetEnDown      = ROOT.std.vector('float')()
-    ## add calo met
-    ## add modified met
+st_pfMetSmearPt = array('f', [0.])
+st_pfMetCorrPt = array('f', [0.])
+st_pfMetCorrPhi = array('f', [0.])
+st_pfMetCorrSig = array('f', [0.])
+st_pfpatCaloMETPt = array('f', [0.])
+st_pfpatCaloMETPhi = array('f', [0.])
+st_pfTRKMETPt = array('f', [0.])
+st_pfTRKMETPhi = array('f', [0.])
+st_pfMetUncJetResUp = ROOT.std.vector('float')()
+st_pfMetUncJetResDown = ROOT.std.vector('float')()
+st_pfMetUncJetEnUp = ROOT.std.vector('float')()
+st_pfMetUncJetEnDown = ROOT.std.vector('float')()
+## add calo met
+## add modified met
 
+## now we have only one flag for one object trigger
+st_eleTrig = array('b', [0])
+st_muTrig = array('b', [0])
+st_metTrig = array('b', [0])
+st_phoTrig = array('b', [0])
 
-    ## now we have only one flag for one object trigger
-st_eleTrig                = array( 'b', [0] )
-st_muTrig                = array( 'b', [0] )
-st_metTrig                = array( 'b', [0] )
-st_phoTrig                = array( 'b', [0] )
+st_filterStatus = ROOT.std.vector('bool')()
+st_filters = ROOT.std.vector(ROOT.std.string)()
 
-st_filterStatus      = ROOT.std.vector('bool')()
-st_filters           = ROOT.std.vector(ROOT.std.string)()
-
-st_TopMatching       = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
-
-
-st_THINnJet                     = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
-st_THINjetPx                    = ROOT.std.vector('float')()
-st_THINjetPy                    = ROOT.std.vector('float')()
-st_THINjetPz                    = ROOT.std.vector('float')()
-st_THINjetEnergy                = ROOT.std.vector('float')()
-st_THINjetDeepCSV               = ROOT.std.vector('float')()
-st_THINjetHadronFlavor          = ROOT.std.vector('int')()
-st_THINjetCEmEF                 = ROOT.std.vector('float')()
-st_THINjetCHadEF                = ROOT.std.vector('float')()
-st_THINjetNEmEF                 = ROOT.std.vector('float')()
-st_THINjetNHadEF                = ROOT.std.vector('float')()
-st_THINjetCMulti                = ROOT.std.vector('float')()
-st_THINjetNMultiplicity         = ROOT.std.vector('float')()
-st_THINjetCorrUnc               = ROOT.std.vector('float')()
-
-st_THINbRegNNResolution        = ROOT.std.vector('float')()
-st_THINbRegNNCorr              = ROOT.std.vector('float')()
-
-st_nfjet                        = array( 'L', [ 0 ] )
-st_fjetPx                       =   ROOT.std.vector('float')()
-st_fjetPy                       =   ROOT.std.vector('float')()
-st_fjetPz                       =   ROOT.std.vector('float')()
-st_fjetEnergy                   =   ROOT.std.vector('float')()
-st_fjetDoubleSV                 =   ROOT.std.vector('float')()
-st_fjetProbQCDb                 =   ROOT.std.vector('float')()
-st_fjetProbHbb                  =   ROOT.std.vector('float')()
-st_fjetProbQCDc                 =   ROOT.std.vector('float')()
-st_fjetProbHcc                  =   ROOT.std.vector('float')()
-st_fjetProbHbbc                 =   ROOT.std.vector('float')()
-st_fjetProbbbvsLight            =   ROOT.std.vector('float')()
-st_fjetProbccvsLight            =   ROOT.std.vector('float')()
-st_fjetProbTvsQCD               =   ROOT.std.vector('float')()
-st_fjetProbWvsQCD               =   ROOT.std.vector('float')()
-st_fjetProbZHbbvsQCD            =   ROOT.std.vector('float')()
-st_fjetSDMass                   =   ROOT.std.vector('float')()
-st_fjetSDMassCorrFact           =   ROOT.std.vector('float')()
-st_fjetN2b1                     =   ROOT.std.vector('float')()
-st_fjetN2b2                     =   ROOT.std.vector('float')()
-st_fjetTau21                    =   ROOT.std.vector('float')()
-st_fjetCHSPRMass                =   ROOT.std.vector('float')()
-st_fjetCHSSDMass                =   ROOT.std.vector('float')()
+st_TopMatching = array('L', [0])  # ROOT.std.vector('int')()
 
 
-st_nEle                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
-st_elePx               = ROOT.std.vector('float')()
-st_elePy               = ROOT.std.vector('float')()
-st_elePz               = ROOT.std.vector('float')()
-st_eleEnergy           = ROOT.std.vector('float')()
-st_eleIsPassLoose      = ROOT.std.vector('bool')()
-st_eleIsPassTight      = ROOT.std.vector('bool')()
-st_eleCharge           = ROOT.std.vector('float')()
+st_THINnJet = array('L', [0])  # ROOT.std.vector('int')()
+st_THINjetPx = ROOT.std.vector('float')()
+st_THINjetPy = ROOT.std.vector('float')()
+st_THINjetPz = ROOT.std.vector('float')()
+st_THINjetEnergy = ROOT.std.vector('float')()
+st_THINjetDeepCSV = ROOT.std.vector('float')()
+st_THINjetHadronFlavor = ROOT.std.vector('int')()
+st_THINjetCEmEF = ROOT.std.vector('float')()
+st_THINjetCHadEF = ROOT.std.vector('float')()
+st_THINjetNEmEF = ROOT.std.vector('float')()
+st_THINjetNHadEF = ROOT.std.vector('float')()
+st_THINjetCMulti = ROOT.std.vector('float')()
+st_THINjetNMultiplicity = ROOT.std.vector('float')()
+st_THINjetCorrUnc = ROOT.std.vector('float')()
+
+st_THINbRegNNResolution = ROOT.std.vector('float')()
+st_THINbRegNNCorr = ROOT.std.vector('float')()
+
+st_nfjet = array('L', [0])
+st_fjetPx = ROOT.std.vector('float')()
+st_fjetPy = ROOT.std.vector('float')()
+st_fjetPz = ROOT.std.vector('float')()
+st_fjetEnergy = ROOT.std.vector('float')()
+st_fjetDoubleSV = ROOT.std.vector('float')()
+st_fjetProbQCDb = ROOT.std.vector('float')()
+st_fjetProbHbb = ROOT.std.vector('float')()
+st_fjetProbQCDc = ROOT.std.vector('float')()
+st_fjetProbHcc = ROOT.std.vector('float')()
+st_fjetProbHbbc = ROOT.std.vector('float')()
+st_fjetProbbbvsLight = ROOT.std.vector('float')()
+st_fjetProbccvsLight = ROOT.std.vector('float')()
+st_fjetProbTvsQCD = ROOT.std.vector('float')()
+st_fjetProbWvsQCD = ROOT.std.vector('float')()
+st_fjetProbZHbbvsQCD = ROOT.std.vector('float')()
+st_fjetSDMass = ROOT.std.vector('float')()
+st_fjetSDMassCorrFact = ROOT.std.vector('float')()
+st_fjetN2b1 = ROOT.std.vector('float')()
+st_fjetN2b2 = ROOT.std.vector('float')()
+st_fjetTau21 = ROOT.std.vector('float')()
+st_fjetCHSPRMass = ROOT.std.vector('float')()
+st_fjetCHSSDMass = ROOT.std.vector('float')()
 
 
-st_nPho                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
-st_phoPx               = ROOT.std.vector('float')()
-st_phoPy               = ROOT.std.vector('float')()
-st_phoPz               = ROOT.std.vector('float')()
-st_phoEnergy           = ROOT.std.vector('float')()
-st_phoIsPassTight      = ROOT.std.vector('bool')()
+st_nEle = array('L', [0])  # ROOT.std.vector('int')()
+st_elePx = ROOT.std.vector('float')()
+st_elePy = ROOT.std.vector('float')()
+st_elePz = ROOT.std.vector('float')()
+st_eleEnergy = ROOT.std.vector('float')()
+st_eleIsPassLoose = ROOT.std.vector('bool')()
+st_eleIsPassTight = ROOT.std.vector('bool')()
+st_eleCharge = ROOT.std.vector('float')()
 
-st_nMu                 = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
-st_muPx                = ROOT.std.vector('float')()
-st_muPy                = ROOT.std.vector('float')()
-st_muPz                = ROOT.std.vector('float')()
-st_muEnergy            = ROOT.std.vector('float')()
-st_isTightMuon         = ROOT.std.vector('bool')()
-st_muCharge            = ROOT.std.vector('float')()
-    #st_muIso              = ROOT.std.vector('float')()
+
+st_nPho = array('L', [0])  # ROOT.std.vector('int')()
+st_phoPx = ROOT.std.vector('float')()
+st_phoPy = ROOT.std.vector('float')()
+st_phoPz = ROOT.std.vector('float')()
+st_phoEnergy = ROOT.std.vector('float')()
+st_phoIsPassTight = ROOT.std.vector('bool')()
+
+st_nMu = array('L', [0])  # ROOT.std.vector('int')()
+st_muPx = ROOT.std.vector('float')()
+st_muPy = ROOT.std.vector('float')()
+st_muPz = ROOT.std.vector('float')()
+st_muEnergy = ROOT.std.vector('float')()
+st_isTightMuon = ROOT.std.vector('bool')()
+st_muCharge = ROOT.std.vector('float')()
+#st_muIso              = ROOT.std.vector('float')()
 '''
 st_HPSTau_n            = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
 st_nTauTightElectron   = array( 'L', [ 0 ] )
@@ -143,19 +150,19 @@ st_tau_isoMedium       = ROOT.std.vector('bool')()
 st_tau_isoTight        = ROOT.std.vector('bool')()
 st_tau_dm              = ROOT.std.vector('bool')()
 '''
-    ## add against mu and against mu loose and medium WP
+## add against mu and against mu loose and medium WP
 
-st_nTau_DRBased_EleMuVeto               = array( 'L', [ 0 ] )
-st_nTau_discBased_looseElelooseMuVeto   = array( 'L', [ 0 ] )
-st_nTau_discBased_looseEleTightMuVeto   = array( 'L', [ 0 ] )
-st_nTau_discBased_mediumElelooseMuVeto  = array( 'L', [ 0 ] )
-st_nTau_discBased_TightElelooseMuVeto   = array( 'L', [ 0 ] )
-st_nTau_discBased_TightEleTightMuVeto   = array( 'L', [ 0 ] )
+st_nTau_DRBased_EleMuVeto = array('L', [0])
+st_nTau_discBased_looseElelooseMuVeto = array('L', [0])
+st_nTau_discBased_looseEleTightMuVeto = array('L', [0])
+st_nTau_discBased_mediumElelooseMuVeto = array('L', [0])
+st_nTau_discBased_TightElelooseMuVeto = array('L', [0])
+st_nTau_discBased_TightEleTightMuVeto = array('L', [0])
 
-mcweight               = array( 'f', [ 0 ] )
-st_pu_nTrueInt         = array( 'f', [ 0 ] ) #ROOT.std.vector('std::vector<float>')()
-st_pu_nPUVert          = array( 'f', [ 0 ] )
-st_THINjetNPV          = array( 'f', [ 0 ] ) #ROOT.std.vector('std::vector<float>')()
+mcweight = array('f', [0])
+st_pu_nTrueInt = array('f', [0])  # ROOT.std.vector('std::vector<float>')()
+st_pu_nPUVert = array('f', [0])
+st_THINjetNPV = array('f', [0])  # ROOT.std.vector('std::vector<float>')()
 
 # st_nGenPar             = array( 'L', [ 0 ] )
 # st_genParId            = ROOT.std.vector('int')()
@@ -165,27 +172,27 @@ st_THINjetNPV          = array( 'f', [ 0 ] ) #ROOT.std.vector('std::vector<float
 # st_genParPy            = ROOT.std.vector('float')()
 # st_genParPz            = ROOT.std.vector('float')()
 # st_genParEnergy        = ROOT.std.vector('float')()
-st_genParPt            = ROOT.std.vector('float')()
-st_genParSample        = ROOT.std.vector('int')()
+st_genParPt = ROOT.std.vector('float')()
+st_genParSample = ROOT.std.vector('int')()
 
-WenuRecoil             = array( 'f', [ 0. ] )
-Wenumass               = array( 'f', [ 0. ] )
-WenuPhi                = array( 'f', [ 0. ] )
+WenuRecoil = array('f', [0.])
+Wenumass = array('f', [0.])
+WenuPhi = array('f', [0.])
 
-WmunuRecoil            = array( 'f', [ 0. ] )
-Wmunumass              = array( 'f', [ 0. ] )
-WmunuPhi               = array( 'f', [ 0. ] )
+WmunuRecoil = array('f', [0.])
+Wmunumass = array('f', [0.])
+WmunuPhi = array('f', [0.])
 
-ZeeRecoil              = array( 'f', [ 0. ] )
-ZeeMass                = array( 'f', [ 0. ] )
-ZeePhi                 = array( 'f', [ 0. ] )
+ZeeRecoil = array('f', [0.])
+ZeeMass = array('f', [0.])
+ZeePhi = array('f', [0.])
 
-ZmumuRecoil            = array( 'f', [ 0. ] )
-ZmumuMass              = array( 'f', [ 0. ] )
-ZmumuPhi               = array( 'f', [ 0. ] )
+ZmumuRecoil = array('f', [0.])
+ZmumuMass = array('f', [0.])
+ZmumuPhi = array('f', [0.])
 
-GammaRecoil            = array('f',[0.])
-GammaPhi               = array( 'f', [ 0. ] )
+GammaRecoil = array('f', [0.])
+GammaPhi = array('f', [0.])
 '''
 outTree.Branch( 'st_runId', st_runId , 'st_runId/L')
 outTree.Branch( 'st_lumiSection', st_lumiSection , 'st_lumiSection/L')
