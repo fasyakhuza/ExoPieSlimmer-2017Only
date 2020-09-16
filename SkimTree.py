@@ -18,7 +18,7 @@ from multiprocessing import Process
 import multiprocessing as mp
 
 
-isCondor = False
+isCondor = True
 
 ## user packages
 ## in local dir
@@ -111,7 +111,7 @@ debug_ = False
 
 if runOn2016 or runOn2017 or runOn2018:
     from TheaCorrection import TheaCorrection_2016 as TheaCorrection
-'''    
+'''
 elif runOn2017:
     from TheaCorrection import TheaCorrection_2017 as TheaCorrection
 elif runOn2018:
@@ -797,10 +797,10 @@ def runbbdm(txtfile):
             fatgenjetphi      = getPhi(fatgenjetPx, fatgenjetPy)
 
             ## to convert following one need to convert the TheaCorrection function into numpy form
-            if fatnJet==len(fatgenjetpt) and not isData:
-                SDMassCorrFact = [TheaCorrection(fatgenjetpt[ij],fatgenjeteta[ij]) for ij in range(fatnJet)]
-            else:
-                SDMassCorrFact = [1.0 for ij in range(fatnJet)]
+            # if fatnJet==len(fatgenjetpt) and not isData:
+            SDMassCorrFact = [TheaCorrection(fatjetpt[ij],fatjeteta[ij]) for ij in range(fatnJet)]
+            # else:
+            #     SDMassCorrFact = [1.0 for ij in range(fatnJet)]
 	    #print 'fatnJet',fatnJet,'SDMassCorrFact',SDMassCorrFact
             fatjet_pt200_eta2p5_IDT  =  boolutil.logical_and3( (fatjetpt > 200.0), (numpy.abs(fatjeteta) < 2.5), (fatjetPassID ) )
 
