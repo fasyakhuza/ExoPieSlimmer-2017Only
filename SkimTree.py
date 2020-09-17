@@ -18,7 +18,7 @@ from multiprocessing import Process
 import multiprocessing as mp
 
 
-isCondor = False
+isCondor = True
 
 ## user packages
 ## in local dir
@@ -1144,9 +1144,9 @@ def runbbdm(txtfile):
                 st_THINbRegNNResolution.push_back(
                     ak4bRegNNResolution[ithinjet])
                 st_THINbRegNNCorr.push_back(ak4bRegNNCorr[ithinjet])
-                st_THINPUjetIDLoose.push_back(ak4PUJetIDLoose[ithinjet])
-                st_THINPUjetIDMedium.push_back(ak4PUJetIDMedium[ithinjet])
-                st_THINPUjetIDTight.push_back(ak4PUJetIDTight[ithinjet])
+                st_THINPUjetIDLoose.push_back(ak4PUJetIDLoose[ithinjet] or ak4pt[ithinjet] > 50)
+                st_THINPUjetIDMedium.push_back(ak4PUJetIDMedium[ithinjet] or ak4pt[ithinjet] > 50)
+                st_THINPUjetIDTight.push_back(ak4PUJetIDTight[ithinjet] or ak4pt[ithinjet] > 50)
 
 
                 #print 'ak4px_',ak4px_[ithinjet],'ak4py_',ak4py_[ithinjet],'ak4pz_',ak4pz_[ithinjet]
