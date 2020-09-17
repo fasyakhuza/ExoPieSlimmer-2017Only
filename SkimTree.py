@@ -282,6 +282,9 @@ def runbbdm(txtfile):
     outTree.Branch('st_THINjetCorrUnc', st_THINjetCorrUnc)
     outTree.Branch('st_THINbRegNNResolution', st_THINbRegNNResolution)
     outTree.Branch('st_THINbRegNNCorr',  st_THINbRegNNCorr)
+    outTree.Branch('st_THINPUjetIDLoose', st_THINPUjetIDLoose)
+    outTree.Branch('st_THINPUjetIDMedium', st_THINPUjetIDMedium)
+    outTree.Branch('st_THINPUjetIDTight', st_THINPUjetIDTight)
 
     outTree.Branch('st_TopMatching', st_TopMatching, 'st_TopMatching/L')
 
@@ -444,7 +447,7 @@ def runbbdm(txtfile):
                           df.HPSTau_n, df.HPSTau_Px, df.HPSTau_Py, df.HPSTau_Pz, df.HPSTau_Energy, df.disc_decayModeFinding, df.disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017, df.disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017, df.disc_byTightIsolationMVArun2017v2DBoldDMwLT2017,
                           df.disc_againstMuonLoose3, df.disc_againstMuonTight3, df.disc_againstElectronLooseMVA6, df.disc_againstElectronMediumMVA6, df.disc_againstElectronTightMVA6,
                           df.nGenPar, df.genParId, df.genMomParId, df.genParSt, df.genParPx, df.genParPy, df.genParPz, df.genParE,
-                          df.THINnJet, df.THINjetPx, df.THINjetPy, df.THINjetPz, df.THINjetEnergy, df.THINbRegNNResolution, df.THINbRegNNCorr,
+                          df.THINnJet, df.THINjetPx, df.THINjetPy, df.THINjetPz, df.THINjetEnergy, df.THINbRegNNResolution, df.THINbRegNNCorr,df.THINisPUJetIDLoose,df.THINisPUJetIDMedium,df.THINisPUJetIDTight,
                           df.THINjetPassIDLoose, df.THINjetDeepCSV_b, df.THINjetHadronFlavor, df.THINjetCEmEF, df.THINjetCHadEF, df.THINjetNEmEF, df.THINjetNHadEF, df.THINjetCMulti, df.THINjetNMultiplicity, df.THINjetCorrUncUp, df.THINjetNPV,
                           df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy, df.FATgenjetpx, df.FATgenjetpy, df.FATgenjetpz, df.FATgenjetE, df.FATjetPassIDLoose,
                           df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,
@@ -463,7 +466,7 @@ def runbbdm(txtfile):
                           df.HPSTau_n, df.HPSTau_Px, df.HPSTau_Py, df.HPSTau_Pz, df.HPSTau_Energy, df.disc_decayModeFinding, df.disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017, df.disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017, df.disc_byTightIsolationMVArun2017v2DBoldDMwLT2017,
                           df.disc_againstMuonLoose3, df.disc_againstMuonTight3, df.disc_againstElectronLooseMVA6, df.disc_againstElectronMediumMVA6, df.disc_againstElectronTightMVA6,
                           df.nGenPar, df.genParId, df.genMomParId, df.genParSt, df.genParPx, df.genParPy, df.genParPz, df.genParE,
-                          df.THINnJet, df.THINjetPx, df.THINjetPy, df.THINjetPz, df.THINjetEnergy, df.THINbRegNNResolution, df.THINbRegNNCorr,
+                          df.THINnJet, df.THINjetPx, df.THINjetPy, df.THINjetPz, df.THINjetEnergy, df.THINbRegNNResolution, df.THINbRegNNCorr,df.THINisPUJetIDLoose,df.THINisPUJetIDMedium,df.THINisPUJetIDTight,
                           df.THINjetPassIDTight, df.THINjetDeepCSV_b, df.THINjetHadronFlavor, df.THINjetCEmEF, df.THINjetCHadEF, df.THINjetNEmEF, df.THINjetNHadEF, df.THINjetCMulti, df.THINjetNMultiplicity, df.THINjetCorrUncUp, df.THINjetNPV,
                           df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy, df.FATgenjetpx, df.FATgenjetpy, df.FATgenjetpz, df.FATgenjetE, df.FATjetPassIDTight,
                           df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,
@@ -485,7 +488,7 @@ def runbbdm(txtfile):
                           df.HPSTau_n, df.HPSTau_Px, df.HPSTau_Py, df.HPSTau_Pz, df.HPSTau_Energy, df.disc_decayModeFinding, df.disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017, df.disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017, df.disc_byTightIsolationMVArun2017v2DBoldDMwLT2017,
                           df.disc_againstMuonLoose3, df.disc_againstMuonTight3, df.disc_againstElectronLooseMVA6, df.disc_againstElectronMediumMVA6, df.disc_againstElectronTightMVA6,
                           df.nGenPar, df.genParId, df.genMomParId, df.genParSt, df.genParPx, df.genParPy, df.genParPz, df.genParE,
-                          df.THINnJet, df.THINjetPx, df.THINjetPy, df.THINjetPz, df.THINjetEnergy, df.THINbRegNNResolution, df.THINbRegNNCorr,
+                          df.THINnJet, df.THINjetPx, df.THINjetPy, df.THINjetPz, df.THINjetEnergy, df.THINbRegNNResolution, df.THINbRegNNCorr,df.THINisPUJetIDLoose,df.THINisPUJetIDMedium,df.THINisPUJetIDTight,
                           df.THINjetPassIDTight, df.THINjetDeepCSV_b, df.THINjetHadronFlavor, df.THINjetCEmEF, df.THINjetCHadEF, df.THINjetNEmEF, df.THINjetNHadEF, df.THINjetCMulti, df.THINjetNMultiplicity, df.THINjetCorrUncUp, df.THINjetNPV,
                           df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy, df.FATgenjetpx, df.FATgenjetpy, df.FATgenjetpz, df.FATgenjetE, df.FATjetPassIDTight,
                           df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,
@@ -503,7 +506,7 @@ def runbbdm(txtfile):
                 nTau_, tau_px_, tau_py_, tau_pz_, tau_e_, tau_dm_, tau_isLoose_, tau_isoMedium_, tau_isoTight_,\
                 Taudisc_againstLooseMuon, Taudisc_againstTightMuon, Taudisc_againstLooseElectron, Taudisc_againstMediumElectron, Taudisc_againstTightElectron,\
                 nGenPar_, genParId_, genMomParId_, genParSt_, genpx_, genpy_, genpz_, gene_,\
-                nak4jet_, ak4px_, ak4py_, ak4pz_, ak4e_, ak4bRegNNResolution, ak4bRegNNCorr,\
+                nak4jet_, ak4px_, ak4py_, ak4pz_, ak4e_, ak4bRegNNResolution, ak4bRegNNCorr,ak4PUJetIDLoose,ak4PUJetIDMedium,ak4PUJetIDTight,\
                 ak4PassID_, ak4deepcsv_, ak4flavor_, ak4CEmEF_, ak4CHadEF_, ak4NEmEF_, ak4NHadEF_, ak4CMulti_, ak4NMultiplicity_, ak4JEC_, ak4NPV_,\
                 fatnJet, fatjetPx, fatjetPy, fatjetPz, fatjetEnergy, fatgenjetPx, fatgenjetPy, fatgenjetPz, fatgenjetEnergy, fatjetPassID,\
                 fatjet_DoubleSV, fatjet_probQCDb, fatjet_probHbb, fatjet_probQCDc, fatjet_probHcc, fatjet_probHbbc,\
@@ -1050,6 +1053,9 @@ def runbbdm(txtfile):
             st_THINjetCorrUnc.clear()
             st_THINbRegNNResolution.clear()
             st_THINbRegNNCorr.clear()
+            st_THINPUjetIDLoose.clear()
+            st_THINPUjetIDMedium.clear()
+            st_THINPUjetIDTight.clear()
 
             st_fjetPx.clear()
             st_fjetPy.clear()
@@ -1138,6 +1144,10 @@ def runbbdm(txtfile):
                 st_THINbRegNNResolution.push_back(
                     ak4bRegNNResolution[ithinjet])
                 st_THINbRegNNCorr.push_back(ak4bRegNNCorr[ithinjet])
+                st_THINPUjetIDLoose.push_back(ak4PUJetIDLoose[ithinjet] or ak4pt[ithinjet] > 50)
+                st_THINPUjetIDMedium.push_back(ak4PUJetIDMedium[ithinjet] or ak4pt[ithinjet] > 50)
+                st_THINPUjetIDTight.push_back(ak4PUJetIDTight[ithinjet] or ak4pt[ithinjet] > 50)
+
 
                 #print 'ak4px_',ak4px_[ithinjet],'ak4py_',ak4py_[ithinjet],'ak4pz_',ak4pz_[ithinjet]
                 #print 'ak4e_',ak4e_[ithinjet]
