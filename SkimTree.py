@@ -18,7 +18,7 @@ from multiprocessing import Process
 import multiprocessing as mp
 
 
-isCondor = True
+isCondor = False
 
 ## user packages
 ## in local dir
@@ -584,25 +584,7 @@ def runbbdm(txtfile):
             # --------------------------------------------------------
             pfmetstatus = (met_ > 180.0) or (met_smear > 180.0)
 
-            '''
-            *******   *      *   ******
-            *     *   *      *  *      *
-            *******   ********  *      *
-            *         *      *  *      *
-            *         *      *   ******
-            '''
 
-            #phopt = [getPt(phopx_[ip], phopy_[ip]) for ip in range(npho_)]
-            #phoeta = [getEta(phopx_[ip], phopy_[ip], phopz_[ip]) for ip in range(npho_)]
-            #pho_pt15_eta2p5_looseID = [ (phopt[ip] > 15.0) and (abs(phoeta[ip]) < 2.5) and (pholooseid_[ip])               for ip in range(npho_)]
-            #pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
-
-            phopt = getPt(phopx_, phopy_)
-            phoeta = getEta(phopx_, phopy_, phopz_)
-
-            pho_pt15_eta2p5_looseID = boolutil.logical_and3(
-                (phopt > 15.0),   (numpy.abs(phoeta) < 2.5),  (pholooseid_))
-            pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
 
             '''
             ****   *      ****
@@ -655,6 +637,34 @@ def runbbdm(txtfile):
 
             pass_mu_index = boolutil.WhereIsTrue(
                 mu_pt10_eta2p4_looseID_looseISO)
+
+            '''
+            *******   *      *   ******
+            *     *   *      *  *      *
+            *******   ********  *      *
+            *         *      *  *      *
+            *         *      *   ******
+            '''
+
+            #phopt = [getPt(phopx_[ip], phopy_[ip]) for ip in range(npho_)]
+            #phoeta = [getEta(phopx_[ip], phopy_[ip], phopz_[ip]) for ip in range(npho_)]
+            #pho_pt15_eta2p5_looseID = [ (phopt[ip] > 15.0) and (abs(phoeta[ip]) < 2.5) and (pholooseid_[ip])               for ip in range(npho_)]
+            #pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
+
+            phopt = getPt(phopx_, phopy_)
+            phoeta = getEta(phopx_, phopy_, phopz_)
+            phophi = getPhi(phopx_, phopy_)
+
+            pho_pt15_eta2p5_looseID = boolutil.logical_and3(
+                (phopt > 15.0),   (numpy.abs(phoeta) < 2.5),  (pholooseid_))
+            pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
+
+            cleanedPho_ag_ele = []; cleanedPho_ag_mu = [];pass_pho_index_cleaned=[]
+            if npho_ > 0: #and ep_nEle > 0:
+                cleanedPho_ag_ele = anautil.jetcleaning(pho_pt15_eta2p5_looseID, ele_pt10_eta2p5_looseID, phoeta, eleeta, phophi, elephi, 0.4)
+                cleanedPho_ag_mu  = anautil.jetcleaning(pho_pt15_eta2p5_looseID, mu_pt10_eta2p4_looseID_looseISO, phoeta, mueta, phophi, muphi, 0.4)
+                cleanedPhoton     = boolutil.logical_AND_List2(cleanedPho_ag_ele,cleanedPho_ag_mu)
+                pass_pho_index_cleaned = boolutil.WhereIsTrue(cleanedPhoton)
 
             ## Fill variables for the CRs which require lepton.
             WenuRecoil[0] = -1
@@ -1235,8 +1245,8 @@ def runbbdm(txtfile):
                 st_tau_dm.push_back(bool(tau_dm_[itau]))
             '''
 
-            st_nPho[0] = len(pass_pho_index)
-            for ipho in pass_pho_index:
+            st_nPho[0] = len(pass_pho_index_cleaned)
+            for ipho in pass_pho_index_cleaned:
                 st_phoPx.push_back(phopx_[ipho])
                 st_phoPy.push_back(phopy_[ipho])
                 st_phoPz.push_back(phopz_[ipho])
