@@ -18,7 +18,7 @@ from multiprocessing import Process
 import multiprocessing as mp
 
 
-isCondor = False
+isCondor = True
 
 ## user packages
 ## in local dir
