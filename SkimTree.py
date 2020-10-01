@@ -613,7 +613,7 @@ def runbbdm(txtfile):
             ele_pt10_eta2p5_looseID = boolutil.logical_and3((elept > 10.0), (elelooseid_),  numpy.logical_and(
                 numpy.logical_or(numpy.abs(eleeta) > 1.566, numpy.abs(eleeta) < 1.4442), (numpy.abs(eleeta) < 2.5)))
 
-            ele_pt10_eta2p5_tightID = boolutil.logical_and3((elept > 30.0), (eletightid_),  numpy.logical_and(numpy.logical_or(boolutil.logical_and3(numpy.abs(eleeta) > 1.566, numpy.abs(
+            ele_pt30_eta2p5_tightID = boolutil.logical_and3((elept > 30.0), (eletightid_),  numpy.logical_and(numpy.logical_or(boolutil.logical_and3(numpy.abs(eleeta) > 1.566, numpy.abs(
                 eleD0_) < 0.10, numpy.abs(eleDz_) < 0.20), boolutil.logical_and3(numpy.abs(eleeta) < 1.4442, numpy.abs(eleD0_) < 0.05, numpy.abs(eleDz_) < 0.10)), (numpy.abs(eleeta) < 2.5)))
 
             pass_ele_veto_index = boolutil.WhereIsTrue(ele_pt10_eta2p5_vetoID)
@@ -1201,7 +1201,7 @@ def runbbdm(txtfile):
                 st_elePz.push_back(elepz_[iele])
                 st_eleEnergy.push_back(elee_[iele])
                 st_eleIsPassLoose.push_back(bool(elelooseid_[iele]))
-                st_eleIsPassTight.push_back(bool(eletightid_[iele]))
+                st_eleIsPassTight.push_back(bool(ele_pt30_eta2p5_tightID[iele]))
                 st_eleCharge.push_back(eleCharge_[iele])
             if debug_:
                 print 'nEle: ', len(pass_ele_loose_index)
