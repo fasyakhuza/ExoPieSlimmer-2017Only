@@ -262,6 +262,11 @@ def runbbdm(txtfile):
     outTree.Branch('st_pfMetUncJetEnDown', st_pfMetUncJetEnDown)
     outTree.Branch('st_isData', st_isData, 'st_isData/O')
 
+    outTree.Branch('st_isak4JetBasedHemEvent', st_isak4JetBasedHemEvent, 'st_isak4JetBasedHemEvent/O')
+    outTree.Branch('st_isak8JetBasedHemEvent', st_isak8JetBasedHemEvent, 'st_isak8JetBasedHemEvent/O')
+    outTree.Branch('st_ismetphiBasedHemEvent1', st_ismetphiBasedHemEvent1, 'st_ismetphiBasedHemEvent1/O')
+    outTree.Branch('st_ismetphiBasedHemEvent2', st_ismetphiBasedHemEvent2, 'st_ismetphiBasedHemEvent2/O')
+
     outTree.Branch('st_THINnJet', st_THINnJet, 'st_THINnJet/L')
     outTree.Branch('st_THINjetPx', st_THINjetPx)
     outTree.Branch('st_THINjetPy', st_THINjetPy)
@@ -890,11 +895,8 @@ def runbbdm(txtfile):
                 if debug_:
                     print "pass_jet_index_cleaned = ", pass_jet_index_cleaned, "nJets= ", len(ak4px_)
 
-            if runOn2018:
-                hem_cut = numpy.logical_and(numpy.logical_and(
-                    ak4eta > (-3.0), ak4eta < (-1.3)), numpy.logical_and(ak4phi > (-1.57), ak4phi < (-0.87)))
-                if any(hem_cut):
-                    continue
+
+
 
             '''
             ******      *******   *****   *******
@@ -943,6 +945,16 @@ def runbbdm(txtfile):
                 pass_fatjet_index_cleaned = boolutil.WhereIsTrue(fatjetCleaned)
                 if debug_:
                     print "pass_fatjet_index_cleaned = ", pass_fatjet_index_cleaned, " nJets =   ", len(fatjetpx)
+
+            isak4JetBasedHemEvent=False;isak8JetBasedHemEvent=False;ismetphiBasedHemEvent1=False;ismetphiBasedHemEvent2=False
+            if (runOn2018) and (not isData or 'Run2018D' in outfilename or 'Run2018C' in outfilename):
+                isak4JetBasedHemEvent = numpy.logical_and(numpy.logical_and(
+                    ak4eta > (-3.0), ak4eta < (-1.3)), numpy.logical_and(ak4phi > (-1.57), ak4phi < (-0.87)))
+                isak8JetBasedHemEvent = numpy.logical_and(numpy.logical_and(
+                    fatjeteta > (-3.0), fatjeteta < (-1.3)), numpy.logical_and(fatjetphi > (-1.57), fatjetphi < (-0.87)))
+                ismetphiBasedHemEvent1 = metphi_ < -0.65 and metphi_ > -1.65 and met_ < 470
+                ismetphiBasedHemEvent2 = metphi_ < -0.65 and metphi_ > -1.65
+
 
             '''
             ********    *        *       *
@@ -1017,6 +1029,11 @@ def runbbdm(txtfile):
             st_lumiSection[0] = lumi
             st_eventId[0] = event
             st_isData[0] = isData
+
+            st_isak4JetBasedHemEvent[0] =isak4JetBasedHemEvent
+            st_isak8JetBasedHemEvent[0] =isak8JetBasedHemEvent
+            st_ismetphiBasedHemEvent1[0]=ismetphiBasedHemEvent1
+            st_ismetphiBasedHemEvent2[0]=ismetphiBasedHemEvent2
 
             st_prefiringweight[0] = prefiringweight_
             st_prefiringweightup[0] = prefiringweightup_

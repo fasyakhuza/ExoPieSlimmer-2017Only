@@ -30,6 +30,11 @@ st_lumiSection = array('L', [0])
 st_eventId = array('L', [0])
 st_isData = array('b', [0])
 
+st_isak4JetBasedHemEvent = array('L', [0])
+st_isak8JetBasedHemEvent = array('L', [0])
+st_ismetphiBasedHemEvent1 = array('L', [0])
+st_ismetphiBasedHemEvent2 = array('L', [0])
+
 st_prefiringweight = array('f', [0.])
 st_prefiringweightup = array('f', [0.])
 st_prefiringweightdown = array('f', [0.])
