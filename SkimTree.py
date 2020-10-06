@@ -22,7 +22,7 @@ isCondor = True
 
 ## user packages
 ## in local dir
-sys.path.append('configs')
+sys.path.append('skim_configs')
 import  triggers as trig
 import variables as branches
 import filters as filters
@@ -227,7 +227,7 @@ def runbbdm(txtfile):
         muontrig = trig.Muontrigger2018
         mettrig = trig.METtrigger2018
         photontrig = trig.Photontrigger2018
-    passfilename = open("configs/outfilename.txt", "w")
+    passfilename = open("skim_configs/outfilename.txt", "w")
 
     passfilename.write(outfilename)
     passfilename.close()
