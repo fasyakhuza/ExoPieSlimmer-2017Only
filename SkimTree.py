@@ -1030,8 +1030,8 @@ def runbbdm(txtfile):
             st_eventId[0] = event
             st_isData[0] = isData
 
-            st_isak4JetBasedHemEvent[0] =isak4JetBasedHemEvent
-            st_isak8JetBasedHemEvent[0] =isak8JetBasedHemEvent
+            st_isak4JetBasedHemEvent[0] =any(isak4JetBasedHemEvent)
+            st_isak8JetBasedHemEvent[0] =any(isak8JetBasedHemEvent)
             st_ismetphiBasedHemEvent1[0]=ismetphiBasedHemEvent1
             st_ismetphiBasedHemEvent2[0]=ismetphiBasedHemEvent2
 
