@@ -949,9 +949,9 @@ def runbbdm(txtfile):
             isak4JetBasedHemEvent=False;isak8JetBasedHemEvent=False;ismetphiBasedHemEvent1=False;ismetphiBasedHemEvent2=False
             if (runOn2018) and (not isData or 'Run2018D' in outfilename or 'Run2018C' in outfilename):
                 isak4JetBasedHemEvent = numpy.logical_and(numpy.logical_and(
-                    ak4eta > (-3.0), ak4eta < (-1.3)), numpy.logical_and(ak4phi > (-1.57), ak4phi < (-0.87)))
+                    ak4eta > (-3.0), ak4eta < (-1.3)), numpy.logical_and(ak4phi > (-1.57), ak4phi < (-0.87))).any()
                 isak8JetBasedHemEvent = numpy.logical_and(numpy.logical_and(
-                    fatjeteta > (-3.0), fatjeteta < (-1.3)), numpy.logical_and(fatjetphi > (-1.57), fatjetphi < (-0.87)))
+                    fatjeteta > (-3.0), fatjeteta < (-1.3)), numpy.logical_and(fatjetphi > (-1.57), fatjetphi < (-0.87))).any()
                 ismetphiBasedHemEvent1 = metphi_ < -0.65 and metphi_ > -1.65 and met_ < 470
                 ismetphiBasedHemEvent2 = metphi_ < -0.65 and metphi_ > -1.65
 
@@ -1030,8 +1030,8 @@ def runbbdm(txtfile):
             st_eventId[0] = event
             st_isData[0] = isData
 
-            st_isak4JetBasedHemEvent[0] =any(isak4JetBasedHemEvent)
-            st_isak8JetBasedHemEvent[0] =any(isak8JetBasedHemEvent)
+            st_isak4JetBasedHemEvent[0] =isak4JetBasedHemEvent
+            st_isak8JetBasedHemEvent[0] =isak8JetBasedHemEvent
             st_ismetphiBasedHemEvent1[0]=ismetphiBasedHemEvent1
             st_ismetphiBasedHemEvent2[0]=ismetphiBasedHemEvent2
 
