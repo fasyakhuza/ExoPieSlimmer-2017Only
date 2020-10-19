@@ -60,4 +60,5 @@ v07.01 , added variables to tag HEM effected events for 2018
 
 v07.02 , updated the name of config dir
 	   , defined hem variables as booleans
-
+	,
+v07.03 , added "ecalBadCalibReducedMINIAODFilter" in the filter list for 2017 and 2018 
