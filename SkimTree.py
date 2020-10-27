@@ -719,10 +719,10 @@ def runbbdm(txtfile):
                         ZeePhi[0] = mathutil.ep_arctan(
                             zeeRecoilPx, zeeRecoilPy)
                     zeeRecoilSmearPx = - \
-                        (met_smear*math.cos(metphi_) +
+                        (met_*math.cos(metphi_) +
                          elepx_[iele1] + elepx_[iele2])
                     zeeRecoilSmearPy = - \
-                        (met_smear*math.sin(metphi_) +
+                        (met_*math.sin(metphi_) +
                          elepy_[iele1] + elepy_[iele2])
                     ZeeRecoilSmearPt = math.sqrt(
                         zeeRecoilSmearPx**2 + zeeRecoilSmearPy**2)
@@ -747,10 +747,10 @@ def runbbdm(txtfile):
                         ZmumuPhi[0] = mathutil.ep_arctan(
                             zmumuRecoilPx, zmumuRecoilPy)
                     zmumuRecoilSmearPx = - \
-                        (met_smear*math.cos(metphi_) +
+                        (met_*math.cos(metphi_) +
                          mupx_[imu1] + mupx_[imu2])
                     zmumuRecoilSmearPy = - \
-                        (met_smear*math.sin(metphi_) +
+                        (met_*math.sin(metphi_) +
                          mupy_[imu1] + mupy_[imu2])
                     ZmumuRecoilSmearPt = math.sqrt(
                         zmumuRecoilSmearPx**2 + zmumuRecoilSmearPy**2)
@@ -783,9 +783,9 @@ def runbbdm(txtfile):
                    Wenumass[0] = e_mass
                    WenuPhi[0] = mathutil.ep_arctan(WenuRecoilPx, WenuRecoilPy)
                 WenuRecoilSmearPx = - \
-                    (met_smear*math.cos(metphi_) + elepx_[ele1])
+                    (met_*math.cos(metphi_) + elepx_[ele1])
                 WenuRecoilSmearPy = - \
-                    (met_smear*math.sin(metphi_) + elepy_[ele1])
+                    (met_*math.sin(metphi_) + elepy_[ele1])
                 WenuRecoilSmearPt = math.sqrt(
                     WenuRecoilSmearPx**2 + WenuRecoilSmearPy**2)
 
@@ -803,9 +803,9 @@ def runbbdm(txtfile):
                    WmunuPhi[0] = mathutil.ep_arctan(
                        WmunuRecoilPx, WmunuRecoilPy)
                 WmunuRecoilSmearPx = - \
-                    (met_smear*math.cos(metphi_) + mupx_[mu1])
+                    (met_*math.cos(metphi_) + mupx_[mu1])
                 WmunuRecoilSmearPy = - \
-                    (met_smear*math.sin(metphi_) + mupy_[mu1])
+                    (met_*math.sin(metphi_) + mupy_[mu1])
                 WmunuRecoilSmearPt = math.sqrt(
                     WmunuRecoilSmearPx**2 + WmunuRecoilSmearPy**2)
 
@@ -834,9 +834,9 @@ def runbbdm(txtfile):
                     GammaPhi[0] = mathutil.ep_arctan(
                         GammaRecoilPx, GammaRecoilPy)
                 GammaRecoilSmearPx = - \
-                    (met_smear*math.cos(metphi_) + phopx_[pho1])
+                    (met_*math.cos(metphi_) + phopx_[pho1])
                 GammaRecoilSmearPy = - \
-                    (met_smear*math.sin(metphi_) + phopy_[pho1])
+                    (met_*math.sin(metphi_) + phopy_[pho1])
                 GammaRecoilSmearPt = math.sqrt(
                     GammaRecoilSmearPx**2 + GammaRecoilSmearPy**2)
 
