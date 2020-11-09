@@ -466,7 +466,7 @@ def runbbdm(txtfile):
     #print "running on", filename
     for df in read_root(filename, 'tree/treeMaker', columns=jetvariables, chunksize=125000):
         if runOn2017 or runOn2018:
-            if (int(mass_A_) != int(mA_)) and (int(mass_a_) != int(ma_)): continue
+            if ('mass_A' not in df.columns) and('mass_a' not in df.columns):
                 df['mass_A'] = 0
                 df['mass_a'] = 0
         if runOn2016:
