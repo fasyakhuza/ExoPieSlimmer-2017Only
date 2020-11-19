@@ -450,8 +450,9 @@ def runbbdm(txtfile):
         jetvariables = branches.allvars2018
 
     if runOn2017 or runOn2018:
-        jetvariables.append('mass_A')
-        jetvariables.append('mass_a')
+        if monoh_zpb or bbdm_2hdma or bbDM_DMSimp:
+            jetvariables.append('mass_A')
+            jetvariables.append('mass_a')
     filename = infile_
 
     h_eventCounter = TH1F('h_eventCounter', 'h_eventCounter', 2, 0.5, 2.5)
@@ -465,10 +466,6 @@ def runbbdm(txtfile):
     icount = 0
     #print "running on", filename
     for df in read_root(filename, 'tree/treeMaker', columns=jetvariables, chunksize=125000):
-        if runOn2017 or runOn2018:
-            if ('mass_A' not in df.columns) and('mass_a' not in df.columns):
-                df['mass_A'] = 0
-                df['mass_a'] = 0
         if runOn2016:
             df['mass_A'] = 0
             df['mass_a'] = 0
@@ -491,6 +488,9 @@ def runbbdm(txtfile):
                           df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,
                           df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2)
         elif runOn2017:
+            if ('mass_A' not in df.columns) and('mass_a' not in df.columns):
+                df['mass_A'] = 0
+                df['mass_a'] = 0
             var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight, df.mass_A, df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
                           df.pu_nTrueInt, df.pu_nPUVert,
@@ -510,6 +510,9 @@ def runbbdm(txtfile):
                           df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,
                           df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2)
         elif runOn2018:
+            if ('mass_A' not in df.columns) and('mass_a' not in df.columns):
+                df['mass_A'] = 0
+                df['mass_a'] = 0
             df['prefiringweight'] = 1.0
             df['prefiringweightup'] = 1.0
             df['prefiringweightdown'] = 1.0
