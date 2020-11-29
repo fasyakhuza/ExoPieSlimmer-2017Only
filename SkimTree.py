@@ -59,18 +59,19 @@ start = time.clock()
 ## ----- command line argument
 usage = "analyzer for bb+DM (debugging) "
 parser = argparse.ArgumentParser(description=usage)
-parser.add_argument("-i", "--inputfile",  dest="inputfile",
-                    default="myfiles.txt")
+parser.add_argument("-i", "--inputfile",  dest="inputfile", default="myfiles.txt")
 parser.add_argument("-inDir", "--inputDir",  dest="inputDir", default=".")
-parser.add_argument("-runOnTXT", "--runOnTXT",
-                    action="store_true", dest="runOnTXT")
-parser.add_argument("-o", "--outputfile",
-                    dest="outputfile", default="out.root")
+parser.add_argument("-runOnTXT", "--runOnTXT", action="store_true", dest="runOnTXT")
+parser.add_argument("-o", "--outputfile", dest="outputfile", default="out.root")
 parser.add_argument("-D", "--outputdir", dest="outputdir")
 parser.add_argument("-F", "--farmout", action="store_true",  dest="farmout")
 parser.add_argument("-y", "--year", dest="year", default="Year")
+parser.add_argument("--monoh_zpb", action="store_true", dest="monoh_zpb")
+parser.add_argument("--bbdm_2hdma", action="store_true", dest="bbdm_2hdma")
+parser.add_argument("--bbDM_DMSimp", action="store_true", dest="bbDM_DMSimp")
+parser.add_argument("--mA", dest="mA_", default="0")
+parser.add_argument("--ma", dest="ma_", default="0")
 
-#parser.add_argument("runOnTXT", "--runOnTXT",dest="runOnTXT")
 #parser.set_defaults(runOnTXT=False)
 ## add argument for debug, default to be false
 
@@ -129,6 +130,27 @@ elif runOn2017:
 elif runOn2018:
     from TheaCorrection import TheaCorrection_2018 as TheaCorrection
 '''
+makeStr = ''
+monoh_zpb = False
+if args.monoh_zpb:
+    monoh_zpb = True
+    mA_ = args.mA_
+    ma_ = args.ma_
+    makeStr = "_Zpb"+str(mA_)
+
+bbdm_2hdma = False
+if args.bbdm_2hdma:
+    bbdm_2hdma = True
+    mA_ = args.mA_
+    ma_ = args.ma_
+    makeStr = "_ma_"+str(ma_)+"_mA_"+str(mA_)
+
+bbDM_DMSimp = False
+if args.bbDM_DMSimp:
+    bbDM_DMSimp = True
+    mA_ = args.mA_
+    ma_ = args.ma_
+    makeStr = "_MPhi"+str(mA_)
 
 
 def whichsample(filename):
@@ -180,7 +202,7 @@ def runbbdm(txtfile):
     if not runInteractive:
         print "running for ", txtfile
         infile_ = TextToList(txtfile)
-        outfile = txtfile.split('/')[-1].replace('.txt', '.root')
+        outfile = txtfile.split('/')[-1].replace('.txt', makeStr+'.root')
         #key_=txtfile[1]
 
         ''' old
@@ -199,7 +221,8 @@ def runbbdm(txtfile):
         if outputdir != '.':
             prefix_ = outputdir+'/'
         #print "prefix_", prefix_
-        outfilename = prefix_+txtfile.split('/')[-1].replace('.txt', '.root')
+        outfilename = prefix_ + \
+            txtfile.split('/')[-1].replace('.txt', makeStr+'.root')
         print 'outfilename',  outfilename
 
     samplename = whichsample(outfilename)
@@ -426,6 +449,10 @@ def runbbdm(txtfile):
     elif runOn2018:
         jetvariables = branches.allvars2018
 
+    if runOn2017 or runOn2018:
+        if monoh_zpb or bbdm_2hdma or bbDM_DMSimp:
+            jetvariables.append('mass_A')
+            jetvariables.append('mass_a')
     filename = infile_
 
     h_eventCounter = TH1F('h_eventCounter', 'h_eventCounter', 2, 0.5, 2.5)
@@ -440,7 +467,9 @@ def runbbdm(txtfile):
     #print "running on", filename
     for df in read_root(filename, 'tree/treeMaker', columns=jetvariables, chunksize=125000):
         if runOn2016:
-            var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight,
+            df['mass_A'] = 0
+            df['mass_a'] = 0
+            var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight, df.mass_A,df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
                           df.pu_nTrueInt, df.pu_nPUVert,
                           df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
@@ -459,7 +488,10 @@ def runbbdm(txtfile):
                           df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,
                           df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2)
         elif runOn2017:
-            var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight,
+            if ('mass_A' not in df.columns) and('mass_a' not in df.columns):
+                df['mass_A'] = 0
+                df['mass_a'] = 0
+            var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight, df.mass_A, df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
                           df.pu_nTrueInt, df.pu_nPUVert,
                           df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
@@ -478,10 +510,13 @@ def runbbdm(txtfile):
                           df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,
                           df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2)
         elif runOn2018:
+            if ('mass_A' not in df.columns) and('mass_a' not in df.columns):
+                df['mass_A'] = 0
+                df['mass_a'] = 0
             df['prefiringweight'] = 1.0
             df['prefiringweightup'] = 1.0
             df['prefiringweightdown'] = 1.0
-            var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight,
+            var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight,df.mass_A,df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
                           df.pu_nTrueInt, df.pu_nPUVert,
                           df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
@@ -499,7 +534,7 @@ def runbbdm(txtfile):
                           df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,
                           df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,
                           df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2)
-        for run, lumi, event, isData, mcWeight_,\
+        for run, lumi, event, isData, mcWeight_, mass_A_, mass_a_,\
                 prefiringweight_, prefiringweightup_, prefiringweightdown_,\
                 pu_nTrueInt_, pu_nPUVert_,\
                 trigName_, trigResult_, filterName, filterResult,\
@@ -520,7 +555,8 @@ def runbbdm(txtfile):
                 in var_zip:
             if debug_:
                 print len(trigName_), len(trigResult_), len(filterName), len(filterResult), len(metUnc_), len(elepx_), len(elepy_), len(elepz_), len(elee_), len(elevetoid_), len(elelooseid_), len(eletightid_), len(eleCharge_), npho_, len(phopx_), len(phopy_), len(phopz_), len(phoe_), len(pholooseid_), len(photightID_), nmu_, len(mupx_), len(mupy_), len(mupz_), len(mue_), len(mulooseid_), len(mutightid_), len(muisoloose), len(muisomedium), len(muisotight), len(muisovtight), len(muCharge_), nTau_, len(tau_px_), len(tau_py_), len(tau_pz_), len(tau_e_), len(tau_dm_), len(tau_isLoose_), len(genParId_), len(genMomParId_), len(genParSt_), len(genpx_), len(genpy_), len(genpz_), len(gene_), len(ak4px_), len(ak4py_), len(ak4pz_), len(ak4e_), len(ak4PassID_), len(ak4deepcsv_), len(ak4flavor_), len(ak4CEmEF_), len(ak4CHadEF_), len(ak4NEmEF_), len(ak4NHadEF_), len(ak4CMulti_), len(ak4NMultiplicity_), len(ak4JEC_), len(fatjetPx), len(fatjetPy), len(fatjetPz), len(fatjetEnergy), len(fatjetPassID), len(fatjet_DoubleSV), len(fatjet_probQCDb), len(fatjet_probHbb), len(fatjet_probQCDc), len(fatjet_probHcc), len(fatjet_probHbbc), len(fatjet_prob_bbvsLight), len(fatjet_prob_ccvsLight), len(fatjet_prob_TvsQCD), len(fatjet_prob_WvsQCD), len(fatjet_prob_ZHbbvsQCD), len(fatjetSDmass), len(fatN2_Beta1_), len(fatN2_Beta2_), len(fatjetCHSPRmassL2L3Corr), len(fatjetCHSSDmassL2L3Corr)
-
+            if monoh_zpb or bbDM_DMSimp or bbdm_2hdma:
+                if (int(mass_A_) != int(mA_)) and (int(mass_a_) != int(ma_)): continue
             if ieve % 1000 == 0:
                 print "Processed", ieve, "Events"
             ieve = ieve + 1
