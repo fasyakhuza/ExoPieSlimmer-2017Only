@@ -21,6 +21,8 @@ allvars2018 = ['runId',
                'pfpatCaloMETPhi',
                'pfTRKMETPt_',
                'pfTRKMETPhi_',
+	       'pfMetRawPt',
+	       'pfMetRawPhi',
 
                'nEle',
                'elePx',
@@ -168,6 +170,9 @@ allvars2017 = ['runId',
                'pfTRKMETPt_',
                'pfTRKMETPhi_',
 
+               'pfMetRawPt',
+               'pfMetRawPhi',
+
                'nEle',
                'elePx',
                'elePy',
@@ -314,6 +319,9 @@ allvars2016 = ['runId',
                'pfpatCaloMETPhi',
                'pfTRKMETPt_',
                'pfTRKMETPhi_',
+               'pfMetRawPt',
+               'pfMetRawPhi',
+
 
                'nEle',
                'elePx',

@@ -152,6 +152,7 @@ if args.bbDM_DMSimp:
     ma_ = args.ma_
     makeStr = "_MPhi"+str(mA_)
 
+ROOT.gROOT.ProcessLine('.L skim_configs/XYMETCorrection.cc+')
 
 def whichsample(filename):
     print "SkimTree:whichsample:-- file name is ", filename
@@ -406,6 +407,8 @@ def runbbdm(txtfile):
     # outTree.Branch( 'st_genParPy' , st_genParPy )
     # outTree.Branch( 'st_genParPz', st_genParPz )
     # outTree.Branch( 'st_genParEnergy', st_genParEnergy )
+    outTree.Branch('st_METXYCorr_Met_MetPhi', st_METXYCorr_Met_MetPhi)
+
     outTree.Branch('st_genParPt', st_genParPt, )
     outTree.Branch('st_genParSample', st_genParSample)
 
@@ -474,7 +477,7 @@ def runbbdm(txtfile):
                           df.pu_nTrueInt, df.pu_nPUVert,
                           df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
                           df.pfpatMet_smear, df.pfMetCorrPt, df.pfMetCorrPhi, df.pfMetCorrUnc,
-                          df.pfMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_,
+                          df.pfMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_, df.pfMetRawPt, df.pfMetRawPhi,
                           df.nEle, df.elePx, df.elePy, df.elePz, df.eleEnergy, df.eleIsPassVeto, df.eleIsPassLoose, df.eleIsPassTight, df.eleD0, df.eleDz,
                           df.eleCharge, df.nPho, df.phoPx, df.phoPy, df.phoPz, df.phoEnergy, df.phoIsPassLoose, df.phoIsPassTight,
                           df.nMu, df.muPx, df.muPy, df.muPz, df.muEnergy, df.isLooseMuon, df.isTightMuon, df.PFIsoLoose, df.PFIsoMedium, df.PFIsoTight, df.PFIsoVeryTight, df.muCharge,
@@ -496,7 +499,7 @@ def runbbdm(txtfile):
                           df.pu_nTrueInt, df.pu_nPUVert,
                           df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
                           df.pfpatmodifiedMet_smear, df.pfmodifiedMetCorrPt, df.pfmodifiedMetCorrPhi, df.pfmodifiedMetCorrUnc,
-                          df.pfmodifiedMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_,
+                          df.pfmodifiedMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_, df.pfMetRawPt, df.pfMetRawPhi,
                           df.nEle, df.elePx, df.elePy, df.elePz, df.eleEnergy, df.eleIsPassVeto, df.eleIsPassLoose, df.eleIsPassTight, df.eleD0, df.eleDz,
                           df.eleCharge, df.nPho, df.phoPx, df.phoPy, df.phoPz, df.phoEnergy, df.phoIsPassLoose, df.phoIsPassTight,
                           df.nMu, df.muPx, df.muPy, df.muPz, df.muEnergy, df.isLooseMuon, df.isTightMuon, df.PFIsoLoose, df.PFIsoMedium, df.PFIsoTight, df.PFIsoVeryTight, df.muCharge,
@@ -521,7 +524,7 @@ def runbbdm(txtfile):
                           df.pu_nTrueInt, df.pu_nPUVert,
                           df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
                           df.pfpatMet_smear, df.pfMetCorrPt, df.pfMetCorrPhi, df.pfMetCorrUnc,
-                          df.pfMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_,
+                          df.pfMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_, df.pfMetRawPt, df.pfMetRawPhi,
                           df.nEle, df.elePx, df.elePy, df.elePz, df.eleEnergy, df.eleIsPassVeto, df.eleIsPassLoose, df.eleIsPassTight, df.eleD0, df.eleDz,
                           df.eleCharge, df.nPho, df.phoPx, df.phoPy, df.phoPz, df.phoEnergy, df.phoIsPassLoose, df.phoIsPassTight,
                           df.nMu, df.muPx, df.muPy, df.muPz, df.muEnergy, df.isLooseMuon, df.isTightMuon, df.PFIsoLoose, df.PFIsoMedium, df.PFIsoTight, df.PFIsoVeryTight, df.muCharge,
@@ -539,7 +542,7 @@ def runbbdm(txtfile):
                 pu_nTrueInt_, pu_nPUVert_,\
                 trigName_, trigResult_, filterName, filterResult,\
                 met_smear, met_, metphi_, metUnc_,\
-                metCorrSig, patCaloMETPt, patCaloMETPhi, TRKMETPt_, TRKMETPhi_,\
+                metCorrSig, patCaloMETPt, patCaloMETPhi, TRKMETPt_, TRKMETPhi_, MetRawPt, MetRawPhi,\
                 nele_, elepx_, elepy_, elepz_, elee_, elevetoid_, elelooseid_, eletightid_, eleD0_, eleDz_,\
                 eleCharge_, npho_, phopx_, phopy_, phopz_, phoe_, pholooseid_, photightID_,\
                 nmu_, mupx_, mupy_, mupz_, mue_, mulooseid_, mutightid_, muisoloose, muisomedium, muisotight, muisovtight, muCharge_,\
@@ -1183,8 +1186,14 @@ def runbbdm(txtfile):
             # st_genParPy.clear()
             # st_genParPz.clear()
             # st_genParEnergy.clear()
+	    st_METXYCorr_Met_MetPhi.clear()
             st_genParPt.clear()
             st_genParSample.clear()
+
+	    tmp_METXYCorr_Met_MetPhi = ROOT.METXYCorr_Met_MetPhi(MetRawPt, MetRawPhi,int(run),int(args.year),not isData,int(pu_nPUVert_))
+            for value in tmp_METXYCorr_Met_MetPhi:
+                st_METXYCorr_Met_MetPhi.push_back(value)
+
 
             st_THINnJet[0] = len(pass_jet_index_cleaned)
             for ithinjet in pass_jet_index_cleaned:
