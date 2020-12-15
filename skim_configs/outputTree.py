@@ -182,6 +182,8 @@ st_THINjetNPV = array('f', [0])  # ROOT.std.vector('std::vector<float>')()
 # st_genParEnergy        = ROOT.std.vector('float')()
 st_genParPt = ROOT.std.vector('float')()
 st_genParSample = ROOT.std.vector('int')()
+st_METXYCorr_Met_MetPhi = ROOT.std.vector('float')()
+
 
 WenuRecoil = array('f', [0.])
 Wenumass = array('f', [0.])
