@@ -18,7 +18,7 @@ from multiprocessing import Process
 import multiprocessing as mp
 
 
-isCondor = True
+isCondor = False
 
 ## user packages
 ## in local dir
@@ -276,6 +276,8 @@ def runbbdm(txtfile):
     outTree.Branch('st_pfMetCorrPt', st_pfMetCorrPt, 'st_pfMetCorrPt/F')
     outTree.Branch('st_pfMetCorrPhi', st_pfMetCorrPhi, 'st_pfMetCorrPhi/F')
     outTree.Branch('st_pfMetCorrSig', st_pfMetCorrSig, 'st_pfMetCorrSig/F')
+    outTree.Branch('st_METXYCorr_Met', st_METXYCorr_Met, 'st_METXYCorr_Met/F')
+    outTree.Branch('st_METXYCorr_MetPhi', st_METXYCorr_MetPhi, 'st_METXYCorr_MetPhi/F')
     outTree.Branch('st_pfpatCaloMETPt', st_pfpatCaloMETPt, 'st_pfpatCaloMETPt/F')
     outTree.Branch('st_pfpatCaloMETPhi', st_pfpatCaloMETPhi, 'st_pfpatCaloMETPhi/F')
     outTree.Branch('st_pfTRKMETPt', st_pfTRKMETPt, 'st_pfTRKMETPt/F')
@@ -407,7 +409,7 @@ def runbbdm(txtfile):
     # outTree.Branch( 'st_genParPy' , st_genParPy )
     # outTree.Branch( 'st_genParPz', st_genParPz )
     # outTree.Branch( 'st_genParEnergy', st_genParEnergy )
-    outTree.Branch('st_METXYCorr_Met_MetPhi', st_METXYCorr_Met_MetPhi)
+    #outTree.Branch('st_METXYCorr_Met_MetPhi', st_METXYCorr_Met_MetPhi)
 
     outTree.Branch('st_genParPt', st_genParPt, )
     outTree.Branch('st_genParSample', st_genParSample)
@@ -474,7 +476,7 @@ def runbbdm(txtfile):
             df['mass_a'] = 0
             var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight, df.mass_A,df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
-                          df.pu_nTrueInt, df.pu_nPUVert,
+                          df.pu_nTrueInt, df.pu_nPUVert,df.nVtx,
                           df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
                           df.pfpatMet_smear, df.pfMetCorrPt, df.pfMetCorrPhi, df.pfMetCorrUnc,
                           df.pfMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_, df.pfMetRawPt, df.pfMetRawPhi,
@@ -496,7 +498,7 @@ def runbbdm(txtfile):
                 df['mass_a'] = 0
             var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight, df.mass_A, df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
-                          df.pu_nTrueInt, df.pu_nPUVert,
+                          df.pu_nTrueInt, df.pu_nPUVert,df.nVtx,
                           df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
                           df.pfpatmodifiedMet_smear, df.pfmodifiedMetCorrPt, df.pfmodifiedMetCorrPhi, df.pfmodifiedMetCorrUnc,
                           df.pfmodifiedMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_, df.pfMetRawPt, df.pfMetRawPhi,
@@ -521,7 +523,7 @@ def runbbdm(txtfile):
             df['prefiringweightdown'] = 1.0
             var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight,df.mass_A,df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
-                          df.pu_nTrueInt, df.pu_nPUVert,
+                          df.pu_nTrueInt, df.pu_nPUVert,df.nVtx,
                           df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
                           df.pfpatMet_smear, df.pfMetCorrPt, df.pfMetCorrPhi, df.pfMetCorrUnc,
                           df.pfMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_, df.pfMetRawPt, df.pfMetRawPhi,
@@ -539,9 +541,9 @@ def runbbdm(txtfile):
                           df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2)
         for run, lumi, event, isData, mcWeight_, mass_A_, mass_a_,\
                 prefiringweight_, prefiringweightup_, prefiringweightdown_,\
-                pu_nTrueInt_, pu_nPUVert_,\
+                pu_nTrueInt_, pu_nPUVert_,nVtx,\
                 trigName_, trigResult_, filterName, filterResult,\
-                met_smear, met_, metphi_, metUnc_,\
+                met_smear, type1met_, type1metphi_, metUnc_,\
                 metCorrSig, patCaloMETPt, patCaloMETPhi, TRKMETPt_, TRKMETPhi_, MetRawPt, MetRawPhi,\
                 nele_, elepx_, elepy_, elepz_, elee_, elevetoid_, elelooseid_, eletightid_, eleD0_, eleDz_,\
                 eleCharge_, npho_, phopx_, phopy_, phopz_, phoe_, pholooseid_, photightID_,\
@@ -623,6 +625,10 @@ def runbbdm(txtfile):
             if filterdecision == False and isData:
                 continue
 
+	    # MET xy-shift corrections
+            METXYCorr_Met_MetPhi = ROOT.METXYCorr_Met_MetPhi(type1met_, type1metphi_,int(run),int(args.year), not isData,int(nVtx))
+	    met_    = METXYCorr_Met_MetPhi[0]
+	    metphi_ = METXYCorr_Met_MetPhi[1]
             # ------------------------------------------------------
             ## PFMET Selection
             # --------------------------------------------------------
@@ -1063,6 +1069,8 @@ def runbbdm(txtfile):
                 if debug_:
                     print "pass_tau_index_cleaned_DRBased", pass_tau_index_cleaned_DRBased
 
+
+
             # -------------------------------------------------------------
             st_runId[0] = long(run)
             st_lumiSection[0] = lumi
@@ -1085,9 +1093,10 @@ def runbbdm(txtfile):
             st_filterstatus[0] = filterdecision
 
             st_pfMetSmearPt[0] = met_smear
-            st_pfMetCorrPt[0] = met_
-            st_pfMetCorrPhi[0] = metphi_
-
+            st_pfMetCorrPt[0] = type1met_
+            st_pfMetCorrPhi[0] = type1metphi_
+            st_METXYCorr_Met[0] = METXYCorr_Met_MetPhi[0]
+            st_METXYCorr_MetPhi[0] = METXYCorr_Met_MetPhi[1]
             st_pfMetCorrSig[0] = metCorrSig
             st_pfpatCaloMETPt[0] = patCaloMETPt
             st_pfpatCaloMETPhi[0] = patCaloMETPhi
@@ -1186,13 +1195,9 @@ def runbbdm(txtfile):
             # st_genParPy.clear()
             # st_genParPz.clear()
             # st_genParEnergy.clear()
-	    st_METXYCorr_Met_MetPhi.clear()
+	   # st_METXYCorr_Met_MetPhi.clear()
             st_genParPt.clear()
             st_genParSample.clear()
-
-	    tmp_METXYCorr_Met_MetPhi = ROOT.METXYCorr_Met_MetPhi(MetRawPt, MetRawPhi,int(run),int(args.year),not isData,int(pu_nPUVert_))
-            for value in tmp_METXYCorr_Met_MetPhi:
-                st_METXYCorr_Met_MetPhi.push_back(value)
 
 
             st_THINnJet[0] = len(pass_jet_index_cleaned)
