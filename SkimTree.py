@@ -266,12 +266,9 @@ def runbbdm(txtfile):
     outTree.Branch('st_runId', st_runId, 'st_runId/L')
     outTree.Branch('st_lumiSection', st_lumiSection, 'st_lumiSection/L')
     outTree.Branch('st_eventId',  st_eventId, 'st_eventId/L')
-    outTree.Branch('st_prefiringweight', st_prefiringweight,
-                   'st_prefiringweight/F')
-    outTree.Branch('st_prefiringweightup', st_prefiringweightup,
-                   'st_prefiringweightup/F')
-    outTree.Branch('st_prefiringweightdown',
-                   st_prefiringweightdown, 'st_prefiringweightdown/F')
+    outTree.Branch('st_prefiringweight', st_prefiringweight,'st_prefiringweight/F')
+    outTree.Branch('st_prefiringweightup', st_prefiringweightup, 'st_prefiringweightup/F')
+    outTree.Branch('st_prefiringweightdown', st_prefiringweightdown, 'st_prefiringweightdown/F')
     outTree.Branch('st_pfMetSmearPt', st_pfMetSmearPt, 'st_pfMetSmearPt/F')
     outTree.Branch('st_pfMetCorrPt', st_pfMetCorrPt, 'st_pfMetCorrPt/F')
     outTree.Branch('st_pfMetCorrPhi', st_pfMetCorrPhi, 'st_pfMetCorrPhi/F')
@@ -282,6 +279,10 @@ def runbbdm(txtfile):
     outTree.Branch('st_pfpatCaloMETPhi', st_pfpatCaloMETPhi, 'st_pfpatCaloMETPhi/F')
     outTree.Branch('st_pfTRKMETPt', st_pfTRKMETPt, 'st_pfTRKMETPt/F')
     outTree.Branch('st_pfTRKMETPhi', st_pfTRKMETPhi, 'st_pfTRKMETPhi/F')
+    outTree.Branch('st_scaleWeightUP', st_scaleWeightUP, 'st_scaleWeightUP/F')
+    outTree.Branch('st_scaleWeightDOWN', st_scaleWeightDOWN, 'st_scaleWeightDOWN/F')
+    outTree.Branch('st_pdfWeightUP', st_pdfWeightUP, 'st_pdfWeightUP/F')
+    outTree.Branch('st_pdfWeightDOWN', st_pdfWeightDOWN, 'st_pdfWeightDOWN/F')
     outTree.Branch('st_pfMetUncJetResUp', st_pfMetUncJetResUp)
     outTree.Branch('st_pfMetUncJetResDown', st_pfMetUncJetResDown)
     outTree.Branch('st_pfMetUncJetEnUp', st_pfMetUncJetEnUp)
@@ -476,8 +477,8 @@ def runbbdm(txtfile):
             df['mass_a'] = 0
             var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight, df.mass_A,df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
-                          df.pu_nTrueInt, df.pu_nPUVert,df.nVtx,
-                          df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
+                          df.pu_nTrueInt, df.pu_nPUVert, df.nVtx,
+                          df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,df.pdfscaleSysWgtID_,df.pdfscaleSysWeights,
                           df.pfpatMet_smear, df.pfMetCorrPt, df.pfMetCorrPhi, df.pfMetCorrUnc,
                           df.pfMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_, df.pfMetRawPt, df.pfMetRawPhi,
                           df.nEle, df.elePx, df.elePy, df.elePz, df.eleEnergy, df.eleIsPassVeto, df.eleIsPassLoose, df.eleIsPassTight, df.eleD0, df.eleDz,
@@ -498,8 +499,8 @@ def runbbdm(txtfile):
                 df['mass_a'] = 0
             var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight, df.mass_A, df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
-                          df.pu_nTrueInt, df.pu_nPUVert,df.nVtx,
-                          df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
+                          df.pu_nTrueInt, df.pu_nPUVert, df.nVtx,
+                          df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult, df.pdfscaleSysWgtID_, df.pdfscaleSysWeights,
                           df.pfpatmodifiedMet_smear, df.pfmodifiedMetCorrPt, df.pfmodifiedMetCorrPhi, df.pfmodifiedMetCorrUnc,
                           df.pfmodifiedMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_, df.pfMetRawPt, df.pfMetRawPhi,
                           df.nEle, df.elePx, df.elePy, df.elePz, df.eleEnergy, df.eleIsPassVeto, df.eleIsPassLoose, df.eleIsPassTight, df.eleD0, df.eleDz,
@@ -523,8 +524,8 @@ def runbbdm(txtfile):
             df['prefiringweightdown'] = 1.0
             var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight,df.mass_A,df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
-                          df.pu_nTrueInt, df.pu_nPUVert,df.nVtx,
-                          df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult,
+                          df.pu_nTrueInt, df.pu_nPUVert, df.nVtx,
+                          df.hlt_trigName, df.hlt_trigResult, df.hlt_filterName, df.hlt_filterResult, df.pdfscaleSysWgtID_, df.pdfscaleSysWeights,
                           df.pfpatMet_smear, df.pfMetCorrPt, df.pfMetCorrPhi, df.pfMetCorrUnc,
                           df.pfMetCorrSig, df.pfpatCaloMETPt, df.pfpatCaloMETPhi, df.pfTRKMETPt_, df.pfTRKMETPhi_, df.pfMetRawPt, df.pfMetRawPhi,
                           df.nEle, df.elePx, df.elePy, df.elePz, df.eleEnergy, df.eleIsPassVeto, df.eleIsPassLoose, df.eleIsPassTight, df.eleD0, df.eleDz,
@@ -542,7 +543,7 @@ def runbbdm(txtfile):
         for run, lumi, event, isData, mcWeight_, mass_A_, mass_a_,\
                 prefiringweight_, prefiringweightup_, prefiringweightdown_,\
                 pu_nTrueInt_, pu_nPUVert_,nVtx,\
-                trigName_, trigResult_, filterName, filterResult,\
+                trigName_, trigResult_, filterName, filterResult, pdfscaleSysWgtID, pdfscaleSysWeights,\
                 met_smear, type1met_, type1metphi_, metUnc_,\
                 metCorrSig, patCaloMETPt, patCaloMETPhi, TRKMETPt_, TRKMETPhi_, MetRawPt, MetRawPhi,\
                 nele_, elepx_, elepy_, elepz_, elee_, elevetoid_, elelooseid_, eletightid_, eleD0_, eleDz_,\
@@ -560,8 +561,8 @@ def runbbdm(txtfile):
                 in var_zip:
             if debug_:
                 print len(trigName_), len(trigResult_), len(filterName), len(filterResult), len(metUnc_), len(elepx_), len(elepy_), len(elepz_), len(elee_), len(elevetoid_), len(elelooseid_), len(eletightid_), len(eleCharge_), npho_, len(phopx_), len(phopy_), len(phopz_), len(phoe_), len(pholooseid_), len(photightID_), nmu_, len(mupx_), len(mupy_), len(mupz_), len(mue_), len(mulooseid_), len(mutightid_), len(muisoloose), len(muisomedium), len(muisotight), len(muisovtight), len(muCharge_), nTau_, len(tau_px_), len(tau_py_), len(tau_pz_), len(tau_e_), len(tau_dm_), len(tau_isLoose_), len(genParId_), len(genMomParId_), len(genParSt_), len(genpx_), len(genpy_), len(genpz_), len(gene_), len(ak4px_), len(ak4py_), len(ak4pz_), len(ak4e_), len(ak4PassID_), len(ak4deepcsv_), len(ak4flavor_), len(ak4CEmEF_), len(ak4CHadEF_), len(ak4NEmEF_), len(ak4NHadEF_), len(ak4CMulti_), len(ak4NMultiplicity_), len(ak4JEC_), len(fatjetPx), len(fatjetPy), len(fatjetPz), len(fatjetEnergy), len(fatjetPassID), len(fatjet_DoubleSV), len(fatjet_probQCDb), len(fatjet_probHbb), len(fatjet_probQCDc), len(fatjet_probHcc), len(fatjet_probHbbc), len(fatjet_prob_bbvsLight), len(fatjet_prob_ccvsLight), len(fatjet_prob_TvsQCD), len(fatjet_prob_WvsQCD), len(fatjet_prob_ZHbbvsQCD), len(fatjetSDmass), len(fatN2_Beta1_), len(fatN2_Beta2_), len(fatjetCHSPRmassL2L3Corr), len(fatjetCHSSDmassL2L3Corr)
-            if monoh_zpb or bbDM_DMSimp or bbdm_2hdma:
-                if (int(mass_A_) != int(mA_)) and (int(mass_a_) != int(ma_)): continue
+            if (monoh_zpb or bbDM_DMSimp or bbdm_2hdma):
+		if (int(mass_A_) != int(mA_)) or (int(mass_a_) != int(ma_)): continue
             if ieve % 1000 == 0:
                 print "Processed", ieve, "Events"
             ieve = ieve + 1
@@ -1070,7 +1071,6 @@ def runbbdm(txtfile):
                     print "pass_tau_index_cleaned_DRBased", pass_tau_index_cleaned_DRBased
 
 
-
             # -------------------------------------------------------------
             st_runId[0] = long(run)
             st_lumiSection[0] = lumi
@@ -1195,7 +1195,8 @@ def runbbdm(txtfile):
             # st_genParPy.clear()
             # st_genParPz.clear()
             # st_genParEnergy.clear()
-	   # st_METXYCorr_Met_MetPhi.clear()
+            # st_METXYCorr_Met_MetPhi.clear()
+            # st_METXYCorr_Met_MetPhi.clear()
             st_genParPt.clear()
             st_genParSample.clear()
 
@@ -1339,8 +1340,7 @@ def runbbdm(txtfile):
             if (samplename == 6) and ("SemiLeptonic" in outfilename):
                 if len(pass_fatjet_index_cleaned) > 0:
                     fjidx = pass_fatjet_index_cleaned[0]
-                    topmatchStr = GenPtProd.GenMatchTop(samplename, nGenPar_, genParId_, genMomParId_,
-                                                        genParSt_, genpx_, genpy_, genpz_, fatjetPx[fjidx], fatjetPy[fjidx], fatjetPz[fjidx])
+                    topmatchStr = GenPtProd.GenMatchTop(samplename, nGenPar_, genParId_, genMomParId_, genParSt_, genpx_, genpy_, genpz_, fatjetPx[fjidx], fatjetPy[fjidx], fatjetPz[fjidx])
             #print " topmatchStr for this event is ", topmatchStr
 
             st_TopMatching[0] = topmatchStr
@@ -1360,6 +1360,22 @@ def runbbdm(txtfile):
             if debug_:
                 print 'nGen: ', nGenPar_
 
+            scale_temp = []
+            pdf_temp = []
+            if len(pdfscaleSysWgtID) > 0:
+                for i in range(0,9):
+                    scale_temp.append(pdfscaleSysWeights[i])
+                for i in range(9, len(pdfscaleSysWgtID)):
+                    pdf_temp.append(pdfscaleSysWeights[i])
+            else:
+                scale_temp.append(1.0)
+                pdf_temp.append(1.0)
+
+            st_scaleWeightUP[0] = max(scale_temp)
+            st_scaleWeightDOWN[0] = min(scale_temp)
+            st_pdfWeightUP[0] = max(pdf_temp)
+            st_pdfWeightDOWN[0] = min(pdf_temp)
+
             st_pfMetUncJetResUp.push_back(metUnc_[0])
             st_pfMetUncJetResDown.push_back(metUnc_[1])
             st_pfMetUncJetEnUp.push_back(metUnc_[2])
@@ -1376,8 +1392,6 @@ def runbbdm(txtfile):
     print "output written to ", outfilename
     end = time.clock()
     print "%.4gs" % (end-start)
-
-#files=["/eos/cms//store/group/phys_exotica/bbMET/ExoPieElementTuples/MC_2017miniaodV2_V1/WplusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8/DYJetsToLL_M_50_HT_400to600_TuneCP5_13TeV_30K/190825_203128/0000/ExoPieElementTuples_1.root", "/eos/cms//store/group/phys_exotica/bbMET/ExoPieElementTuples/MC_2017miniaodV2_V1/WplusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8/DYJetsToLL_M_50_HT_400to600_TuneCP5_13TeV_30K/190825_203128/0000/ExoPieElementTuples_2.root"]
 
 
 if __name__ == '__main__':
