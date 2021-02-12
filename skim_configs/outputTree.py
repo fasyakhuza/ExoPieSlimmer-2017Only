@@ -100,6 +100,10 @@ st_THINPUjetIDTight = ROOT.std.vector('bool')()
 
 st_THINbRegNNResolution = ROOT.std.vector('float')()
 st_THINbRegNNCorr = ROOT.std.vector('float')()
+st_THINjetUncSources = ROOT.std.vector(ROOT.std.vector('float'))()
+st_THINjetUncTotal   = ROOT.std.vector('float')()
+temp_vecotor         = ROOT.std.vector('float')()
+
 
 st_nfjet = array('L', [0])
 st_fjetPx = ROOT.std.vector('float')()
@@ -124,6 +128,8 @@ st_fjetN2b2 = ROOT.std.vector('float')()
 st_fjetTau21 = ROOT.std.vector('float')()
 st_fjetCHSPRMass = ROOT.std.vector('float')()
 st_fjetCHSSDMass = ROOT.std.vector('float')()
+st_fjetjetUncSources = ROOT.std.vector(ROOT.std.vector('float'))()
+st_fjetjetUncTotal   = ROOT.std.vector('float')()
 
 
 st_nEle = array('L', [0])  # ROOT.std.vector('int')()

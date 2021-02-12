@@ -317,6 +317,8 @@ def runbbdm(txtfile):
     outTree.Branch('st_THINPUjetIDLoose', st_THINPUjetIDLoose)
     outTree.Branch('st_THINPUjetIDMedium', st_THINPUjetIDMedium)
     outTree.Branch('st_THINPUjetIDTight', st_THINPUjetIDTight)
+    outTree.Branch('st_THINjetUncSources',st_THINjetUncSources)
+    outTree.Branch('st_THINjetUncTotal',st_THINjetUncTotal)
 
     outTree.Branch('st_TopMatching', st_TopMatching, 'st_TopMatching/L')
 
@@ -343,6 +345,8 @@ def runbbdm(txtfile):
     outTree.Branch('st_fjetTau21', st_fjetTau21)
     outTree.Branch('st_fjetCHSPRMass', st_fjetCHSPRMass)
     outTree.Branch('st_fjetCHSSDMass', st_fjetCHSSDMass)
+    outTree.Branch('st_fjetjetUncSources',st_fjetjetUncSources)
+    outTree.Branch('st_fjetjetUncTotal',st_fjetjetUncTotal)    
 
     outTree.Branch('st_nEle', st_nEle, 'st_nEle/L')
     outTree.Branch('st_elePx', st_elePx)
@@ -488,11 +492,11 @@ def runbbdm(txtfile):
                           df.disc_againstMuonLoose3, df.disc_againstMuonTight3, df.disc_againstElectronLooseMVA6, df.disc_againstElectronMediumMVA6, df.disc_againstElectronTightMVA6,
                           df.nGenPar, df.genParId, df.genMomParId, df.genParSt, df.genParPx, df.genParPy, df.genParPz, df.genParE,
                           df.THINnJet, df.THINjetPx, df.THINjetPy, df.THINjetPz, df.THINjetEnergy, df.THINbRegNNResolution, df.THINbRegNNCorr,df.THINisPUJetIDLoose,df.THINisPUJetIDMedium,df.THINisPUJetIDTight,
-                          df.THINjetPassIDLoose, df.THINjetDeepCSV_b, df.THINjetHadronFlavor, df.THINjetCEmEF, df.THINjetCHadEF, df.THINjetNEmEF, df.THINjetNHadEF, df.THINjetCMulti, df.THINjetNMultiplicity, df.THINjetCorrUncUp, df.THINjetNPV,
+                          df.THINjetPassIDLoose, df.THINjetDeepCSV_b, df.THINjetHadronFlavor, df.THINjetCEmEF, df.THINjetCHadEF, df.THINjetNEmEF, df.THINjetNHadEF, df.THINjetCMulti, df.THINjetNMultiplicity, df.THINjetCorrUncUp, df.THINjetNPV, df.THINjetUncSources, df.THINjetUncTotal,
                           df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy, df.FATgenjetpx, df.FATgenjetpy, df.FATgenjetpz, df.FATgenjetE, df.FATjetPassIDLoose,
                           df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,
                           df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,
-                          df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2)
+                          df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2, df.FATjetUncSources, df.FATjetUncTotal)
         elif runOn2017:
             if ('mass_A' not in df.columns) and('mass_a' not in df.columns):
                 df['mass_A'] = 0
@@ -510,11 +514,11 @@ def runbbdm(txtfile):
                           df.disc_againstMuonLoose3, df.disc_againstMuonTight3, df.disc_againstElectronLooseMVA6, df.disc_againstElectronMediumMVA6, df.disc_againstElectronTightMVA6,
                           df.nGenPar, df.genParId, df.genMomParId, df.genParSt, df.genParPx, df.genParPy, df.genParPz, df.genParE,
                           df.THINnJet, df.THINjetPx, df.THINjetPy, df.THINjetPz, df.THINjetEnergy, df.THINbRegNNResolution, df.THINbRegNNCorr,df.THINisPUJetIDLoose,df.THINisPUJetIDMedium,df.THINisPUJetIDTight,
-                          df.THINjetPassIDTight, df.THINjetDeepCSV_b, df.THINjetHadronFlavor, df.THINjetCEmEF, df.THINjetCHadEF, df.THINjetNEmEF, df.THINjetNHadEF, df.THINjetCMulti, df.THINjetNMultiplicity, df.THINjetCorrUncUp, df.THINjetNPV,
+                          df.THINjetPassIDTight, df.THINjetDeepCSV_b, df.THINjetHadronFlavor, df.THINjetCEmEF, df.THINjetCHadEF, df.THINjetNEmEF, df.THINjetNHadEF, df.THINjetCMulti, df.THINjetNMultiplicity, df.THINjetCorrUncUp, df.THINjetNPV, df.THINjetUncSources, df.THINjetUncTotal,
                           df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy, df.FATgenjetpx, df.FATgenjetpy, df.FATgenjetpz, df.FATgenjetE, df.FATjetPassIDTight,
                           df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,
                           df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,
-                          df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2)
+                          df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2, df.FATjetUncSources, df.FATjetUncTotal)
         elif runOn2018:
             if ('mass_A' not in df.columns) and('mass_a' not in df.columns):
                 df['mass_A'] = 0
@@ -535,11 +539,11 @@ def runbbdm(txtfile):
                           df.disc_againstMuonLoose3, df.disc_againstMuonTight3, df.disc_againstElectronLooseMVA6, df.disc_againstElectronMediumMVA6, df.disc_againstElectronTightMVA6,
                           df.nGenPar, df.genParId, df.genMomParId, df.genParSt, df.genParPx, df.genParPy, df.genParPz, df.genParE,
                           df.THINnJet, df.THINjetPx, df.THINjetPy, df.THINjetPz, df.THINjetEnergy, df.THINbRegNNResolution, df.THINbRegNNCorr,df.THINisPUJetIDLoose,df.THINisPUJetIDMedium,df.THINisPUJetIDTight,
-                          df.THINjetPassIDTight, df.THINjetDeepCSV_b, df.THINjetHadronFlavor, df.THINjetCEmEF, df.THINjetCHadEF, df.THINjetNEmEF, df.THINjetNHadEF, df.THINjetCMulti, df.THINjetNMultiplicity, df.THINjetCorrUncUp, df.THINjetNPV,
+                          df.THINjetPassIDTight, df.THINjetDeepCSV_b, df.THINjetHadronFlavor, df.THINjetCEmEF, df.THINjetCHadEF, df.THINjetNEmEF, df.THINjetNHadEF, df.THINjetCMulti, df.THINjetNMultiplicity, df.THINjetCorrUncUp, df.THINjetNPV, df.THINjetUncSources, df.THINjetUncTotal,
                           df.FATnJet, df.FATjetPx, df.FATjetPy, df.FATjetPz, df.FATjetEnergy, df.FATgenjetpx, df.FATgenjetpy, df.FATgenjetpz, df.FATgenjetE, df.FATjetPassIDTight,
                           df.FATjet_DoubleSV, df.FATjet_probQCDb, df.FATjet_probHbb, df.FATjet_probQCDc, df.FATjet_probHcc, df.FATjet_probHbbc,
                           df.FATjet_prob_bbvsLight, df.FATjet_prob_ccvsLight, df.FATjet_prob_TvsQCD, df.FATjet_prob_WvsQCD, df.FATjet_prob_ZHbbvsQCD,
-                          df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2)
+                          df.FATjetSDmass, df.FATN2_Beta1_, df.FATN2_Beta2_, df.FATjetCHSPRmassL2L3Corr, df.FATjetCHSSDmassL2L3Corr, df.FATjetTau1, df.FATjetTau2, df.FATjetUncSources, df.FATjetUncTotal)
         for run, lumi, event, isData, mcWeight_, mass_A_, mass_a_,\
                 prefiringweight_, prefiringweightup_, prefiringweightdown_,\
                 pu_nTrueInt_, pu_nPUVert_,nVtx,\
@@ -553,11 +557,11 @@ def runbbdm(txtfile):
                 Taudisc_againstLooseMuon, Taudisc_againstTightMuon, Taudisc_againstLooseElectron, Taudisc_againstMediumElectron, Taudisc_againstTightElectron,\
                 nGenPar_, genParId_, genMomParId_, genParSt_, genpx_, genpy_, genpz_, gene_,\
                 nak4jet_, ak4px_, ak4py_, ak4pz_, ak4e_, ak4bRegNNResolution, ak4bRegNNCorr,ak4PUJetIDLoose,ak4PUJetIDMedium,ak4PUJetIDTight,\
-                ak4PassID_, ak4deepcsv_, ak4flavor_, ak4CEmEF_, ak4CHadEF_, ak4NEmEF_, ak4NHadEF_, ak4CMulti_, ak4NMultiplicity_, ak4JEC_, ak4NPV_,\
+                ak4PassID_, ak4deepcsv_, ak4flavor_, ak4CEmEF_, ak4CHadEF_, ak4NEmEF_, ak4NHadEF_, ak4CMulti_, ak4NMultiplicity_, ak4JEC_, ak4NPV_, ak4jetUncSources, ak4jetUncTotal,\
                 fatnJet, fatjetPx, fatjetPy, fatjetPz, fatjetEnergy, fatgenjetPx, fatgenjetPy, fatgenjetPz, fatgenjetEnergy, fatjetPassID,\
                 fatjet_DoubleSV, fatjet_probQCDb, fatjet_probHbb, fatjet_probQCDc, fatjet_probHcc, fatjet_probHbbc,\
                 fatjet_prob_bbvsLight, fatjet_prob_ccvsLight, fatjet_prob_TvsQCD, fatjet_prob_WvsQCD, fatjet_prob_ZHbbvsQCD,\
-                fatjetSDmass, fatN2_Beta1_, fatN2_Beta2_, fatjetCHSPRmassL2L3Corr, fatjetCHSSDmassL2L3Corr, fatjetTau1, fatjetTau2\
+                fatjetSDmass, fatN2_Beta1_, fatN2_Beta2_, fatjetCHSPRmassL2L3Corr, fatjetCHSSDmassL2L3Corr, fatjetTau1, fatjetTau2, fatjetUncSources, fatjetUncTotal\
                 in var_zip:
             if debug_:
                 print len(trigName_), len(trigResult_), len(filterName), len(filterResult), len(metUnc_), len(elepx_), len(elepy_), len(elepz_), len(elee_), len(elevetoid_), len(elelooseid_), len(eletightid_), len(eleCharge_), npho_, len(phopx_), len(phopy_), len(phopz_), len(phoe_), len(pholooseid_), len(photightID_), nmu_, len(mupx_), len(mupy_), len(mupz_), len(mue_), len(mulooseid_), len(mutightid_), len(muisoloose), len(muisomedium), len(muisotight), len(muisovtight), len(muCharge_), nTau_, len(tau_px_), len(tau_py_), len(tau_pz_), len(tau_e_), len(tau_dm_), len(tau_isLoose_), len(genParId_), len(genMomParId_), len(genParSt_), len(genpx_), len(genpy_), len(genpz_), len(gene_), len(ak4px_), len(ak4py_), len(ak4pz_), len(ak4e_), len(ak4PassID_), len(ak4deepcsv_), len(ak4flavor_), len(ak4CEmEF_), len(ak4CHadEF_), len(ak4NEmEF_), len(ak4NHadEF_), len(ak4CMulti_), len(ak4NMultiplicity_), len(ak4JEC_), len(fatjetPx), len(fatjetPy), len(fatjetPz), len(fatjetEnergy), len(fatjetPassID), len(fatjet_DoubleSV), len(fatjet_probQCDb), len(fatjet_probHbb), len(fatjet_probQCDc), len(fatjet_probHcc), len(fatjet_probHbbc), len(fatjet_prob_bbvsLight), len(fatjet_prob_ccvsLight), len(fatjet_prob_TvsQCD), len(fatjet_prob_WvsQCD), len(fatjet_prob_ZHbbvsQCD), len(fatjetSDmass), len(fatN2_Beta1_), len(fatN2_Beta2_), len(fatjetCHSPRmassL2L3Corr), len(fatjetCHSSDmassL2L3Corr)
@@ -1131,6 +1135,8 @@ def runbbdm(txtfile):
             st_THINPUjetIDLoose.clear()
             st_THINPUjetIDMedium.clear()
             st_THINPUjetIDTight.clear()
+            st_THINjetUncSources.clear()
+            st_THINjetUncTotal.clear()
 
             st_fjetPx.clear()
             st_fjetPy.clear()
@@ -1154,6 +1160,8 @@ def runbbdm(txtfile):
             st_fjetTau21.clear()
             st_fjetCHSPRMass.clear()
             st_fjetCHSSDMass.clear()
+            st_fjetjetUncSources.clear()
+            st_fjetjetUncTotal.clear()
 
             '''
             st_Taudisc_againstLooseMuon.clear()
@@ -1219,12 +1227,18 @@ def runbbdm(txtfile):
                 st_THINjetCMulti.push_back(ak4CMulti_[ithinjet])
                 st_THINjetNMultiplicity.push_back(ak4NMultiplicity_[ithinjet])
                 st_THINjetCorrUnc.push_back(ak4JEC_[ithinjet])
-                st_THINbRegNNResolution.push_back(
-                    ak4bRegNNResolution[ithinjet])
+                st_THINbRegNNResolution.push_back(ak4bRegNNResolution[ithinjet])
                 st_THINbRegNNCorr.push_back(ak4bRegNNCorr[ithinjet])
                 st_THINPUjetIDLoose.push_back(ak4PUJetIDLoose[ithinjet] or ak4pt[ithinjet] > 50)
                 st_THINPUjetIDMedium.push_back(ak4PUJetIDMedium[ithinjet] or ak4pt[ithinjet] > 50)
                 st_THINPUjetIDTight.push_back(ak4PUJetIDTight[ithinjet] or ak4pt[ithinjet] > 50)
+                
+                temp_vecotor.clear()
+                for jecsource in ak4jetUncSources[ithinjet]:
+                    temp_vecotor.push_back(jecsource)
+                st_THINjetUncSources.push_back(temp_vecotor) 
+                st_THINjetUncTotal.push_back(ak4jetUncTotal[ithinjet])
+                
 
 
                 #print 'ak4px_',ak4px_[ithinjet],'ak4py_',ak4py_[ithinjet],'ak4pz_',ak4pz_[ithinjet]
@@ -1260,6 +1274,11 @@ def runbbdm(txtfile):
                 st_fjetTau21.push_back(fatjetTau2[ifjet]/fatjetTau1[ifjet])
                 st_fjetCHSPRMass.push_back(fatjetCHSPRmassL2L3Corr[ifjet])
                 st_fjetCHSSDMass.push_back(fatjetCHSSDmassL2L3Corr[ifjet])
+                temp_vecotor.clear()
+                for jecsource in fatjetUncSources[ifjet]:
+                    temp_vecotor.push_back(jecsource)
+                st_fjetjetUncSources.push_back(temp_vecotor) 
+                st_fjetjetUncTotal.push_back(fatjetUncTotal[ifjet])
                 #print ("fatN2_Beta1_",fatN2_Beta1_[ifjet],"fatN2_Beta2_",fatN2_Beta2_[ifjet])
 
             st_nEle[0] = len(pass_ele_loose_index)
