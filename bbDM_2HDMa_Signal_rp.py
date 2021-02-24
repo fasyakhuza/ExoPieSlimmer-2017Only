@@ -9,4 +9,4 @@ year = sys.argv[2]
 for mA_ in mA_list:
     for ma_ in ma_list:
         if ma_ < mA_:
-            os.system('python SkimTree.py -F -i '+str(inpuFile)+' --bbdm_2hdma --mA '+str(mA_)+' --ma '+str(ma_)+' -y '+str(year)
+            os.system('python SkimTree.py -F -i '+str(inpuFile)+' --bbdm_2hdma --mA '+str(mA_)+' --ma '+str(ma_)+' -y '+str(year))
