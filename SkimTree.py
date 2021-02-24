@@ -346,7 +346,7 @@ def runbbdm(txtfile):
     outTree.Branch('st_fjetCHSPRMass', st_fjetCHSPRMass)
     outTree.Branch('st_fjetCHSSDMass', st_fjetCHSSDMass)
     outTree.Branch('st_fjetjetUncSources',st_fjetjetUncSources)
-    outTree.Branch('st_fjetjetUncTotal',st_fjetjetUncTotal)    
+    outTree.Branch('st_fjetjetUncTotal',st_fjetjetUncTotal)
 
     outTree.Branch('st_nEle', st_nEle, 'st_nEle/L')
     outTree.Branch('st_elePx', st_elePx)
@@ -1232,14 +1232,16 @@ def runbbdm(txtfile):
                 st_THINPUjetIDLoose.push_back(ak4PUJetIDLoose[ithinjet] or ak4pt[ithinjet] > 50)
                 st_THINPUjetIDMedium.push_back(ak4PUJetIDMedium[ithinjet] or ak4pt[ithinjet] > 50)
                 st_THINPUjetIDTight.push_back(ak4PUJetIDTight[ithinjet] or ak4pt[ithinjet] > 50)
-                
-                temp_vecotor.clear()
-                for jecsource in ak4jetUncSources[ithinjet]:
-                    temp_vecotor.push_back(jecsource)
-                st_THINjetUncSources.push_back(temp_vecotor) 
-                st_THINjetUncTotal.push_back(ak4jetUncTotal[ithinjet])
-                
 
+                temp_vecotor.clear()
+                if not isData:
+                    for jecsource in ak4jetUncSources[ithinjet]:
+                        temp_vecotor.push_back(jecsource)
+                else:
+                    for jecsource in range(11):
+                        temp_vecotor.push_back(jecsource)
+                st_THINjetUncSources.push_back(temp_vecotor)
+                st_THINjetUncTotal.push_back(ak4jetUncTotal[ithinjet])
 
                 #print 'ak4px_',ak4px_[ithinjet],'ak4py_',ak4py_[ithinjet],'ak4pz_',ak4pz_[ithinjet]
                 #print 'ak4e_',ak4e_[ithinjet]
@@ -1275,9 +1277,13 @@ def runbbdm(txtfile):
                 st_fjetCHSPRMass.push_back(fatjetCHSPRmassL2L3Corr[ifjet])
                 st_fjetCHSSDMass.push_back(fatjetCHSSDmassL2L3Corr[ifjet])
                 temp_vecotor.clear()
-                for jecsource in fatjetUncSources[ifjet]:
-                    temp_vecotor.push_back(jecsource)
-                st_fjetjetUncSources.push_back(temp_vecotor) 
+                if not isData:
+                    for jecsource in fatjetUncSources[ifjet]:
+                        temp_vecotor.push_back(jecsource)
+                else:
+                    for jecsource in range(11):
+                        temp_vecotor.push_back(jecsource)
+                st_fjetjetUncSources.push_back(temp_vecotor)
                 st_fjetjetUncTotal.push_back(fatjetUncTotal[ifjet])
                 #print ("fatN2_Beta1_",fatN2_Beta1_[ifjet],"fatN2_Beta2_",fatN2_Beta2_[ifjet])
 
