@@ -976,7 +976,7 @@ def runbbdm(txtfile):
             SDMassCorrFact = [TheaCorrection(fatjetpt[ij],fatjeteta[ij]) for ij in range(fatnJet)]
             # else:
             #     SDMassCorrFact = [1.0 for ij in range(fatnJet)]
-	          #print 'fatnJet',fatnJet,'SDMassCorrFact',SDMassCorrFact
+            #     print 'fatnJet',fatnJet,'SDMassCorrFact',SDMassCorrFact
             fatjet_pt200_eta2p5_IDT = boolutil.logical_and3(
                 (fatjetpt > 200.0), (numpy.abs(fatjeteta) < 2.5), (fatjetPassID))
 
@@ -1440,10 +1440,10 @@ if __name__ == '__main__':
                 pool.map(runbbdm, final[i])
                 pool.close()
                 pool.join()
-	    except Exception as e:
-		print e
-		print "Corrupt file inside input txt file is detected! Skipping this txt file:  ", final[i]
-		continue
+            except Exception as e:
+                print (e)
+                print ("Corrupt file inside input txt file is detected! Skipping this txt file:  ", final[i])
+                continue
 
     if runInteractive and not runOnTxt:
         ''' following part is for interactive running. This is still under testing because output file name can't be changed at this moment '''
