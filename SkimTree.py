@@ -1019,27 +1019,27 @@ def runbbdm(txtfile):
             tauphi = getPhi(tau_px_, tau_py_)
 
             tau_eta2p3_iDLdm_pt18 = boolutil.logical_AND_List4(
-                (taupt > 20.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_))
+                (taupt > 18.0), (numpy.abs(taueta) < 2.3), (tau_isLoose_), (tau_dm_))
 
             if debug_:
                 print "tau_eta2p3_iDLdm_pt18 = ", tau_eta2p3_iDLdm_pt18
 
             '''
-            tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto  = [ ( (taupt[itau] > 20.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstLooseElectron[itau]) and (Taudisc_againstLooseMuon[itau]) ) for itau in range(nTau_)]
-            tau_eta2p3_iDLdm_pt18_looseEleVeto_tightMuVeto  = [ ( (taupt[itau] > 20.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstLooseElectron[itau]) and (Taudisc_againstTightMuon[itau]) ) for itau in range(nTau_)]
-            tau_eta2p3_iDLdm_pt18_mediumEleVeto_looseMuVeto = [ ( (taupt[itau] > 20.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstMediumElectron[itau]) and (Taudisc_againstLooseMuon[itau])) for itau in range(nTau_)]
-            tau_eta2p3_iDLdm_pt18_tightEleVeto_looseMuVeto  = [ ( (taupt[itau] > 20.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstTightElectron[itau]) and (Taudisc_againstLooseMuon[itau])) for itau in range(nTau_)]
-            tau_eta2p3_iDLdm_pt18_tightEleVeto_tightMuVeto  = [ ( (taupt[itau] > 20.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstTightElectron[itau]) and (Taudisc_againstTightMuon[itau])) for itau in range(nTau_)]
+            tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto  = [ ( (taupt[itau] > 18.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstLooseElectron[itau]) and (Taudisc_againstLooseMuon[itau]) ) for itau in range(nTau_)]
+            tau_eta2p3_iDLdm_pt18_looseEleVeto_tightMuVeto  = [ ( (taupt[itau] > 18.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstLooseElectron[itau]) and (Taudisc_againstTightMuon[itau]) ) for itau in range(nTau_)]
+            tau_eta2p3_iDLdm_pt18_mediumEleVeto_looseMuVeto = [ ( (taupt[itau] > 18.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstMediumElectron[itau]) and (Taudisc_againstLooseMuon[itau])) for itau in range(nTau_)]
+            tau_eta2p3_iDLdm_pt18_tightEleVeto_looseMuVeto  = [ ( (taupt[itau] > 18.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstTightElectron[itau]) and (Taudisc_againstLooseMuon[itau])) for itau in range(nTau_)]
+            tau_eta2p3_iDLdm_pt18_tightEleVeto_tightMuVeto  = [ ( (taupt[itau] > 18.0) and (abs(taueta[itau]) < 2.3) and (tau_isLoose_[itau]) and (tau_dm_[itau]) and (Taudisc_againstTightElectron[itau]) and (Taudisc_againstTightMuon[itau])) for itau in range(nTau_)]
             '''
-            tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto = boolutil.logical_and6((taupt > 20.0), (numpy.abs(
+            tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto = boolutil.logical_and6((taupt > 18.0), (numpy.abs(
                 taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstLooseElectron), (Taudisc_againstLooseMuon))
-            tau_eta2p3_iDLdm_pt18_looseEleVeto_tightMuVeto = boolutil.logical_and6((taupt > 20.0), (numpy.abs(
+            tau_eta2p3_iDLdm_pt18_looseEleVeto_tightMuVeto = boolutil.logical_and6((taupt > 18.0), (numpy.abs(
                 taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstLooseElectron), (Taudisc_againstTightMuon))
-            tau_eta2p3_iDLdm_pt18_mediumEleVeto_looseMuVeto = boolutil.logical_and6((taupt > 20.0), (numpy.abs(
+            tau_eta2p3_iDLdm_pt18_mediumEleVeto_looseMuVeto = boolutil.logical_and6((taupt > 18.0), (numpy.abs(
                 taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstMediumElectron), (Taudisc_againstLooseMuon))
-            tau_eta2p3_iDLdm_pt18_tightEleVeto_looseMuVeto = boolutil.logical_and6((taupt > 20.0), (numpy.abs(
+            tau_eta2p3_iDLdm_pt18_tightEleVeto_looseMuVeto = boolutil.logical_and6((taupt > 18.0), (numpy.abs(
                 taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstTightElectron), (Taudisc_againstLooseMuon))
-            tau_eta2p3_iDLdm_pt18_tightEleVeto_tightMuVeto = boolutil.logical_and6((taupt > 20.0), (numpy.abs(
+            tau_eta2p3_iDLdm_pt18_tightEleVeto_tightMuVeto = boolutil.logical_and6((taupt > 18.0), (numpy.abs(
                 taueta) < 2.3), (tau_isLoose_), (tau_dm_), (Taudisc_againstTightElectron), (Taudisc_againstTightMuon))
 
             tau_eta2p3_iDLdm_pt18_looseEleVeto_looseMuVeto_index = boolutil.WhereIsTrue(
