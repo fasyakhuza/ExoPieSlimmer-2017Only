@@ -159,9 +159,9 @@ def whichsample(filename):
     sample = -999
     if "TTT" in filename:
         sample = 6
-    elif "WJetsToLNu_HT" in filename:
+    elif "WJetsToLNu" in filename or "W1JetsToLNu" in filename or "W2JetsToLNu" in filename:
         sample = 24
-    elif "ZJetsToNuNu_HT" in filename or "DYJetsToLL" in filename:
+    elif "ZJetsToNuNu" in filename or "Z1JetsToNuNu" in filename or "Z2JetsToNuNu" in filename or "DYJetsToLL" in filename or 'DYJetsToNuNu' in filename:
         sample = 23
     return sample
 
@@ -346,7 +346,7 @@ def runbbdm(txtfile):
     outTree.Branch('st_fjetCHSPRMass', st_fjetCHSPRMass)
     outTree.Branch('st_fjetCHSSDMass', st_fjetCHSSDMass)
     outTree.Branch('st_fjetjetUncSources',st_fjetjetUncSources)
-    outTree.Branch('st_fjetjetUncTotal',st_fjetjetUncTotal)    
+    outTree.Branch('st_fjetjetUncTotal',st_fjetjetUncTotal)
 
     outTree.Branch('st_nEle', st_nEle, 'st_nEle/L')
     outTree.Branch('st_elePx', st_elePx)
@@ -566,9 +566,9 @@ def runbbdm(txtfile):
             if debug_:
                 print len(trigName_), len(trigResult_), len(filterName), len(filterResult), len(metUnc_), len(elepx_), len(elepy_), len(elepz_), len(elee_), len(elevetoid_), len(elelooseid_), len(eletightid_), len(eleCharge_), npho_, len(phopx_), len(phopy_), len(phopz_), len(phoe_), len(pholooseid_), len(photightID_), nmu_, len(mupx_), len(mupy_), len(mupz_), len(mue_), len(mulooseid_), len(mutightid_), len(muisoloose), len(muisomedium), len(muisotight), len(muisovtight), len(muCharge_), nTau_, len(tau_px_), len(tau_py_), len(tau_pz_), len(tau_e_), len(tau_dm_), len(tau_isLoose_), len(genParId_), len(genMomParId_), len(genParSt_), len(genpx_), len(genpy_), len(genpz_), len(gene_), len(ak4px_), len(ak4py_), len(ak4pz_), len(ak4e_), len(ak4PassID_), len(ak4deepcsv_), len(ak4flavor_), len(ak4CEmEF_), len(ak4CHadEF_), len(ak4NEmEF_), len(ak4NHadEF_), len(ak4CMulti_), len(ak4NMultiplicity_), len(ak4JEC_), len(fatjetPx), len(fatjetPy), len(fatjetPz), len(fatjetEnergy), len(fatjetPassID), len(fatjet_DoubleSV), len(fatjet_probQCDb), len(fatjet_probHbb), len(fatjet_probQCDc), len(fatjet_probHcc), len(fatjet_probHbbc), len(fatjet_prob_bbvsLight), len(fatjet_prob_ccvsLight), len(fatjet_prob_TvsQCD), len(fatjet_prob_WvsQCD), len(fatjet_prob_ZHbbvsQCD), len(fatjetSDmass), len(fatN2_Beta1_), len(fatN2_Beta2_), len(fatjetCHSPRmassL2L3Corr), len(fatjetCHSSDmassL2L3Corr)
             if (monoh_zpb or bbDM_DMSimp or bbdm_2hdma):
-		if (int(mass_A_) != int(mA_)) or (int(mass_a_) != int(ma_)): continue
+                if (int(mass_A_) != int(mA_)) or (int(mass_a_) != int(ma_)): continue
             if ieve % 1000 == 0:
-                print "Processed", ieve, "Events"
+                print ("processed", ieve, "Events")
             ieve = ieve + 1
             # -------------------------------------------------
             # MC Weights
@@ -630,10 +630,10 @@ def runbbdm(txtfile):
             if filterdecision == False and isData:
                 continue
 
-	    # MET xy-shift corrections
+            # MET xy-shift corrections
             METXYCorr_Met_MetPhi = ROOT.METXYCorr_Met_MetPhi(type1met_, type1metphi_,int(run),int(args.year), not isData,int(nVtx))
-	    met_    = METXYCorr_Met_MetPhi[0]
-	    metphi_ = METXYCorr_Met_MetPhi[1]
+            met_ = type1met_
+            metphi_ = type1metphi_
             # ------------------------------------------------------
             ## PFMET Selection
             # --------------------------------------------------------
@@ -976,7 +976,7 @@ def runbbdm(txtfile):
             SDMassCorrFact = [TheaCorrection(fatjetpt[ij],fatjeteta[ij]) for ij in range(fatnJet)]
             # else:
             #     SDMassCorrFact = [1.0 for ij in range(fatnJet)]
-	          #print 'fatnJet',fatnJet,'SDMassCorrFact',SDMassCorrFact
+            #     print 'fatnJet',fatnJet,'SDMassCorrFact',SDMassCorrFact
             fatjet_pt200_eta2p5_IDT = boolutil.logical_and3(
                 (fatjetpt > 200.0), (numpy.abs(fatjeteta) < 2.5), (fatjetPassID))
 
@@ -1232,14 +1232,16 @@ def runbbdm(txtfile):
                 st_THINPUjetIDLoose.push_back(ak4PUJetIDLoose[ithinjet] or ak4pt[ithinjet] > 50)
                 st_THINPUjetIDMedium.push_back(ak4PUJetIDMedium[ithinjet] or ak4pt[ithinjet] > 50)
                 st_THINPUjetIDTight.push_back(ak4PUJetIDTight[ithinjet] or ak4pt[ithinjet] > 50)
-                
-                temp_vecotor.clear()
-                for jecsource in ak4jetUncSources[ithinjet]:
-                    temp_vecotor.push_back(jecsource)
-                st_THINjetUncSources.push_back(temp_vecotor) 
-                st_THINjetUncTotal.push_back(ak4jetUncTotal[ithinjet])
-                
 
+                temp_vecotor.clear()
+                if not isData:
+                    for jecsource in ak4jetUncSources[ithinjet]:
+                        temp_vecotor.push_back(jecsource)
+                else:
+                    for jecsource in range(11):
+                        temp_vecotor.push_back(jecsource)
+                st_THINjetUncSources.push_back(temp_vecotor)
+                st_THINjetUncTotal.push_back(ak4jetUncTotal[ithinjet])
 
                 #print 'ak4px_',ak4px_[ithinjet],'ak4py_',ak4py_[ithinjet],'ak4pz_',ak4pz_[ithinjet]
                 #print 'ak4e_',ak4e_[ithinjet]
@@ -1275,9 +1277,13 @@ def runbbdm(txtfile):
                 st_fjetCHSPRMass.push_back(fatjetCHSPRmassL2L3Corr[ifjet])
                 st_fjetCHSSDMass.push_back(fatjetCHSSDmassL2L3Corr[ifjet])
                 temp_vecotor.clear()
-                for jecsource in fatjetUncSources[ifjet]:
-                    temp_vecotor.push_back(jecsource)
-                st_fjetjetUncSources.push_back(temp_vecotor) 
+                if not isData:
+                    for jecsource in fatjetUncSources[ifjet]:
+                        temp_vecotor.push_back(jecsource)
+                else:
+                    for jecsource in range(11):
+                        temp_vecotor.push_back(jecsource)
+                st_fjetjetUncSources.push_back(temp_vecotor)
                 st_fjetjetUncTotal.push_back(fatjetUncTotal[ifjet])
                 #print ("fatN2_Beta1_",fatN2_Beta1_[ifjet],"fatN2_Beta2_",fatN2_Beta2_[ifjet])
 
@@ -1434,10 +1440,10 @@ if __name__ == '__main__':
                 pool.map(runbbdm, final[i])
                 pool.close()
                 pool.join()
-	    except Exception as e:
-		print e
-		print "Corrupt file inside input txt file is detected! Skipping this txt file:  ", final[i]
-		continue
+            except Exception as e:
+                print (e)
+                print ("Corrupt file inside input txt file is detected! Skipping this txt file:  ", final[i])
+                continue
 
     if runInteractive and not runOnTxt:
         ''' following part is for interactive running. This is still under testing because output file name can't be changed at this moment '''

@@ -44,15 +44,15 @@ v06.02 , added Type1Smear MET as the default MET
 v06.03 , added hem_veto for 2018
        ,
 v06.04 , added Tau21 variable
-       , using 2016 function for SDMass correction 
-       
+       , using 2016 function for SDMass correction
+
 v06.05 , using RECO jets for SDMass correction from @Deepak
 
 v06.06 , updated the filter code
-       , added calo met and track met variables 
+       , added calo met and track met variables
 
        , using 2016 function for SDMass correction
-       
+
 v06.07 , added PUJet IDs
 v07.00 , cleaned photon against leptons
        ,
@@ -61,7 +61,7 @@ v07.01 , added variables to tag HEM effected events for 2018
 v07.02 , updated the name of config dir
 	   , defined hem variables as booleans
 	,
-v07.03 , added "ecalBadCalibReducedMINIAODFilter" in the filter list for 2017 and 2018 
+v07.03 , added "ecalBadCalibReducedMINIAODFilter" in the filter list for 2017 and 2018
 
 v07.04 , using met instead for smear_met for recoil calculation
 		, adding support for signal samples
@@ -70,4 +70,8 @@ v07.05 , added uncorr variables for MET_XY(MET_phi) corrections
        ,
 v07.06 , using nVtx and changed branch name for MET_XY(MET_phi) corrections
        ,
-v12.07 , added JEC sources
+v12.00 , added JEC sources
+       ,
+v12.01 , adding Ele115 trigger for 2017
+
+v12.02 , tau pt > 20, type1met
