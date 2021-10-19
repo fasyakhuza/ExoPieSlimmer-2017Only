@@ -161,7 +161,7 @@ def whichsample(filename):
         sample = 6
     elif "WJetsToLNu" in filename or "W1JetsToLNu" in filename or "W2JetsToLNu" in filename:
         sample = 24
-    elif "ZJetsToNuNu" in filename or "Z1JetsToNuNu" in filename or "Z2JetsToNuNu" in filename or "DYJetsToLL" in filename or 'DYJetsToNuNu' in filename:
+    elif "ZJetsToNuNu" in filename or "Z1JetsToNuNu" in filename or "Z2JetsToNuNu" in filename or "Z2JetsToNuNU" in filename or "DYJetsToLL" in filename or 'DYJetsToNuNu' in filename:
         sample = 23
     return sample
 
