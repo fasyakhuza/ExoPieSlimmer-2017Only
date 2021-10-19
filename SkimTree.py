@@ -589,9 +589,9 @@ def runbbdm(txtfile):
             # -------------------------------------------------
 
             eletrigdecision = False
-            mudecision = False
-            metdecision = False
-            phodecision = False
+            mutrigstatus = False
+            mettrigstatus = False
+            photrigstatus = False
 
             eletrigstatus = [(anautil.CheckFilter(
                 trigName_, trigResult_, eletrig[itrig])) for itrig in range(len(eletrig))]
@@ -692,34 +692,6 @@ def runbbdm(txtfile):
 
             pass_mu_index = boolutil.WhereIsTrue(
                 mu_pt10_eta2p4_looseID_looseISO)
-
-            '''
-            *******   *      *   ******
-            *     *   *      *  *      *
-            *******   ********  *      *
-            *         *      *  *      *
-            *         *      *   ******
-            '''
-
-            #phopt = [getPt(phopx_[ip], phopy_[ip]) for ip in range(npho_)]
-            #phoeta = [getEta(phopx_[ip], phopy_[ip], phopz_[ip]) for ip in range(npho_)]
-            #pho_pt15_eta2p5_looseID = [ (phopt[ip] > 15.0) and (abs(phoeta[ip]) < 2.5) and (pholooseid_[ip])               for ip in range(npho_)]
-            #pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
-
-            phopt = getPt(phopx_, phopy_)
-            phoeta = getEta(phopx_, phopy_, phopz_)
-            phophi = getPhi(phopx_, phopy_)
-
-            pho_pt15_eta2p5_looseID = boolutil.logical_and3(
-                (phopt > 15.0),   (numpy.abs(phoeta) < 2.5),  (pholooseid_))
-            pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
-
-            cleanedPho_ag_ele = []; cleanedPho_ag_mu = [];pass_pho_index_cleaned=[]
-            if npho_ > 0: #and ep_nEle > 0:
-                cleanedPho_ag_ele = anautil.jetcleaning(pho_pt15_eta2p5_looseID, ele_pt10_eta2p5_looseID, phoeta, eleeta, phophi, elephi, 0.4)
-                cleanedPho_ag_mu  = anautil.jetcleaning(pho_pt15_eta2p5_looseID, mu_pt10_eta2p4_looseID_looseISO, phoeta, mueta, phophi, muphi, 0.4)
-                cleanedPhoton     = boolutil.logical_AND_List2(cleanedPho_ag_ele,cleanedPho_ag_mu)
-                pass_pho_index_cleaned = boolutil.WhereIsTrue(cleanedPhoton)
 
             ## Fill variables for the CRs which require lepton.
             WenuRecoil[0] = -1
@@ -945,7 +917,35 @@ def runbbdm(txtfile):
                 if debug_:
                     print "pass_jet_index_cleaned = ", pass_jet_index_cleaned, "nJets= ", len(ak4px_)
 
+                    '''
+            *******   *      *   ******
+            *     *   *      *  *      *
+            *******   ********  *      *
+            *         *      *  *      *
+            *         *      *   ******
+            '''
 
+            #phopt = [getPt(phopx_[ip], phopy_[ip]) for ip in range(npho_)]
+            #phoeta = [getEta(phopx_[ip], phopy_[ip], phopz_[ip]) for ip in range(npho_)]
+            #pho_pt15_eta2p5_looseID = [ (phopt[ip] > 15.0) and (abs(phoeta[ip]) < 2.5) and (pholooseid_[ip])               for ip in range(npho_)]
+            #pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
+
+            phopt = getPt(phopx_, phopy_)
+            phoeta = getEta(phopx_, phopy_, phopz_)
+            phophi = getPhi(phopx_, phopy_)
+
+            pho_pt15_eta2p5_looseID = boolutil.logical_and3(
+                (phopt > 15.0),   (numpy.abs(phoeta) < 2.5),  (pholooseid_))
+            pass_pho_index = boolutil.WhereIsTrue(pho_pt15_eta2p5_looseID)
+
+            cleanedPho_ag_ele = []; cleanedPho_ag_mu = [];cleanedPhoton_ag_jet=[];pass_pho_index_cleaned=[]
+            if npho_ > 0: #and ep_nEle > 0:
+                cleanedPho_ag_ele = anautil.jetcleaning(pho_pt15_eta2p5_looseID, ele_pt10_eta2p5_looseID, phoeta, eleeta, phophi, elephi, 0.4)
+                cleanedPho_ag_mu  = anautil.jetcleaning(pho_pt15_eta2p5_looseID, mu_pt10_eta2p4_looseID_looseISO, phoeta, mueta, phophi, muphi, 0.4)
+                cleanedPhoton_ag_jet = anautil.jetcleaning(pho_pt15_eta2p5_looseID, ak4_pt30_eta4p5_IDT, phoeta, ak4eta, phophi, ak4phi, 0.4)
+
+                cleanedPhoton     = boolutil.logical_AND_List3(cleanedPho_ag_ele,cleanedPho_ag_mu,cleanedPhoton_ag_jet)
+                pass_pho_index_cleaned = boolutil.WhereIsTrue(cleanedPhoton)
 
 
             '''
