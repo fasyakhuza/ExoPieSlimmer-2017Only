@@ -896,23 +896,22 @@ def runbbdm(txtfile):
                 #ak4PassID_Calc = [jetID_(ak4CEmEF_[ij],ak4CHadEF_[ij],ak4NEmEF_[ij],ak4NHadEF_[ij],ak4CMulti_[ij],ak4NMultiplicity_[ij],ak4eta[ij])[1] for ij in range(nak4jet_)]
                 ak4PassID_Calc = ak4PassID_
 
-            #ak4_pt30_eta4p5_IDT  =  ( (ak4pt[ij] > 30.0) and (abs(ak4eta[ij]) < 4.5) and (ak4PassID_Calc[ij] ) ) for ij in range(nak4jet_)]
-            ak4_pt30_eta4p5_IDT = boolutil.logical_and3(
-                (ak4pt > 30.0), (numpy.abs(ak4eta) < 4.5), (ak4PassID_Calc))
+            #ak4_pt30_eta2p5_IDT  =  ( (ak4pt[ij] > 30.0) and (abs(ak4eta[ij]) < 2.5) and (ak4PassID_Calc[ij] ) ) for ij in range(nak4jet_)]
+            ak4_pt30_eta2p5_IDT = boolutil.logical_and3((ak4pt > 30.0), (numpy.abs(ak4eta) < 2.5), (ak4PassID_Calc))
 
             ##--- jet cleaning
             jetCleanAgainstEle = []
             jetCleanAgainstMu = []
             pass_jet_index_cleaned = []
 
-            if len(ak4_pt30_eta4p5_IDT) > 0:
+            if len(ak4_pt30_eta2p5_IDT) > 0:
                 DRCut = 0.4
                 jetCleanAgainstEle = anautil.jetcleaning(
-                    ak4_pt30_eta4p5_IDT, ele_pt10_eta2p5_vetoID, ak4eta, eleeta, ak4phi, elephi, DRCut)
+                    ak4_pt30_eta2p5_IDT, ele_pt10_eta2p5_vetoID, ak4eta, eleeta, ak4phi, elephi, DRCut)
                 jetCleanAgainstMu = anautil.jetcleaning(
-                    ak4_pt30_eta4p5_IDT, mu_pt10_eta2p4_looseID_looseISO, ak4eta, mueta, ak4phi, muphi, DRCut)
+                    ak4_pt30_eta2p5_IDT, mu_pt10_eta2p4_looseID_looseISO, ak4eta, mueta, ak4phi, muphi, DRCut)
                 jetCleaned = boolutil.logical_AND_List3(
-                    ak4_pt30_eta4p5_IDT, jetCleanAgainstEle, jetCleanAgainstMu)
+                    ak4_pt30_eta2p5_IDT, jetCleanAgainstEle, jetCleanAgainstMu)
                 pass_jet_index_cleaned = boolutil.WhereIsTrue(jetCleaned)
                 if debug_:
                     print "pass_jet_index_cleaned = ", pass_jet_index_cleaned, "nJets= ", len(ak4px_)
@@ -942,7 +941,7 @@ def runbbdm(txtfile):
             if npho_ > 0: #and ep_nEle > 0:
                 cleanedPho_ag_ele = anautil.jetcleaning(pho_pt15_eta2p5_looseID, ele_pt10_eta2p5_looseID, phoeta, eleeta, phophi, elephi, 0.4)
                 cleanedPho_ag_mu  = anautil.jetcleaning(pho_pt15_eta2p5_looseID, mu_pt10_eta2p4_looseID_looseISO, phoeta, mueta, phophi, muphi, 0.4)
-                cleanedPhoton_ag_jet = anautil.jetcleaning(pho_pt15_eta2p5_looseID, ak4_pt30_eta4p5_IDT, phoeta, ak4eta, phophi, ak4phi, 0.4)
+                cleanedPhoton_ag_jet = anautil.jetcleaning(pho_pt15_eta2p5_looseID, ak4_pt30_eta2p5_IDT, phoeta, ak4eta, phophi, ak4phi, 0.4)
 
                 cleanedPhoton     = boolutil.logical_AND_List3(cleanedPho_ag_ele,cleanedPho_ag_mu,cleanedPhoton_ag_jet)
                 pass_pho_index_cleaned = boolutil.WhereIsTrue(cleanedPhoton)
