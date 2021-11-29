@@ -82,7 +82,7 @@ METtrigger2018 = ["HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60",
 Photontrigger2018 = ["HLT_Photon200"]
 
 Electrontrigger2018 = ["HLT_Ele32_WPTight_Gsf",
-                       "HLT_Ele115_CaloIdVT_GsfTrkIdT"]
+                       "HLT_Ele115_CaloIdVT_GsfTrkIdT",]
 
 Muontrigger2018 = ["HLT_IsoMu24"]
 

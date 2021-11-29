@@ -72,6 +72,6 @@ v07.06 , using nVtx and changed branch name for MET_XY(MET_phi) corrections
        ,
 v12.00 , added JEC sources
        ,
-v12.01 , adding Ele115 trigger for 2017
+v12.01 , adding Ele115 trigger for 2017, tau pt > 20, type1met,
 
-v12.02 , tau pt > 20, type1met
+v12.02 ,  updated pdf and scale weights

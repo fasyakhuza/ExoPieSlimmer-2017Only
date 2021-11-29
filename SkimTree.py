@@ -87,13 +87,18 @@ if args.inputDir and isfarmout:
 
 if args.year == '2016':
     runOn2016 = True
+    era = args.year
 elif args.year == '2017':
     runOn2017 = True
+    era = args.year
 elif args.year == '2018':
     runOn2018 = True
+    era = args.year
 else:
     print('Please provide on which year you want to run?')
     sys.exit()
+
+era =
 
 runOnTxt = False
 if args.runOnTXT:
@@ -189,10 +194,51 @@ def jetID_(jetCEmEF, jetCHadEF, jetNEmEF, jetNHadEF, jetCMulti, jetNMultiplicity
     elif (abs(Jet_eta) > 3.0):
         looseJetID_2016 = (
             jetNEmEF < 0.90 and jetNMultiplicity > 10 and abs(Jet_eta) > 3.0)
-        tightJetID_2017 = (jetNEmEF < 0.90 and jetNHadEF >
-                           0.02 and jetNMultiplicity > 10 and abs(Jet_eta) > 3.0)
+        tightJetID_2017 = (jetNEmEF < 0.90 and jetNHadEF > 0.02 and jetNMultiplicity > 10 and abs(Jet_eta) > 3.0)
     return looseJetID_2016, tightJetID_2017
 
+def getScalePDFweight(era, filename, pdfscaleSysWeights):
+    scale_temp = []
+    pdf_temp = []
+    filename = filename[0]
+    if era == '2017' or era == '2018':
+        if len(pdfscaleSysWeights) > 0:
+            if 'ZJetsToNuNu' in filename or 'Z1JetsToNuNu' in filename or 'Z2JetsToNuNu' in filename or 'DY1JetsToLL' in filename:
+                for i in range(1,10):
+                    scale_temp.append(pdfscaleSysWeights[i])
+                for i in range(10, 113):
+                    pdf_temp.append(pdfscaleSysWeights[i])
+            else:
+                for i in range(0,9):
+                    scale_temp.append(pdfscaleSysWeights[i])
+                for i in range(9, 112):
+                    pdf_temp.append(pdfscaleSysWeights[i])
+        else:
+            scale_temp.append(1)
+            pdf_temp.append(1)
+    elif era == '2016':
+        if len(pdfscaleSysWeights) > 0:
+            if 'GJets_HT' in filename or 'QCD_bEnriched_HT' in filename:
+                for i in range(0,9):
+                    scale_temp.append(pdfscaleSysWeights[i])
+                for i in range(9, 110):
+                    pdf_temp.append(pdfscaleSysWeights[i])
+            elif 'bbDM_2HDMa' in filename:
+                scale_rng = [0,5,10,15,20,25,30,35,40]
+                for i in scale_rng:
+                    scale_temp.append(pdfscaleSysWeights[i])
+                for i in range(156, 259):
+                    pdf_temp.append(pdfscaleSysWeights[i])
+            else:
+                for i in range(0,9):
+                    scale_temp.append(pdfscaleSysWeights[i])
+                for i in range(9, 112):
+                    pdf_temp.append(pdfscaleSysWeights[i])
+        else:
+            scale_temp.append(1)
+            pdf_temp.append(1)
+    print(scale_temp, pdf_temp)
+    return max(scale_temp), min(scale_temp), max(pdf_temp), min(pdf_temp)
 
 def runbbdm(txtfile):
     infile_ = []
@@ -668,12 +714,13 @@ def runbbdm(txtfile):
             ele_pt10_eta2p5_looseID = boolutil.logical_and3((elept > 10.0), (elelooseid_),  numpy.logical_and(
                 numpy.logical_or(numpy.abs(eleeta) > 1.566, numpy.abs(eleeta) < 1.4442), (numpy.abs(eleeta) < 2.5)))
 
-            ele_pt30_eta2p5_tightID = boolutil.logical_and3((elept > 30.0), (eletightid_),  numpy.logical_and(numpy.logical_or(boolutil.logical_and3(numpy.abs(eleeta) > 1.566, numpy.abs(
-                eleD0_) < 0.10, numpy.abs(eleDz_) < 0.20), boolutil.logical_and3(numpy.abs(eleeta) < 1.4442, numpy.abs(eleD0_) < 0.05, numpy.abs(eleDz_) < 0.10)), (numpy.abs(eleeta) < 2.5)))
+            # ele_pt30_eta2p5_tightID = boolutil.logical_and3((elept > 30.0), (eletightid_),  numpy.logical_and(numpy.logical_or(boolutil.logical_and3(numpy.abs(eleeta) > 1.566, numpy.abs(eleD0_) < 0.10, numpy.abs(eleDz_) < 0.20), boolutil.logical_and3(numpy.abs(eleeta) < 1.4442, numpy.abs(eleD0_) < 0.05, numpy.abs(eleDz_) < 0.10)), (numpy.abs(eleeta) < 2.5)))
+
+            ele_pt30_eta2p5_tightID = boolutil.logical_and3((elept > 30.0), (eletightid_), numpy.logical_and(
+                numpy.logical_or(numpy.abs(eleeta) > 1.566, numpy.abs(eleeta) < 1.4442), (numpy.abs(eleeta) < 2.5)))
 
             pass_ele_veto_index = boolutil.WhereIsTrue(ele_pt10_eta2p5_vetoID)
-            pass_ele_loose_index = boolutil.WhereIsTrue(
-                ele_pt10_eta2p5_looseID)
+            pass_ele_loose_index = boolutil.WhereIsTrue(ele_pt10_eta2p5_looseID)
 
             '''
             **     *  *     *
@@ -842,34 +889,6 @@ def runbbdm(txtfile):
             if debug_:
                 print 'Reached W CR'
 
-            # ------------------
-            # Gamma CR
-            # ------------------
-            ## for Single photon
-            if len(pass_pho_index) >= 1:
-                pho1 = pass_pho_index[0]
-                GammaRecoilPx = -(met_*math.cos(metphi_) + phopx_[pho1])
-                GammaRecoilPy = -(met_*math.sin(metphi_) + phopy_[pho1])
-                GammaRecoilPt = math.sqrt(GammaRecoilPx**2 + GammaRecoilPy**2)
-                if GammaRecoilPt > 180.0:
-                    GammaRecoil[0] = GammaRecoilPt
-                    GammaPhi[0] = mathutil.ep_arctan(
-                        GammaRecoilPx, GammaRecoilPy)
-                GammaRecoilSmearPx = - \
-                    (met_*math.cos(metphi_) + phopx_[pho1])
-                GammaRecoilSmearPy = - \
-                    (met_*math.sin(metphi_) + phopy_[pho1])
-                GammaRecoilSmearPt = math.sqrt(
-                    GammaRecoilSmearPx**2 + GammaRecoilSmearPy**2)
-
-            GammaRecoilStatus = (GammaRecoil[0] > 180.0) or (
-                GammaRecoilSmearPt > 180.0)
-            if debug_:
-                print 'Reached Gamma CR'
-
-            if pfmetstatus == False and ZRecoilstatus == False and WRecoilstatus == False and GammaRecoilStatus == False:
-                continue
-
             '''
             *******   *****   *******
                *      *          *
@@ -916,7 +935,7 @@ def runbbdm(txtfile):
                 if debug_:
                     print "pass_jet_index_cleaned = ", pass_jet_index_cleaned, "nJets= ", len(ak4px_)
 
-                    '''
+            '''
             *******   *      *   ******
             *     *   *      *  *      *
             *******   ********  *      *
@@ -946,6 +965,33 @@ def runbbdm(txtfile):
                 cleanedPhoton     = boolutil.logical_AND_List3(cleanedPho_ag_ele,cleanedPho_ag_mu,cleanedPhoton_ag_jet)
                 pass_pho_index_cleaned = boolutil.WhereIsTrue(cleanedPhoton)
 
+            # ------------------
+            # Gamma CR
+            # ------------------
+            ## for Single photon
+            if len(pass_pho_index) >= 1:
+                pho1 = pass_pho_index[0]
+                GammaRecoilPx = -(met_*math.cos(metphi_) + phopx_[pho1])
+                GammaRecoilPy = -(met_*math.sin(metphi_) + phopy_[pho1])
+                GammaRecoilPt = math.sqrt(GammaRecoilPx**2 + GammaRecoilPy**2)
+                if GammaRecoilPt > 180.0:
+                    GammaRecoil[0] = GammaRecoilPt
+                    GammaPhi[0] = mathutil.ep_arctan(
+                        GammaRecoilPx, GammaRecoilPy)
+                GammaRecoilSmearPx = - \
+                    (met_*math.cos(metphi_) + phopx_[pho1])
+                GammaRecoilSmearPy = - \
+                    (met_*math.sin(metphi_) + phopy_[pho1])
+                GammaRecoilSmearPt = math.sqrt(
+                    GammaRecoilSmearPx**2 + GammaRecoilSmearPy**2)
+
+            GammaRecoilStatus = (GammaRecoil[0] > 180.0) or (
+                GammaRecoilSmearPt > 180.0)
+            if debug_:
+                print 'Reached Gamma CR'
+
+            if pfmetstatus == False and ZRecoilstatus == False and WRecoilstatus == False and GammaRecoilStatus == False:
+                continue
 
             '''
             ******      *******   *****   *******
@@ -1384,21 +1430,7 @@ def runbbdm(txtfile):
             if debug_:
                 print 'nGen: ', nGenPar_
 
-            scale_temp = []
-            pdf_temp = []
-            if len(pdfscaleSysWgtID) > 0:
-                for i in range(0,9):
-                    scale_temp.append(pdfscaleSysWeights[i])
-                for i in range(9, len(pdfscaleSysWgtID)):
-                    pdf_temp.append(pdfscaleSysWeights[i])
-            else:
-                scale_temp.append(1.0)
-                pdf_temp.append(1.0)
-
-            st_scaleWeightUP[0] = max(scale_temp)
-            st_scaleWeightDOWN[0] = min(scale_temp)
-            st_pdfWeightUP[0] = max(pdf_temp)
-            st_pdfWeightDOWN[0] = min(pdf_temp)
+            st_scaleWeightUP[0],st_scaleWeightDOWN[0],st_pdfWeightUP[0],st_pdfWeightDOWN[0] =getScalePDFweight(era, filename,pdfscaleSysWeights)
 
             st_pfMetUncJetResUp.push_back(metUnc_[0])
             st_pfMetUncJetResDown.push_back(metUnc_[1])
