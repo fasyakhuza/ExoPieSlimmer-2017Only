@@ -98,8 +98,6 @@ else:
     print('Please provide on which year you want to run?')
     sys.exit()
 
-era =
-
 runOnTxt = False
 if args.runOnTXT:
     runOnTxt = True
@@ -198,47 +196,116 @@ def jetID_(jetCEmEF, jetCHadEF, jetNEmEF, jetNHadEF, jetCMulti, jetNMultiplicity
     return looseJetID_2016, tightJetID_2017
 
 def getScalePDFweight(era, filename, pdfscaleSysWeights):
-    scale_temp = []
-    pdf_temp = []
+    scale_temp = {}
+    pdf_temp = {}
     filename = filename[0]
-    if era == '2017' or era == '2018':
+    if era == '2018':
         if len(pdfscaleSysWeights) > 0:
-            if 'ZJetsToNuNu' in filename or 'Z1JetsToNuNu' in filename or 'Z2JetsToNuNu' in filename or 'DY1JetsToLL' in filename:
+            listRng1to10 = ['Z1JetsToNuNu_M-50_LHEZpT_150-250','Z1JetsToNuNu_M-50_LHEZpT_250-400','Z1JetsToNuNu_M-50_LHEZpT_400-inf','Z1JetsToNuNu_M-50_LHEZpT_50-150','Z2JetsToNuNu_M-50_LHEZpT_150-250','Z2JetsToNuNu_M-50_LHEZpT_250-400','Z2JetsToNuNu_M-50_LHEZpT_50-150']
+            if any(samp in filename for samp in listRng1to10):
                 for i in range(1,10):
-                    scale_temp.append(pdfscaleSysWeights[i])
+                    if i ==1:
+                        scale_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                    elif i==6 or i==8:
+                            continue
+                    else:
+                        scale_temp.update({2*abs(pdfscaleSysWeights[i]):2*pdfscaleSysWeights[i]})
                 for i in range(10, 113):
-                    pdf_temp.append(pdfscaleSysWeights[i])
+                    if i==10:
+                        pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                    else:
+                        pdf_temp.update({2*abs(pdfscaleSysWeights[i]):2*pdfscaleSysWeights[i]})
             else:
                 for i in range(0,9):
-                    scale_temp.append(pdfscaleSysWeights[i])
-                for i in range(9, 112):
-                    pdf_temp.append(pdfscaleSysWeights[i])
+                    if i==5 or i==7: continue
+                    scale_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                if len(pdfscaleSysWeights) <= 111:
+                    for i in range(9, len(pdfscaleSysWeights)):
+                        pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                else:
+                    for i in range(9, 112):
+                        pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
         else:
-            scale_temp.append(1)
-            pdf_temp.append(1)
+            scale_temp.update({1:1})
+            pdf_temp.update({1:1})
+    elif era == '2017':
+        if len(pdfscaleSysWeights) > 0:
+            listRng1to10 = ['DY1JetsToLL_M-50_LHEZpT_50-150','DY1JetsToLL_M-50_LHEZpT_150-250','DY1JetsToLL_M-50_LHEZpT_250-400','DY1JetsToLL_M-50_LHEZpT_400-inf','DY2JetsToLL_M-50_LHEZpT_250-400','W1JetsToLNu_LHEWpT_0-50','W1JetsToLNu_LHEWpT_50-150','W1JetsToLNu_LHEWpT_150-250','W1JetsToLNu_LHEWpT_250-400','W2JetsToLNu_LHEWpT_400-inf','Z1JetsToNuNu_M-50_LHEZpT_50-150','Z1JetsToNuNu_M-50_LHEZpT_150-250','Z1JetsToNuNu_M-50_LHEZpT_250-400','Z1JetsToNuNu_M-50_LHEZpT_400-inf','Z2JetsToNuNu_M-50_LHEZpT_150-250','Z2JetsToNuNu_M-50_LHEZpT_250-400']
+            if any(samp in filename for samp in listRng1to10):
+                for i in range(1,10):
+                    if i ==1:
+                        scale_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                    elif i==6 or i==8:
+                            continue
+                    else:
+                        scale_temp.update({2*abs(pdfscaleSysWeights[i]):2*pdfscaleSysWeights[i]})
+                for i in range(10, 113):
+                    if i==10:
+                        pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                    else:
+                        pdf_temp.update({2*abs(pdfscaleSysWeights[i]):2*pdfscaleSysWeights[i]})
+            else:
+                listFormultiply = ['DY2JetsToLL_M-50_LHEZpT_150-250','DY2JetsToLL_M-50_LHEZpT_400-inf', 'W1JetsToLNu_LHEWpT_100-150', 'W1JetsToLNu_LHEWpT_400-inf','W2JetsToLNu_LHEWpT_250-400','W2JetsToLNu_LHEWpT_100-150']
+                if any(samp in filename for samp in listFormultiply):
+                    for i in range(0,9):
+                        if i==0:
+                            scale_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                        elif i==5 or i==7:
+                            continue
+                        else:
+                            scale_temp.update({2*abs(pdfscaleSysWeights[i]):2*pdfscaleSysWeights[i]})
+                    if len(pdfscaleSysWeights) <= 111:
+                        for i in range(9, len(pdfscaleSysWeights)):
+                            if i==9:
+                                pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                            else:
+                                pdf_temp.update({2*abs(pdfscaleSysWeights[i]):2*pdfscaleSysWeights[i]})
+                    else:
+                        for i in range(9, 112):
+                            if i==9:
+                                pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                            else:
+                                pdf_temp.update({2*abs(pdfscaleSysWeights[i]):2*pdfscaleSysWeights[i]})
+                else:
+                    for i in range(0,9):
+                        if i==5 or i==7: continue
+                        scale_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                    if len(pdfscaleSysWeights) <= 111:
+                        for i in range(9, len(pdfscaleSysWeights)):
+                            pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                    else:
+                        for i in range(9, 112):
+                            pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+        else:
+            scale_temp.update({1:1})
+            pdf_temp.update({1:1})
     elif era == '2016':
         if len(pdfscaleSysWeights) > 0:
-            if 'GJets_HT' in filename or 'QCD_bEnriched_HT' in filename:
-                for i in range(0,9):
-                    scale_temp.append(pdfscaleSysWeights[i])
-                for i in range(9, 110):
-                    pdf_temp.append(pdfscaleSysWeights[i])
-            elif 'bbDM_2HDMa' in filename:
-                scale_rng = [0,5,10,15,20,25,30,35,40]
+            if 'bbDM_2HDMa' in filename:
+                scale_rng = [0,5,10,15,20,30,40]
                 for i in scale_rng:
-                    scale_temp.append(pdfscaleSysWeights[i])
+                    scale_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
                 for i in range(156, 259):
-                    pdf_temp.append(pdfscaleSysWeights[i])
+                    pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
             else:
                 for i in range(0,9):
-                    scale_temp.append(pdfscaleSysWeights[i])
-                for i in range(9, 112):
-                    pdf_temp.append(pdfscaleSysWeights[i])
+                    if i==5 or i==7: continue
+                    scale_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                if len(pdfscaleSysWeights) <= 111:
+                    for i in range(9, len(pdfscaleSysWeights)):
+                        pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
+                else:
+                    for i in range(9, 112):
+                        pdf_temp.update({abs(pdfscaleSysWeights[i]):pdfscaleSysWeights[i]})
         else:
-            scale_temp.append(1)
-            pdf_temp.append(1)
-    print(scale_temp, pdf_temp)
-    return max(scale_temp), min(scale_temp), max(pdf_temp), min(pdf_temp)
+            scale_temp.update({1:1})
+            pdf_temp.update({1:1})
+    scale_max  =scale_temp[max([key for key in scale_temp])]
+    scale_min  =scale_temp[min([key for key in scale_temp])]
+    pdf_max  =pdf_temp[max([key for key in pdf_temp])]
+    pdf_min  =pdf_temp[min([key for key in pdf_temp])]
+    # return max(scale_temp), min(scale_temp), max(pdf_temp), min(pdf_temp)
+    return scale_max, scale_min, pdf_max, pdf_min
 
 def runbbdm(txtfile):
     infile_ = []
@@ -572,6 +639,7 @@ def runbbdm(txtfile):
             df['prefiringweight'] = 1.0
             df['prefiringweightup'] = 1.0
             df['prefiringweightdown'] = 1.0
+            df['pdfscaleSysWgtID_'] = 1.0
             var_zip = zip(df.runId, df.lumiSection, df.eventId, df.isData, df.mcWeight,df.mass_A,df.mass_a,
                           df.prefiringweight, df.prefiringweightup, df.prefiringweightdown,
                           df.pu_nTrueInt, df.pu_nPUVert, df.nVtx,

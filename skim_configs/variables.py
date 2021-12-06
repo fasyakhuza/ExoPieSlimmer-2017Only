@@ -11,7 +11,6 @@ allvars2018 = ['runId',
                'hlt_trigResult',
                'hlt_filterName',
                'hlt_filterResult',
-               'pdfscaleSysWgtID_',
                'pdfscaleSysWeights',
 
                'pfpatMet_smear',
