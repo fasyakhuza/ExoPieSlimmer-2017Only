@@ -195,7 +195,7 @@ def jetID_(jetCEmEF, jetCHadEF, jetNEmEF, jetNHadEF, jetCMulti, jetNMultiplicity
         tightJetID_2017 = (jetNEmEF < 0.90 and jetNHadEF > 0.02 and jetNMultiplicity > 10 and abs(Jet_eta) > 3.0)
     return looseJetID_2016, tightJetID_2017
 
-def getScalePDFweight(era, filename, pdfscaleSysWeights):
+def getScalePDFweight(era, mcweight, filename, pdfscaleSysWeights):
     scale_temp = {}
     pdf_temp = {}
     filename = filename[0]
@@ -230,7 +230,7 @@ def getScalePDFweight(era, filename, pdfscaleSysWeights):
             pdf_temp.update({1:1})
     elif era == '2017':
         if len(pdfscaleSysWeights) > 0:
-            listRng1to10 = ['DY1JetsToLL_M-50_LHEZpT_50-150','DY1JetsToLL_M-50_LHEZpT_150-250','DY1JetsToLL_M-50_LHEZpT_250-400','DY1JetsToLL_M-50_LHEZpT_400-inf','DY2JetsToLL_M-50_LHEZpT_250-400','W1JetsToLNu_LHEWpT_0-50','W1JetsToLNu_LHEWpT_50-150','W1JetsToLNu_LHEWpT_150-250','W1JetsToLNu_LHEWpT_250-400','W2JetsToLNu_LHEWpT_400-inf','Z1JetsToNuNu_M-50_LHEZpT_50-150','Z1JetsToNuNu_M-50_LHEZpT_150-250','Z1JetsToNuNu_M-50_LHEZpT_250-400','Z1JetsToNuNu_M-50_LHEZpT_400-inf','Z2JetsToNuNu_M-50_LHEZpT_150-250','Z2JetsToNuNu_M-50_LHEZpT_250-400']
+            listRng1to10 = ['DY1JetsToLL_M-50_LHEZpT_50-150','DY1JetsToLL_M-50_LHEZpT_150-250','DY1JetsToLL_M-50_LHEZpT_250-400','DY1JetsToLL_M-50_LHEZpT_400-inf','DY2JetsToLL_M-50_LHEZpT_250-400','W1JetsToLNu_LHEWpT_0-50','W1JetsToLNu_LHEWpT_50-150','W1JetsToLNu_LHEWpT_150-250','W1JetsToLNu_LHEWpT_250-400','W2JetsToLNu_LHEWpT_400-inf','Z1JetsToNuNu_M-50_LHEZpT_50-150','Z1JetsToNuNu_M-50_LHEZpT_150-250','Z1JetsToNuNu_M-50_LHEZpT_250-400','Z1JetsToNuNu_M-50_LHEZpT_400-inf','Z2JetsToNuNu_M-50_LHEZpT_50-150','Z2JetsToNuNu_M-50_LHEZpT_150-250','Z2JetsToNuNu_M-50_LHEZpT_250-400','Z2JetsToNuNU_M-50_LHEZpT_400-inf']
             if any(samp in filename for samp in listRng1to10):
                 for i in range(1,10):
                     if i ==1:
@@ -245,7 +245,7 @@ def getScalePDFweight(era, filename, pdfscaleSysWeights):
                     else:
                         pdf_temp.update({2*abs(pdfscaleSysWeights[i]):2*pdfscaleSysWeights[i]})
             else:
-                listFormultiply = ['DY2JetsToLL_M-50_LHEZpT_150-250','DY2JetsToLL_M-50_LHEZpT_400-inf', 'W1JetsToLNu_LHEWpT_100-150', 'W1JetsToLNu_LHEWpT_400-inf','W2JetsToLNu_LHEWpT_250-400','W2JetsToLNu_LHEWpT_100-150']
+                listFormultiply = ['DY2JetsToLL_M-50_LHEZpT_150-250','DY2JetsToLL_M-50_LHEZpT_400-inf', 'W1JetsToLNu_LHEWpT_100-150', 'W1JetsToLNu_LHEWpT_400-inf','W2JetsToLNu_LHEWpT_250-400','W2JetsToLNu_LHEWpT_100-150','W2JetsToLNu_LHEWpT_150-250']
                 if any(samp in filename for samp in listFormultiply):
                     for i in range(0,9):
                         if i==0:
@@ -304,8 +304,26 @@ def getScalePDFweight(era, filename, pdfscaleSysWeights):
     scale_min  =scale_temp[min([key for key in scale_temp])]
     pdf_max  =pdf_temp[max([key for key in pdf_temp])]
     pdf_min  =pdf_temp[min([key for key in pdf_temp])]
-    # return max(scale_temp), min(scale_temp), max(pdf_temp), min(pdf_temp)
-    return scale_max, scale_min, pdf_max, pdf_min
+    pdf_up = []
+    pdf_down = []
+    for key in pdf_temp:
+        if mcweight[0] == -1:
+            pdf_temp.update({key: -1*pdf_temp[key] for key in pdf_temp})
+        if pdf_temp[key] >0 and pdf_temp[key]<10.0:
+            if pdf_temp[key] > 1: pdf_up.append(pdf_temp[key])
+            else: pdf_up.append((1/pdf_temp[key]))
+            if pdf_temp[key] < 1: pdf_down.append(pdf_temp[key])
+            else: pdf_down.append((1/pdf_temp[key]))
+
+    shiftUp = numpy.sqrt(numpy.sum((numpy.array(pdf_up)-1)**2))
+    shiftDown = numpy.sqrt(numpy.sum((numpy.array(pdf_down)-1)**2))
+
+    # return max(scale_temp), min(scale_temp), max(pdf_temp), min(pdf_temp),  list(scale_temp.values()), list(pdf_temp.values())
+    # return scale_max, scale_min, pdf_max, pdf_min
+    if mcweight[0] == -1:
+        return scale_max, scale_min, -1*(1+shiftUp), -1*(1-shiftDown), list(scale_temp.values()), list(pdf_temp.values())
+    else:
+        return scale_max, scale_min, 1+shiftUp, 1-shiftDown,  list(scale_temp.values()), list(pdf_temp.values())
 
 def runbbdm(txtfile):
     infile_ = []
@@ -396,6 +414,8 @@ def runbbdm(txtfile):
     outTree.Branch('st_scaleWeightDOWN', st_scaleWeightDOWN, 'st_scaleWeightDOWN/F')
     outTree.Branch('st_pdfWeightUP', st_pdfWeightUP, 'st_pdfWeightUP/F')
     outTree.Branch('st_pdfWeightDOWN', st_pdfWeightDOWN, 'st_pdfWeightDOWN/F')
+    outTree.Branch('st_scaleWeight', st_scaleWeight)
+    outTree.Branch('st_pdfWeight', st_pdfWeight)
     outTree.Branch('st_pfMetUncJetResUp', st_pfMetUncJetResUp)
     outTree.Branch('st_pfMetUncJetResDown', st_pfMetUncJetResDown)
     outTree.Branch('st_pfMetUncJetEnUp', st_pfMetUncJetEnUp)
@@ -751,7 +771,7 @@ def runbbdm(txtfile):
             # ------------------------------------------------------
             ## PFMET Selection
             # --------------------------------------------------------
-            pfmetstatus = (met_ > 180.0) or (met_smear > 180.0)
+            pfmetstatus = (met_ > 250.0) or (met_smear > 250.0)
 
 
 
@@ -850,7 +870,7 @@ def runbbdm(txtfile):
                     zeeRecoilPy = -(met_*math.sin(metphi_) +
                                     elepy_[iele1] + elepy_[iele2])
                     ZeeRecoilPt = math.sqrt(zeeRecoilPx**2 + zeeRecoilPy**2)
-                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilPt > 180.0:
+                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilPt > 250.0:
                         ZeeRecoil[0] = ZeeRecoilPt
                         ZeeMass[0] = ee_mass
                         ZeePhi[0] = mathutil.ep_arctan(
@@ -863,7 +883,7 @@ def runbbdm(txtfile):
                          elepy_[iele1] + elepy_[iele2])
                     ZeeRecoilSmearPt = math.sqrt(
                         zeeRecoilSmearPx**2 + zeeRecoilSmearPy**2)
-                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilSmearPt > 180.0:
+                    if ee_mass > 60.0 and ee_mass < 120.0 and ZeeRecoilSmearPt > 250.0:
                         ZeeRecoilSmear = ZeeRecoilSmearPt
             ## for dimu
             if len(pass_mu_index) == 2:
@@ -878,7 +898,7 @@ def runbbdm(txtfile):
                                       mupy_[imu1] + mupy_[imu2])
                     ZmumuRecoilPt = math.sqrt(
                         zmumuRecoilPx**2 + zmumuRecoilPy**2)
-                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilPt > 180.0:
+                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilPt > 250.0:
                         ZmumuRecoil[0] = ZmumuRecoilPt
                         ZmumuMass[0] = mumu_mass
                         ZmumuPhi[0] = mathutil.ep_arctan(
@@ -891,14 +911,14 @@ def runbbdm(txtfile):
                          mupy_[imu1] + mupy_[imu2])
                     ZmumuRecoilSmearPt = math.sqrt(
                         zmumuRecoilSmearPx**2 + zmumuRecoilSmearPy**2)
-                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilSmearPt > 180.0:
+                    if mumu_mass > 60.0 and mumu_mass < 120.0 and ZmumuRecoilSmearPt > 250.0:
                         ZmumuRecoilSmear = ZmumuRecoilSmearPt
             if len(pass_ele_loose_index) == 2:
-                ZRecoilstatus = (ZeeRecoil[0] > 180.0) or (
-                    ZeeRecoilSmear > 180.0)
+                ZRecoilstatus = (ZeeRecoil[0] > 250.0) or (
+                    ZeeRecoilSmear > 250.0)
             elif len(pass_mu_index) == 2:
-                ZRecoilstatus = (ZmumuRecoil[0] > 180.0) or (
-                    ZmumuRecoilSmear > 180.0)
+                ZRecoilstatus = (ZmumuRecoil[0] > 250.0) or (
+                    ZmumuRecoilSmear > 250.0)
             else:
                 ZRecoilstatus = False
             if debug_:
@@ -915,7 +935,7 @@ def runbbdm(txtfile):
                 WenuRecoilPx = -(met_*math.cos(metphi_) + elepx_[ele1])
                 WenuRecoilPy = -(met_*math.sin(metphi_) + elepy_[ele1])
                 WenuRecoilPt = math.sqrt(WenuRecoilPx**2 + WenuRecoilPy**2)
-                if WenuRecoilPt > 180.0:
+                if WenuRecoilPt > 250.0:
                    WenuRecoil[0] = WenuRecoilPt
                    Wenumass[0] = e_mass
                    WenuPhi[0] = mathutil.ep_arctan(WenuRecoilPx, WenuRecoilPy)
@@ -934,7 +954,7 @@ def runbbdm(txtfile):
                 WmunuRecoilPx = -(met_*math.cos(metphi_) + mupx_[mu1])
                 WmunuRecoilPy = -(met_*math.sin(metphi_) + mupy_[mu1])
                 WmunuRecoilPt = math.sqrt(WmunuRecoilPx**2 + WmunuRecoilPy**2)
-                if WmunuRecoilPt > 180.0:
+                if WmunuRecoilPt > 250.0:
                    WmunuRecoil[0] = WmunuRecoilPt
                    Wmunumass[0] = mu_mass
                    WmunuPhi[0] = mathutil.ep_arctan(
@@ -947,11 +967,11 @@ def runbbdm(txtfile):
                     WmunuRecoilSmearPx**2 + WmunuRecoilSmearPy**2)
 
             if len(pass_ele_loose_index) == 1:
-                WRecoilstatus = (WenuRecoil[0] > 180.0) or (
-                    WenuRecoilSmearPt > 180.0)
+                WRecoilstatus = (WenuRecoil[0] > 250.0) or (
+                    WenuRecoilSmearPt > 250.0)
             elif len(pass_mu_index) == 1:
-                WRecoilstatus = (WmunuRecoil[0] > 180.0) or (
-                    WmunuRecoilSmearPt > 180.0)
+                WRecoilstatus = (WmunuRecoil[0] > 250.0) or (
+                    WmunuRecoilSmearPt > 250.0)
             else:
                 WRecoilstatus = False
             if debug_:
@@ -1042,7 +1062,7 @@ def runbbdm(txtfile):
                 GammaRecoilPx = -(met_*math.cos(metphi_) + phopx_[pho1])
                 GammaRecoilPy = -(met_*math.sin(metphi_) + phopy_[pho1])
                 GammaRecoilPt = math.sqrt(GammaRecoilPx**2 + GammaRecoilPy**2)
-                if GammaRecoilPt > 180.0:
+                if GammaRecoilPt > 250.0:
                     GammaRecoil[0] = GammaRecoilPt
                     GammaPhi[0] = mathutil.ep_arctan(
                         GammaRecoilPx, GammaRecoilPy)
@@ -1053,8 +1073,8 @@ def runbbdm(txtfile):
                 GammaRecoilSmearPt = math.sqrt(
                     GammaRecoilSmearPx**2 + GammaRecoilSmearPy**2)
 
-            GammaRecoilStatus = (GammaRecoil[0] > 180.0) or (
-                GammaRecoilSmearPt > 180.0)
+            GammaRecoilStatus = (GammaRecoil[0] > 250.0) or (
+                GammaRecoilSmearPt > 250.0)
             if debug_:
                 print 'Reached Gamma CR'
 
@@ -1223,6 +1243,8 @@ def runbbdm(txtfile):
             st_pfMetUncJetResUp.clear()
             st_pfMetUncJetResDown.clear()
 
+            st_scaleWeight.clear()
+            st_pdfWeight.clear()
             st_pfMetUncJetEnUp.clear()
             st_pfMetUncJetEnDown.clear()
 
@@ -1498,8 +1520,9 @@ def runbbdm(txtfile):
             if debug_:
                 print 'nGen: ', nGenPar_
 
-            st_scaleWeightUP[0],st_scaleWeightDOWN[0],st_pdfWeightUP[0],st_pdfWeightDOWN[0] =getScalePDFweight(era, filename,pdfscaleSysWeights)
-
+            st_scaleWeightUP[0],st_scaleWeightDOWN[0],st_pdfWeightUP[0],st_pdfWeightDOWN[0], st_scaleWeight_, st_pdfWeight_ =getScalePDFweight(era, mcweight,filename,pdfscaleSysWeights)
+            for wgt in st_scaleWeight_: st_scaleWeight.push_back(wgt)
+            for wgt in st_pdfWeight_: st_pdfWeight.push_back(wgt)
             st_pfMetUncJetResUp.push_back(metUnc_[0])
             st_pfMetUncJetResDown.push_back(metUnc_[1])
             st_pfMetUncJetEnUp.push_back(metUnc_[2])
