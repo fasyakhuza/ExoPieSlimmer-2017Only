@@ -1,0 +1,1 @@
+root://se01.grid.nchc.org.tw//dpm/grid.nchc.org.tw/home/cms/store/user/fkhuzaim/DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/crab_Tuples_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/220905_104221/0000/ExoPieElementTuples_9.root
