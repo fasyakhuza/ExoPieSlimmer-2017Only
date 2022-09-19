@@ -1443,7 +1443,7 @@ def runbbdm(txtfile):
                 temp_floatVecTrackEta.clear()
                 temp_floatVecTrackPhi.clear()
                 temp_intVecTrackStatus.clear()
-                temp_floatVecTrackHighPurity.clear()
+                temp_intVecTrackHighPurity.clear()
                 for ithinjettrack in range(passTHINjetNTracks):
                     temp_floatVecTrackdz.push_back(track_dz[ithinjet][ithinjettrack])
                     temp_floatVecTrackdzError.push_back(track_dzError[ithinjet][ithinjettrack])
@@ -1452,9 +1452,9 @@ def runbbdm(txtfile):
                     temp_floatVecTrackPt.push_back(track_pt[ithinjet][ithinjettrack])
                     temp_floatVecTrackEta.push_back(track_eta[ithinjet][ithinjettrack])
                     temp_floatVecTrackPhi.push_back(track_phi[ithinjet][ithinjettrack])
-                    #temp_intVecTrackStatus.push_back(*(track_status)[ithinjet])#[ithinjettrack])
-                    #temp_floatVecTrackHighPurity.push_back(*(track_highpurity)[ithinjet])#[ithinjettrack])
-                    
+                    temp_intVecTrackStatus.push_back(int(track_status[ithinjet][ithinjettrack]))
+                    temp_intVecTrackHighPurity.push_back(int(track_highpurity[ithinjet][ithinjettrack]))
+
                 st_THINjetTrackdz.push_back(temp_floatVecTrackdz)
                 st_THINjetTrackdzError.push_back(temp_floatVecTrackdzError)
                 st_THINjetTrackdxy.push_back(temp_floatVecTrackdxy)
@@ -1462,8 +1462,8 @@ def runbbdm(txtfile):
                 st_THINjetTrackPt.push_back(temp_floatVecTrackPt)
                 st_THINjetTrackEta.push_back(temp_floatVecTrackEta)
                 st_THINjetTrackPhi.push_back(temp_floatVecTrackPhi)
-                #st_THINjetTrackStatus.push_back(temp_intVecTrackStatus)
-                #st_THINjetTrackHighPurity.push_back(temp_floatVecTrackHighPurity)
+                st_THINjetTrackStatus.push_back(temp_intVecTrackStatus)
+                st_THINjetTrackHighPurity.push_back(temp_intVecTrackHighPurity)
                 #pass_ntrack = pass_ntrack + 1
 
                 if debug_:
