@@ -8,7 +8,7 @@ A set of py scripts to slim down the big tuples (output of ExoPieElement)
 #### Setup CMSSW
 cmsrel CMSSW_11_0_2
 
-cd CMSSW_10_6_27/src
+cd CMSSW_11_0_2/src
 
 #### Download ExoPieSlimmer and ExoPieUtils
 git clone https://github.com/fasyakhuza/ExoPieSlimmer-2017Only.git -b Skim_V0_2017Only 
