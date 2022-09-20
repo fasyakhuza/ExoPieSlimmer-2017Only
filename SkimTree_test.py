@@ -455,7 +455,7 @@ def runbbdm(txtfile):
     outTree.Branch('st_THINjetUncTotal',st_THINjetUncTotal)
     outTree.Branch('st_THINjetCISVV2', st_THINjetCISVV2)
 
-    outTree.Branch('st_THINjetNTracks', st_THINjetNTracks, 'st_THINjetNTracks/L')
+    outTree.Branch('st_THINjetNTracks', st_THINjetNTracks)
     outTree.Branch('st_THINjetTrackdz', st_THINjetTrackdz)
     outTree.Branch('st_THINjetTrackdzError', st_THINjetTrackdzError)
     outTree.Branch('st_THINjetTrackdxy', st_THINjetTrackdxy)
@@ -465,6 +465,13 @@ def runbbdm(txtfile):
     outTree.Branch('st_THINjetTrackPhi', st_THINjetTrackPhi)
     outTree.Branch('st_THINjetTrackStatus', st_THINjetTrackStatus)
     outTree.Branch('st_THINjetTrackHighPurity', st_THINjetTrackHighPurity)
+
+    outTree.Branch('THINjetTrackMultiplicity', THINjetTrackMultiplicity)
+    outTree.Branch('THINjet3Dsignificance', THINjet3Dsignificance)
+    outTree.Branch('THINjetLog10_of_3Dsignificance', THINjetLog10_of_3Dsignificance)
+    outTree.Branch('THINjetAlpha3D', THINjetAlpha3D)
+    outTree.Branch('THINjetSumTrackPt', THINjetSumTrackPt)
+    outTree.Branch('THINjetSumTrackPt_cutLog10_3Dsig', THINjetSumTrackPt_cutLog10_3Dsig)
 
 
     #outTree.Branch('st_TopMatching', st_TopMatching, 'st_TopMatching/L')
@@ -1247,6 +1254,27 @@ def runbbdm(txtfile):
                     print "pass_tau_index_cleaned_DRBased", pass_tau_index_cleaned_DRBased
 
 
+
+            '''
+            *********  ******     *    *
+                *      *      *   *  *
+                *      *     *    **
+                *      ******     **
+                *      *     *    *  *
+                *      *      *   *     *
+            '''
+            #nTracks_, track_dz, track_dzError, track_dxy, track_dxyError, track_pt, track_eta, track_phi, track_status, track_highpurity
+            #for ithinjet in pass_jet_index_cleaned:
+            #    rawTHINjetNTracks = nTracks_[ithinjet]
+            #    for iTrack in range(rawTHINjetNTracks):
+            #        track_findzErr_findxyErr_notzerodz_notzerodxy_pt1_highpurity = boolutil.logical_and6((not math.isinf(track_dzError[ithinjet][iTrack])), (not math.isinf(track_dxyError[ithinjet][iTrack])), (track_dz[ithinjet][iTrack] != 0.0), (track_dxy[ithinjet][iTrack] != 0.0), (track_pt[ithinjet][iTrack] > 1.0), (track_highpurity[ithinjet][iTrack]))
+
+            #pass_track_index = []
+            #if len(track_findzErr_findxyErr_notzerodz_notzerodxy_pt1_highpurity) > 0:
+            #    pass_track_index = boolutil.WhereIsTrue(track_findzErr_findxyErr_notzerodz_notzerodxy_pt1_highpurity)
+            #    if debug_:
+            #        print "pass_track_index ", pass_track_index
+            
             # -------------------------------------------------------------
             st_runId[0] = long(run)
             st_lumiSection[0] = lumi
@@ -1314,6 +1342,7 @@ def runbbdm(txtfile):
             st_THINjetUncTotal.clear()
             st_THINjetCISVV2.clear()
 
+            st_THINjetNTracks.clear()
             st_THINjetTrackdz.clear()
             st_THINjetTrackdzError.clear()
             st_THINjetTrackdxy.clear()
@@ -1323,6 +1352,13 @@ def runbbdm(txtfile):
             st_THINjetTrackPhi.clear()
             st_THINjetTrackStatus.clear()
             st_THINjetTrackHighPurity.clear()
+
+            THINjetTrackMultiplicity.clear()
+            THINjet3Dsignificance.clear()
+            THINjetLog10_of_3Dsignificance.clear()
+            THINjetAlpha3D.clear()
+            THINjetSumTrackPt.clear()
+            THINjetSumTrackPt_cutLog10_3Dsig.clear()
 
             '''st_fjetPx.clear()
             st_fjetPy.clear()
@@ -1433,7 +1469,23 @@ def runbbdm(txtfile):
                 st_THINjetUncSources.push_back(temp_vecotor)
                 st_THINjetUncTotal.push_back(ak4jetUncTotal[ithinjet])
 
-                st_THINjetNTracks[0] = nTracks_[ithinjet]
+
+
+                '''
+                *********  ******     *    *
+                    *      *      *   *  *
+                    *      *     *    **
+                    *      ******     **
+                    *      *     *    *  *
+                    *      *      *   *     *
+                '''
+
+                nPassTHINjetTracks = 0
+                trackMultiplicity = 0
+                sumTrackPt = 0.0
+                sumTrackPtCut = 0.0
+
+                #st_THINjetNTracks[0] = nTracks_[ithinjet]
                 passTHINjetNTracks = nTracks_[ithinjet]
                 temp_floatVecTrackdz.clear()
                 temp_floatVecTrackdzError.clear()
@@ -1444,17 +1496,36 @@ def runbbdm(txtfile):
                 temp_floatVecTrackPhi.clear()
                 temp_intVecTrackStatus.clear()
                 temp_intVecTrackHighPurity.clear()
+                temp_floatVecTrack3Dsignificance.clear()
+                temp_floatVecTrackLog10_3Dsig.clear()
                 for ithinjettrack in range(passTHINjetNTracks):
-                    temp_floatVecTrackdz.push_back(track_dz[ithinjet][ithinjettrack])
-                    temp_floatVecTrackdzError.push_back(track_dzError[ithinjet][ithinjettrack])
-                    temp_floatVecTrackdxy.push_back(track_dxy[ithinjet][ithinjettrack])
-                    temp_floatVecTrackdxyError.push_back(track_dxyError[ithinjet][ithinjettrack])
-                    temp_floatVecTrackPt.push_back(track_pt[ithinjet][ithinjettrack])
-                    temp_floatVecTrackEta.push_back(track_eta[ithinjet][ithinjettrack])
-                    temp_floatVecTrackPhi.push_back(track_phi[ithinjet][ithinjettrack])
-                    temp_intVecTrackStatus.push_back(int(track_status[ithinjet][ithinjettrack]))
-                    temp_intVecTrackHighPurity.push_back(int(track_highpurity[ithinjet][ithinjettrack]))
+                    if (not math.isinf(track_dzError[ithinjet][ithinjettrack])) and (not math.isinf(track_dxyError[ithinjet][ithinjettrack])) and (track_dz[ithinjet][ithinjettrack] != 0.0) and (track_dxy[ithinjet][ithinjettrack] != 0.0) and (track_pt[ithinjet][ithinjettrack] > 1.0) and (track_highpurity[ithinjet][ithinjettrack]):
+                        nPassTHINjetTracks = nPassTHINjetTracks + 1
+                        
+                        temp_floatVecTrackdz.push_back(track_dz[ithinjet][ithinjettrack])
+                        temp_floatVecTrackdzError.push_back(track_dzError[ithinjet][ithinjettrack])
+                        temp_floatVecTrackdxy.push_back(track_dxy[ithinjet][ithinjettrack])
+                        temp_floatVecTrackdxyError.push_back(track_dxyError[ithinjet][ithinjettrack])
+                        temp_floatVecTrackPt.push_back(track_pt[ithinjet][ithinjettrack])
+                        temp_floatVecTrackEta.push_back(track_eta[ithinjet][ithinjettrack])
+                        temp_floatVecTrackPhi.push_back(track_phi[ithinjet][ithinjettrack])
+                        temp_intVecTrackStatus.push_back(int(track_status[ithinjet][ithinjettrack]))
+                        temp_intVecTrackHighPurity.push_back(int(track_highpurity[ithinjet][ithinjettrack]))
+                        
+                        trackMultiplicity = trackMultiplicity + 1
+                        sumTrackPt = sumTrackPt + track_pt[ithinjet][ithinjettrack]
 
+                        sig3D = math.sqrt((track_dz[ithinjet][ithinjettrack] / track_dzError[ithinjet][ithinjettrack])**2 + (track_dxy[ithinjet][ithinjettrack] / track_dxyError[ithinjet][ithinjettrack])**2)
+                        temp_floatVecTrack3Dsignificance.push_back(sig3D)
+                        log10sig3D = math.log10(sig3D)
+                        temp_floatVecTrackLog10_3Dsig.push_back(log10sig3D)
+                        if log10sig3D < 1.0:
+                            sumTrackPtCut = sumTrackPtCut + track_pt[ithinjet][ithinjettrack]
+
+                if (sumTrackPt != 0.0):
+                    alpha3D = sumTrackPtCut/sumTrackPt
+
+                st_THINjetNTracks.push_back(nPassTHINjetTracks)
                 st_THINjetTrackdz.push_back(temp_floatVecTrackdz)
                 st_THINjetTrackdzError.push_back(temp_floatVecTrackdzError)
                 st_THINjetTrackdxy.push_back(temp_floatVecTrackdxy)
@@ -1466,6 +1537,21 @@ def runbbdm(txtfile):
                 st_THINjetTrackHighPurity.push_back(temp_intVecTrackHighPurity)
                 #pass_ntrack = pass_ntrack + 1
 
+                THINjetTrackMultiplicity.push_back(trackMultiplicity)
+                THINjet3Dsignificance.push_back(temp_floatVecTrack3Dsignificance)
+                THINjetLog10_of_3Dsignificance.push_back(temp_floatVecTrackLog10_3Dsig)
+                THINjetAlpha3D.push_back(alpha3D)
+                THINjetSumTrackPt.push_back(sumTrackPt)
+                THINjetSumTrackPt_cutLog10_3Dsig.push_back(sumTrackPtCut)
+                
+
+                #passTHINjetTrackdz = track_dz[ithinjet][ithinjettrack]
+                #passTHINjetTrackdxy = track_dxy[ithinjet][ithinjettrack]
+                #passTHINjetTrackdzError = track_dzError[ithinjet][ithinjettrack]
+                #passTHINjetTrackdxyError = track_dxyError[ithinjet][ithinjettrack]
+                #passTHINjetTrackPt = track_pt[ithinjet][ithinjettrack]
+                #passTHINjetTrackHighPurity = track_highpurity[ithinjet][ithinjettrack]
+                
                 if debug_:
                     print 'npasstracks: ', nTracks_[ithinjet]
                 #print 'ak4px_',ak4px_[ithinjet],'ak4py_',ak4py_[ithinjet],'ak4pz_',ak4pz_[ithinjet]
