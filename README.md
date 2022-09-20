@@ -11,7 +11,7 @@ cmsrel CMSSW_11_0_2
 cd CMSSW_10_6_27/src
 
 #### Download ExoPieSlimmer and ExoPieUtils
-git clone https://github.com/ExoPie/ExoPieSlimmer.git -b Skim_V0_2017Only 
+git clone https://github.com/fasyakhuza/ExoPieSlimmer-2017Only.git -b Skim_V0_2017Only 
 
 git clone https://github.com/tiwariPC/ExoPieUtils.git -b test_systematics
 
