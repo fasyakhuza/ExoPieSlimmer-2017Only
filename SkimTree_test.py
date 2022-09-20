@@ -1255,25 +1255,6 @@ def runbbdm(txtfile):
 
 
 
-            '''
-            *********  ******     *    *
-                *      *      *   *  *
-                *      *     *    **
-                *      ******     **
-                *      *     *    *  *
-                *      *      *   *     *
-            '''
-            #nTracks_, track_dz, track_dzError, track_dxy, track_dxyError, track_pt, track_eta, track_phi, track_status, track_highpurity
-            #for ithinjet in pass_jet_index_cleaned:
-            #    rawTHINjetNTracks = nTracks_[ithinjet]
-            #    for iTrack in range(rawTHINjetNTracks):
-            #        track_findzErr_findxyErr_notzerodz_notzerodxy_pt1_highpurity = boolutil.logical_and6((not math.isinf(track_dzError[ithinjet][iTrack])), (not math.isinf(track_dxyError[ithinjet][iTrack])), (track_dz[ithinjet][iTrack] != 0.0), (track_dxy[ithinjet][iTrack] != 0.0), (track_pt[ithinjet][iTrack] > 1.0), (track_highpurity[ithinjet][iTrack]))
-
-            #pass_track_index = []
-            #if len(track_findzErr_findxyErr_notzerodz_notzerodxy_pt1_highpurity) > 0:
-            #    pass_track_index = boolutil.WhereIsTrue(track_findzErr_findxyErr_notzerodz_notzerodxy_pt1_highpurity)
-            #    if debug_:
-            #        print "pass_track_index ", pass_track_index
             
             # -------------------------------------------------------------
             st_runId[0] = long(run)
@@ -1544,13 +1525,6 @@ def runbbdm(txtfile):
                 THINjetSumTrackPt.push_back(sumTrackPt)
                 THINjetSumTrackPt_cutLog10_3Dsig.push_back(sumTrackPtCut)
                 
-
-                #passTHINjetTrackdz = track_dz[ithinjet][ithinjettrack]
-                #passTHINjetTrackdxy = track_dxy[ithinjet][ithinjettrack]
-                #passTHINjetTrackdzError = track_dzError[ithinjet][ithinjettrack]
-                #passTHINjetTrackdxyError = track_dxyError[ithinjet][ithinjettrack]
-                #passTHINjetTrackPt = track_pt[ithinjet][ithinjettrack]
-                #passTHINjetTrackHighPurity = track_highpurity[ithinjet][ithinjettrack]
                 
                 if debug_:
                     print 'npasstracks: ', nTracks_[ithinjet]
