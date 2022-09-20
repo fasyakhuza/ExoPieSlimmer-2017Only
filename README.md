@@ -10,6 +10,11 @@ cmsrel CMSSW_11_0_2
 
 cd CMSSW_11_0_2/src
 
+cmsenv
+
+voms-proxy-init --voms cms --valid 192:00 && cp -v /tmp/x509up_xxxxxxx /afs/cern.ch/user/yourusername/private/x509up
+
+
 #### Download ExoPieSlimmer and ExoPieUtils
 git clone https://github.com/fasyakhuza/ExoPieSlimmer-2017Only.git -b Skim_V0_2017Only 
 
@@ -18,6 +23,7 @@ mv ExoPieSlimmer-2017Only ExoPieSlimmer
 git clone https://github.com/tiwariPC/ExoPieUtils.git -b test_systematics
 
 scram b -j 4
+
 
 ## What changes to make: 
 
