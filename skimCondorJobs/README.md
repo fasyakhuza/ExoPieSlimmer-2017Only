@@ -7,93 +7,47 @@ A set of scripts to submit jobs to HTCondor for slimming big tuples to smaller t
 ```
 cd CMSSW_11_0_2/src/ExoPieSlimmer
 
-git clone blablabla
+git clone https://github.com/tiwariPC/skimCondorJobs.git
 
 cd skimCondorJobs
 
 rm MultiSubmit.py submit_multi.sub runAnalysis.sh
 
-wget multi
+wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0_2017Only/skimCondorJobs/MultiSubmit.py
 
-wget submulti
+wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0_2017Only/skimCondorJobs/submit_multi.sub
 
-wget runAnalysis
+wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0_2017Only/skimCondorJobs/runAnalysis.sh
 ```
-download folderForYuehShun
+download the folder Filelists_2017Bkg_ForYuehShun in this github
 ```
 scram b -j 4
 ```
 
 
-## What changes to make: 
+## Changes to be done in executing files.
 
-In order to run the skimmer, you have to change the input file path and also setinterative to True. 
+Change the folder name in ```line 2``` of ```MultiSubmit.py``` file to ```Filelists_2017Bkg_ForYuehShun```.
 
-isCondor = True
+Change the ```Proxy_path``` in ```line 3``` of runAnalysis.sh file to be your proxy path.
 
-runInteractive = False
-
-inputpath= "/eos/cms/store/group/phys_exotica/bbMET/ExoPieElementTuples/MC_2017miniaodV2_V1/" in MultiSubmit.py
-
-proxypath in runAnalysis.sh
+Open the ```SkimTree.py``` file  and change ```isCondor = False``` to ```isCondor = True```.
 
 
-#### Submit Jobs to HTCondor
+## Submit the condor jobs
+
+Finally run
+
 ```
 cmsenv
 
 voms-proxy-init --voms cms --valid 192:00 && cp -v /tmp/x509up_xxxxxxx /afs/cern.ch/usernameinitial/yourusername/private/x509up
 
-. submitjob.sh
-```
-
-
-## How to run the skimmer 
-
-#### Intractive 1: 
-if you want to run skimmer on txt files of datasets, then use this command:
-```
-python SkimTree.py -F -inDir inputdirectory_name_where_txt_files_are_located -runOnTXT -D outputDirectory_name
-```
-but you need to keep `isCondor=False` and `runInteractive=True`
-
-#### Intractive 2:
-if you want to run skimmer on eos path then use this command:
-```
-python SkimTree.py -F -inDir inputdirectory_name_where_txt_files_are_located -D outputDirectory_name
-```
-Note: this command is not fully tested so please don't use for now. We need to make few changes.
-
-In case you want to use this command, you need to do following things:
-1. Inside the function runbbdm(), you need to this condition `if runInteractive:` into two conditions ` if runInteractive and not runOnTxt:` and ` if runInteractive and runOnTxt: ` for the outfilename . 
-
-#### Submitting Condor Job,
-
-To submit condor jobs, please follow these steps:
-```
-git clone git@github.com:ExoPie/ExoPieSlimmer.git
-git clone git@github.com:ExoPie/ExoPieUtils.git
-cd ExoPieSlimmer
-git clone https://github.com/deepakcern/CondorJobs.git
-cd CondorJobs
 . submitjobs.sh
 ```
-Before running this command please make few changes:
-keep `isCondor=True` and `runInteractive=False`
 
-replace this `infile_  = TextToList(txtfile[0])` with `infile_  = TextToList(txtfile)` , comment this `key_=txtfile[1]` and replace this `outfilename= prefix+key_+".root"` with `SkimmedTree.root`
+Condor Jobs will be submitted with this file.
 
-Filelists are already there, so you need to replace them with your Filelists
+Run the following command to see the status:
 
-
-## some details 
-
-variables.py: variables form input files are listed here
-
-triggers.py: trigger list
-
-outputTree.py: branches to be saved in the tree (output)
-
-filters.py: event filter (met) 
-
-SkimTree.py: main file 
+```tail -f logsubmit.txt```
