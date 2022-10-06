@@ -19,7 +19,7 @@ wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0
 
 wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0_2017Only/skimCondorJobs/runAnalysis.sh
 ```
-download the folder Filelists_2017Bkg_ForYuehShun in this github
+Then, download the folder ```Filelists_2017Bkg_ForYuehShun``` in this github
 ```
 scram b -j 4
 ```
