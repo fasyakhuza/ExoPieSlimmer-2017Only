@@ -24,12 +24,22 @@ eval `scramv1 runtime -sh`
 cmsenv
 cd ../../
 
+#dirpath="/eos/user/f/fkhuzaim/monoZtoLL/skimmedTree/"
+dirpath="/eos/user/f/fkhuzaim/2017UL_BackgroundSamples_SkimmedFiles/"
+dir=`echo $1 | rev | cut --complement -d '_' -f 1 | rev`
+if [ -d "$dirpath$dir" ]; then
+  echo "$dirpath$dir has existed"
+else
+  mkdir $dirpath$dir
+fi
+
 #echo "1 is $1"
 python SkimTree.py -y 2017 -F -i "$1"
 
 if [ -e "$4" ]; then
   #until xrdcp -f "$4" root://eoscms.cern.ch//eos/user/f/fkhuzaim/monoZtoLL/condor_test/"$4"; do
-  until xrdcp -f "$4" /eos/user/f/fkhuzaim/monoZtoLL/condor_test/"$4"; do
+  #until xrdcp -f "$4" /eos/user/f/fkhuzaim/monoZtoLL/condor_test/"$4"; do
+  until xrdcp -f "$4" $dirpath$dir/"$4"; do
     sleep 60
     echo "Retrying"
   done

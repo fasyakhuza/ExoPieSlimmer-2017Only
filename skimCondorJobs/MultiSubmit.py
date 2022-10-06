@@ -1,7 +1,7 @@
 import os, datetime
-folder="Filelists_outtest"
+folder="Filelists_2017Bkg_ForFasya"
 test=False
-maxfilesperjob=100
+maxfilesperjob=15
 
 listfiles = [f for f in os.listdir(folder) if f.endswith('.txt')]
 
