@@ -1,45 +1,51 @@
-## This branch at this moment is compatible with only 2017 Framework. 
+## Settings for submitting jobs to HTCondor. 
 
-# ExoPieSlimmer
-A set of py scripts to slim down the big tuples (output of ExoPieElement) 
-
-## To install the setup, go to ExoPieElement/Readme and follow the cmssw installation instructions and then do following: 
-
-#### Setup CMSSW
-cmsrel CMSSW_11_0_2
-
-cd CMSSW_11_0_2/src
-
-cmsenv
-
-voms-proxy-init --voms cms --valid 192:00 && cp -v /tmp/x509up_xxxxxxx /afs/cern.ch/usernameinitial/yourusername/private/x509up
+A set of scripts to submit jobs to HTCondor for slimming big tuples to smaller tuples
 
 
-#### Download ExoPieSlimmer and ExoPieUtils
-git clone https://github.com/fasyakhuza/ExoPieSlimmer-2017Only.git -b Skim_V0_2017Only 
+#### Setup skimCondorJobs
+```
+cd CMSSW_11_0_2/src/ExoPieSlimmer
 
-mv ExoPieSlimmer-2017Only ExoPieSlimmer
+git clone blablabla
 
-git clone https://github.com/tiwariPC/ExoPieUtils.git -b test_systematics
+cd skimCondorJobs
 
-cd ExoPieSlimmer
+rm MultiSubmit.py submit_multi.sub runAnalysis.sh
 
-git clone https://github.com/tiwariPC/ExoPieUtils.git -b test_systematics
+wget multi
 
-cd ..
+wget submulti
 
+wget runAnalysis
+```
+download folderForYuehShun
+```
 scram b -j 4
+```
 
 
 ## What changes to make: 
 
 In order to run the skimmer, you have to change the input file path and also setinterative to True. 
 
-isCondor = False
+isCondor = True
 
-runInteractive = True
+runInteractive = False
 
-inputpath= "/eos/cms/store/group/phys_exotica/bbMET/ExoPieElementTuples/MC_2017miniaodV2_V1/" 
+inputpath= "/eos/cms/store/group/phys_exotica/bbMET/ExoPieElementTuples/MC_2017miniaodV2_V1/" in MultiSubmit.py
+
+proxypath in runAnalysis.sh
+
+
+#### Submit Jobs to HTCondor
+```
+cmsenv
+
+voms-proxy-init --voms cms --valid 192:00 && cp -v /tmp/x509up_xxxxxxx /afs/cern.ch/usernameinitial/yourusername/private/x509up
+
+. submitjob.sh
+```
 
 
 ## How to run the skimmer 
