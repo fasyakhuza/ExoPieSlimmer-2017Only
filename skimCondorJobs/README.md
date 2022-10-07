@@ -29,7 +29,7 @@ scram b -j 4
 
 Change the folder name in ```line 2``` of ```MultiSubmit.py``` file to ```Filelists_2017Bkg_ForYuehShun```.
 
-Change the ```Proxy_path``` in ```line 3``` of runAnalysis.sh file to be your proxy path.
+Change the ```Proxy_path``` in ```line 3``` of submit_multi.sub file to be your proxy path.
 
 Open the ```SkimTree.py``` file  and change ```isCondor = False``` to ```isCondor = True```.
 
