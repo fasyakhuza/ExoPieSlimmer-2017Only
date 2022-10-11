@@ -21,7 +21,7 @@ cd CMSSW_10_3_0/src
 eval `scramv1 runtime -sh`
 
 #cd $CMSSW_BASE
-cmsenv
+#cmsenv
 cd ../../
 
 #dirpath="/eos/user/f/fkhuzaim/monoZtoLL/skimmedTree/"
