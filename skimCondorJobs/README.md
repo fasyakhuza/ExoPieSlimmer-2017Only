@@ -54,17 +54,18 @@ Run the following command to see the status:
 
 
 
+
 ## Settings for REsubmitting jobs to HTCondor.
 
 ```
-wget MultiResubmit.py
+wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0_2017Only/skimCondorJobs/MultiResubmit.py
 
 wget resubmitFailedJobs.sh
 ```
 
 ### Changes to be done in executing files for resubmission
 
-Change the folder name in ```line 5``` of ```resubmitFailedJobs.sh``` file to be your ```tempFilelists_YYYY-mm-dd-HH-MM-SS``` that you have submitted and you want to resubmit
+Change the folder name in ```line 5``` of ```resubmitFailedJobs.sh``` file to be your ```tempFilelists_YYYY-mm-dd-HH-MM-SS``` folder name that you have submitted and you want to resubmit
 
 Change the FIRST job Id in ```line 9``` of ```resubmitFailedJobs.sh``` file to be your FIRST job Id of ```tempFilelists_YYYY-mm-dd-HH-MM-SS```; you can check the job id in your ```logsubmit.txt```
 
