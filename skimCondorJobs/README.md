@@ -60,7 +60,7 @@ Run the following command to see the status:
 ```
 wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0_2017Only/skimCondorJobs/MultiResubmit.py
 
-wget resubmitFailedJobs.sh
+wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0_2017Only/skimCondorJobs/resubmitFailedJobs.sh
 ```
 
 ### Changes to be done in executing files for resubmission
