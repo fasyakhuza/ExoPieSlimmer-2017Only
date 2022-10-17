@@ -57,6 +57,8 @@ Run the following command to see the status:
 
 # Settings for REsubmitting jobs to HTCondor.
 
+First, download the executing files
+
 ```
 wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0_2017Only/skimCondorJobs/MultiResubmit.py
 
