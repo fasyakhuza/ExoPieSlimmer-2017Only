@@ -1,4 +1,4 @@
-## Settings for submitting jobs to HTCondor. 
+# Settings for submitting jobs to HTCondor. 
 
 A set of scripts to submit jobs to HTCondor for slimming big tuples to smaller tuples
 
@@ -55,7 +55,7 @@ Run the following command to see the status:
 
 
 
-## Settings for REsubmitting jobs to HTCondor.
+# Settings for REsubmitting jobs to HTCondor.
 
 ```
 wget https://raw.githubusercontent.com/fasyakhuza/ExoPieSlimmer-2017Only/Skim_V0_2017Only/skimCondorJobs/MultiResubmit.py
