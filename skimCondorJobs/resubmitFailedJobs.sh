@@ -30,4 +30,4 @@ newtext="folder=\"${newDir}\""
 sed -i "2s/.*/${newtext}/" MultiResubmit.py
 
 #resubmit condor jobs
-#nohup python -u MultiResubmit.py &> resubmit_logsubmit_$dateAndtime.txt &
+nohup python -u MultiResubmit.py &> resubmit_logsubmit_$dateAndtime.txt &
