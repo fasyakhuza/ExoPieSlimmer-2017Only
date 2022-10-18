@@ -1470,6 +1470,7 @@ def runbbdm(txtfile):
                 trackMultiplicity = 0
                 sumTrackPt = 0.0
                 sumTrackPtCut = 0.0
+		alpha3D = 999.0
 
                 #st_THINjetNTracks[0] = nTracks_[ithinjet]
                 passTHINjetNTracks = nTracks_[ithinjet]
